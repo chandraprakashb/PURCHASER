@@ -1,0 +1,59 @@
+.app-modal{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 4 !important;
+}
+
+.app-modal-wrapper{
+    margin: auto;
+    margin-top: 100px;
+    position:relative;
+    background-color:rgb(223, 223, 246);
+    border-radius: 5px;
+    max-height: 97vh;
+    padding-bottom: 5px;
+}
+
+.main-close-btn{
+    position: absolute;
+    top: -30px;
+    left: 100%;
+    cursor: pointer;
+    font-size:25px;
+    background-color: var(--light_blue);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--blue);
+}
+
+.app-modal .header{
+    text-align: center;
+    font-size: 30px;
+    color: var(--light_blue);
+    font-weight: 600;
+    background-color: var(--darkBlue);
+    padding: 5px 0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: all-scroll;
+}
+
+
+.content-wrapper{
+    padding: 0px 2px;
+}
+
+.app-modal .header .hr{
+    margin: auto;
+    width: 90%;
+    height: 1px;
+    background-color: rgb(195, 195, 255);
+}

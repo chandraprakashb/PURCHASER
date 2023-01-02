@@ -1,0 +1,119 @@
+.table-wrapper{
+    position: relative;
+    min-height: 100px !important;
+    overflow-y: scroll;
+    background-color: var(--table-background);
+    border: 1px solid var(--table_border) !important;
+    width: 99.9%;
+    margin: auto;
+}
+
+.need-extra-width{
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+
+.need-extra-width::-webkit-scrollbar {
+    width: 2px;
+  }
+.need-extra-width::-webkit-scrollbar-track {
+    border-radius:1px !important;
+  }
+.need-extra-width::-webkit-scrollbar-thumb {
+    background: var(--blue); 
+    border-radius: 1px !important;
+}
+.need-extra-width::-webkit-scrollbar-thumb:hover {
+    background: blue; 
+  }
+
+
+
+
+tbody{
+  font-size: 11px !important;
+  font-weight: 500;
+}
+
+
+.shadow-table{
+    
+}
+
+/* width */
+  .table-wrapper::-webkit-scrollbar {
+    width: 2px;
+  }
+  
+  /* Track */
+  .table-wrapper::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--blue); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #b30000; 
+  }
+
+
+table{
+      background-color: var(--table-background);
+      border-radius: 5px;
+      
+  }
+
+table thead{
+    font-size: 12px;
+    padding: 0;
+    font-weight: normal !important;
+    background-color: var(--thead_background);
+    color: var(--thead_text);
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+table thead tr{
+   
+}
+
+table thead td,table tbody td{
+    padding: 0 !important;
+    vertical-align: middle
+}
+
+table tbody{
+    text-align: center;
+    padding: 0;
+}
+
+/* Extra Classess */
+table .edit{
+  cursor: pointer;
+  font-weight: 1000;
+  color: rgba(0,0,0,.6);
+  font-size: 15px;
+  opacity: 0.8;
+  transform: linear 0.5s;
+}
+
+table .edit:hover{
+  opacity: 1;
+  color: var(--darkBlue);
+}
+
+.status{
+  transform: linear 0.5s;
+  
+}
+
+.green-status{
+  color: #379237;
+}

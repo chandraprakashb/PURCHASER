@@ -1,0 +1,1121 @@
+<script>
+
+  function ManagePayment(){
+    this.mainSetup = () =>{
+        this.manageSearch();
+        this.manageForm27cApplicable();
+        this.manageDocumentHistory();
+        this.managePay25();
+        this.manageCheckPayFromEwallet();
+        this.manageFullPayment();
+        this.managePaymentHistory();
+        this.managePurchaseLot();
+        this.manageGroundRentPay();
+    }
+
+    this.manageSearch = () =>{
+        var searchBtn = document.querySelector('.payment-page .search-btn');
+        this.searchTable= document.querySelector("#search-table");
+        this.radioBtn = this.searchTable.querySelector('.check-for-payment')
+        this.particepatoryCharge = document.querySelector('.particepetory-charge-wrapper');
+        var viewLotsBtn = document.querySelector('.view-btn');
+        this.lotsModal = new Modal({
+            selector:'#view-lots-modal',
+            wrapperCss:"width:35%;",
+        });
+
+        this.tableBody   = this.searchTable.tBodies[0]
+        this.dummyRowsData = [{
+            divition:"Gondia",
+            auctionDate:"12-10-2022",
+            soldDate:"12-10-2022",
+            purchaseLots:[101,102,103,104,105,106,107,108,109,110,111,112,113,114,115],
+        }];
+
+        FadeOut(this.particepatoryCharge);
+        this.radioBtn.addEventListener('click',()=>{
+            if(this.radioBtn.checked) FadeIn(this.particepatoryCharge);
+            else  FadeOut(this.particepatoryCharge);
+        });
+
+        viewLotsBtn.addEventListener('click',this.lotsModal.showModal)
+    }
+
+    this.loadSearchData = () =>{
+        this.searchTable.innerHTML ='';
+        this.dummyRowsData.forEach(rowdata=>{
+            var tr = document.createElement('tr');
+
+            tr.innerHTML = ``;
+
+            
+        });
+    }
+
+    this.manageForm27cApplicable = () =>{
+        this.checkBoxForm27c = document.querySelector('#checkform27c');
+        this.nextBtn         = document.querySelector('#next-btn');
+        this.formdata        = new FormData(document.getElementById('allow-deny-form'));
+
+        switch(this.formdata.get('agree')){
+          case 'deny':
+            this.checkBoxForm27c.checked =  false;
+            break;
+          case 'allow':
+            this.checkBoxForm27c.checked =  true;
+            break;
+        }
+
+        this.uploadDocModal = new Modal({
+            selector:'#upload-doc-popup',
+            wrapperCss:"width:35%;",
+        });
+
+        this.manageAgreeUpload();
+
+        this.checkBoxForm27c.addEventListener('click',()=>{
+            if(this.checkBoxForm27c.checked) this.docConfirmModal.showModal();
+            else this.uploadDocModal.hideModal();
+        });
+
+    }
+
+    this.manageAgreeUpload = () =>{
+      
+      this.docConfirmModal = new Modal({
+        selector:'.upload-agree-popup',
+        wrapperCss:"width:35%;",
+        onclose:this.closeDocAgree
+      });
+
+    }
+
+    this.closeDocAgree = () =>{
+
+      switch(this.formdata.get('agree')){
+        case 'deny':
+          this.checkBoxForm27c.checked =  false;
+          break;
+        case 'allow':
+          this.checkBoxForm27c.checked =  true;
+          break;
+      }
+
+      console.log(formdata);
+    }
+
+    this.manageDocumentHistory = () =>{
+        this.viewDocumentBtn = document.querySelector('.view-document-modal');
+        this.docHisoryPopup  = new Modal({
+            selector:".document-history-modal",
+            wrapperCss:"width:70%"
+        });
+
+        this.viewDocumentBtn.addEventListener('click',()=>this.docHisoryPopup.showModal());
+    }
+
+    this.manageCheckPayFromEwallet = () =>{
+        var cheks = document.querySelectorAll('.pay-from-ewallet');
+
+        cheks.forEach(check => {
+            var payWrapper = check.closest('.manage-payment');
+            var ewalletamount = payWrapper.querySelector('.e-wallet-amount');
+            var paymentinput = payWrapper.querySelector('.payment-input');
+
+            FadeOut(ewalletamount,paymentinput);
+
+            
+            check.addEventListener('click',()=>{
+                if(check.checked){
+                    FadeIn(ewalletamount,paymentinput);
+                }else{
+                    FadeOut(ewalletamount,paymentinput);
+                }
+            });
+        });
+    }
+
+    this.managePay25 = () =>{
+        var pay25popupBtn = document.querySelector("#pay25-btn");
+        this.pay25Popup = new Modal({
+            selector:"#pay25",
+            wrapperCss:"width:98%"
+        });
+        pay25popupBtn.addEventListener('click',()=>this.pay25Popup.showModal())
+    }
+
+    this.manageFullPayment = () =>{
+        var fullPayPopupBtn = document.getElementById('full-pay-btn');
+        this.fullPayPopup = new Modal({
+            selector:"#full-payment",
+            wrapperCss:"width:96%"
+        });
+        fullPayPopupBtn.addEventListener('click',this.fullPayPopup.showModal)
+    }
+
+    this.managePaymentHistory = () =>{
+        var paymentHistoryBtn = document.getElementById('payment-history-btn');
+        this.paymentHistoryModal = new Modal({
+            selector:"#payment-history",
+            wrapperCss:"width:96%"
+        });
+        paymentHistoryBtn.addEventListener('click',this.paymentHistoryModal.showModal)
+
+    }
+
+    this.managePurchaseLot = () =>{
+        var purchaseLotsBtn = document.getElementById('purchase-lots-btn')
+        this.purchaseLotsModal = new Modal({
+            selector:"#purchase-lots",
+            wrapperCss:"width:96%"
+        });
+        purchaseLotsBtn.addEventListener('click',this.purchaseLotsModal.showModal)
+    }
+
+    this.manageGroundRentPay = () =>{
+      var groundRentBtn = document.querySelector("#ground-rent-btn");
+        this.purchaseLotsModal = new Modal({
+          selector:"#ground-rent-pay",
+          wrapperCss:"width:96%"
+        });
+        groundRentBtn.addEventListener('click',this.purchaseLotsModal.showModal)
+    }
+
+    this.mainSetup();
+  }
+
+  new ManagePayment();
+</script>
+
+<style>
+  
+/* Payment */
+.payment-table{
+    max-height: 100px;
+    min-height: 60px !important;
+}
+
+.payment-table 
+
+.purchase-lots .total-lots{
+    font-family: 'Righteous', cursive;
+}
+
+.view-btn{
+    color: var(--blue);
+    cursor: pointer;
+}
+
+.payment-page .note{
+    font-size: 12px;
+}
+
+
+.payment-page .note .text{
+    color: var(--blue);
+}
+
+
+.search-section .heading{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.search-section .division{
+    color: var(--blue);
+    font-size: 14px;
+}
+
+
+.search-section form{
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.search-section .input-section{
+    margin-top: 5px !important;
+    text-align: center;
+}
+
+
+.payment-page hr{
+    margin: 5px 0px;
+}
+
+
+.amount-wrapper{
+    height: 20px;
+    background-color: #fff;
+    margin-top: 5px;
+    border-radius: 5px;
+    height: 31px;
+}
+
+
+.amount-wrapper .left-wrapper{
+    background-color: #8da8ea;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.amount-wrapper .left-wrapper .heading,.amount-wrapper .left-wrapper label{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.particepetory-charge{
+    padding-top: 10px !important;
+
+}
+
+.pay-wrapper{
+    text-align: right !important;
+    margin-top: 2px
+}
+
+
+.pay-wrapper label{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+.all-charges-wrapper label{
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.action-btn-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.action-btn-section .btn-wrapper{
+    padding: 10px;
+}
+.lot-numbers{
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+}
+.action-btn-section .btn-wrapper .main-wrapper{
+    text-align: center;
+    width: 150px;
+    cursor: pointer;
+    border: 2px solid var(--light_blue);
+    border-radius: 10px;
+
+}
+
+.action-btn-section .btn-wrapper .main-wrapper:hover{
+    background-image: linear-gradient(to right, var(--blue) , #003acd);
+    color: white;
+}
+
+.action-btn-section .btn-wrapper .main-wrapper .icon{
+    font-size: 30px;
+}
+
+.action-btn-section .btn-wrapper .main-wrapper .text{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#upload-doc-popup form{
+    padding: 10px 0px;
+}
+
+#upload-doc-popup form .col-5{
+    text-align: right;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.calculated-amount-wrapper{
+    /* padding: 7px 0px; */
+}
+
+
+.calculated-amount-wrapper .heading{
+    font-weight: 600;
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+.pament-wrapper form label{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.e-wallet-amount .heading{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#allow-deny-form{
+  padding: 5px 0px;
+}
+
+#allow-deny-form label{
+  font-size: 14px;
+  font-weight: 600;
+}
+/* End Payment */
+</style>
+
+<div class="payment-page">
+
+  <div class="row header" style="width:100%;">
+    <div class="col-5 m-auto">
+      <h4 class="text-center">
+        <span class="heading"><strong>Payment</strong></span>
+        <span class="icon">
+          <i class="fa-sharp fa-solid fa-money-bill-wave"></i>
+        </span>
+      </h4>
+      <hr>
+    </div>
+  </div>
+  
+  <section class="table-charge-section">
+    <div class="search-section mb-3">
+      <div class="row" style="width: 100%;">
+        <div class="col-7 text-center m-auto">
+          <span class="heading">Department/Head Office Name:</span>
+          <span class="division">Maharashtra</span>
+        </div>
+        <div class="col-lg-10 m-auto input-section">
+          <form action="">
+            <div class="row" style="width: 100%;">
+              <div class="col-3">
+                <div class="input-div">
+                  <label for="">Division / Office:</label>
+                  <select name="" id="">
+                    <option value="">select</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="input-div">
+                  <label for="">e-Auction No.:</label>
+                  <select name="" id="">
+                    <option value="">select</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="input-div">
+                  <label for="">Auction Date:</label>
+                  <input type="date">
+                </div>
+              </div>
+              <div class="col-3 btn-wrapper">
+                <button class="search-btn custome-btn-primary" type="button">
+                  <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                  <span class="text">Search</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <hr class="form-table-hr">
+
+    <div class="table-wrapper payment-table shadow-table ">
+      <table class="table table-bordered" cellspacing="0" cellpadding="0" id="search-table">
+        <thead class="text-center">
+          <tr>
+          <td rowspan="2" class="table-column" data-colname="select"></td>
+          <td rowspan="2" class="table-column" data-colname="division">Division</td>
+          <td colspan="2">Auction Date</td>
+          <td colspan="2">Sold Date</td>
+          <td rowspan="2" class="table-column" data-colname="purchase-lots">Pucrchase Lots</td>
+          <td rowspan="2" class="table-column" data-colname="auction-price">Auction Price</td>
+          <td rowspan="2" class="table-column" data-colname="total-amount">Total Amount</td>
+          <td rowspan="2" class="table-column" data-colname="balance-amount">Balance Amount</td>
+          <td rowspan="2" class="table-column" data-colname="paid-amount">Paid Amount</td>
+          </tr>
+          <tr>
+          <td class="table-column" data-colname="auction-date">Date</td>
+          <td class="table-column" data-colname="auction-late-days">Late Days</td>
+          <td class="table-column" data-colname="auction-sold-date">Date</td>
+          <td class="table-column" data-colname="sold-late-days">Late Days</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="radio" class="check-for-payment"></td>
+          <td class="division">Nagpur</td>
+          <td class="auction-date">20-10-2022</td>
+          <td class="late-days">10</td>
+          <td class="sold-date">25-10-2022</td>
+          <td class="sold-late-days">6</td>
+          <td class="purchase-lots">
+            <span class="total-lots">10</span>
+            <span class="view-btn"><i class="fa-solid fa-eye"></i></span>
+          </td>
+          <td class="auction-price amount">10000</td>
+          <td class="total-amount amount">10000</td>
+          <td class="balance-amount amount">10000</td>
+          <td class="paid-amount amount">10000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="amount-wrapper manage-payment particepetory-charge-wrapper">
+      <div class="row" style="width: 100%;">
+        <div class="col-lg-5">
+          <div class="left-wrapper">
+            <div class="row" style="width: 100%;">
+              <div class="col-7">
+                <span class="heading">Particpatery Charges:</span>
+                <span class="particepetory-charge amount">100000.00</span>
+              </div>
+              <div class="col-5">
+                <input type="checkbox" value="" id="from-wallet" class="pay-from-ewallet">
+                <label class="form-check-label" for="from-wallet">
+                  From E-wallet
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 text-center">
+          <div class="e-wallet-amount">
+            <span class="heading">e-Wallet Balance:</span>
+            <span class="particepetory-charge amount">100000.00</span>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="pay-wrapper payment-input">
+            <label for="">Amount:</label>
+            <input type="number" value="100000" class="amount">
+            <button class="pay-btn custome-btn-primary">
+              <span class="icon"> <i class="fa-solid fa-money-bill"></i></span>
+              <span class="text">Pay</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Lots Modal -->
+    <div id="view-lots-modal">
+      <div>
+        <div class="header">
+          Purchase Lot Numbers
+          <hr class="hr">
+        </div>
+        <div class="content-wrapper">
+          <div class="lot-numbers">
+            101,102,103
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End View Lots Modal -->
+
+  </section>
+
+  <section class="note-section mt-3">
+
+    <div class="row" style="width: 100%;">
+
+      <div class="col-6">
+        <input type="checkbox" value="" id="checkform27c">
+        <label class="form-check-label" for="checkform27c">
+          Form 27C Applicable 
+        </label>
+
+        <button class="custome-btn-outline-primary view-document-modal">View Document History</button>
+
+      </div>
+
+      <div class="upload-agree-popup">
+        <div>               
+          <div class="header">
+            Please Confirm !
+            <hr class="hr">
+          </div>
+
+          <div class="content-wrapper">
+            <form action="" id="allow-deny-form">
+              <div class="row" style="width: 100%;">
+                <div class="col-10 m-auto">
+                  <div class="row" style="width: 100%;">
+                    <div class="col-6">
+                      <input type="radio" name="agree" value="allow" id="allow">
+                      <label for="allow">Upload Form 27C Doc</label>
+                    </div>
+                    <div class="col-6">
+                      <input type="radio" name="agree"  value="deny" id="deny">
+                      <label for="deny">Deny Form 27C Doc</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <hr>
+            <div class="text-center">
+              <button class="custome-btn-outline-primary close-popup">Cancel</button>
+              <button class="custome-btn-primary" id="next-btn">
+                <span class="icon"></span>
+                <span class="text">Next</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="upload-doc-popup">
+        <div>
+          <div class="header">
+            Upload Form 27c Document
+            <hr class="hr">
+          </div>
+          <div class="content-wrapper">
+            <form>
+              <div class="row" style="width: 100%;">
+                <div class="col-5">
+                  <span for="form27cfile">Upload Document:</span>
+                </div>
+                <div class="col-7 m-auto">
+                  <input type="file" id="form27cfile">
+                </div>
+                <div class="col-8 mt-3 text-center m-auto">
+                  <button class="search-btn custome-btn-primary">
+                    <span class="icon"><i class="fa-sharp fa-solid fa-cloud-arrow-up"></i></span>
+                    <span class="text">Upload</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="document-history-modal">
+        <div>
+          <div class="header">
+            View Document History
+            <hr class="hr">
+          </div>
+          <div class="content-wrapper">
+            <div class="table-wrapper mt-4">
+              <table class="table table-bordered" cellspacing="0" cellpadding="0">
+                <thead class="text-center bg-primary text-white">
+                  <tr>
+                    <td rowspan="2">SrNo</td>
+                    <td rowspan="2">Auction Date</td>
+                    <td rowspan="2">Sold Date</td>
+                    <td rowspan="2">27C Doc Name</td>
+                    <td colspan="2">Upload</td>
+                    <td rowspan="2">Status</td>
+                    <td rowspan="2">Uploaded Doc View &amp; Corrections</td>
+                  </tr>
+                  <tr>
+                    <td>Date</td>
+                    <td>Time</td>
+                  </tr>
+              </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr><tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  
+    <p class="note mt-2">
+      <strong>Note:</strong>
+      <span class="text">
+        As per registration record &amp; uploaded Form No. 27c related document we
+        temporary as you are Manufacturer/Saw mill firm. So Your TCS Amount is Rs.
+        0 for reporting purpose &amp; TCS amount will be temporary block till official
+        documentation action.
+      </span>
+    </p>
+  </section>
+
+  <section class="all-charges-wrapper mt-2 mb-2">
+    <div class="row text-center" style="width: 100%;">
+      <div class="col-lg-2">
+        <label for="">Auction Price:</label>
+        <span class="amount">10000.00</span>
+      </div>
+      <div class="col-lg-2">
+        <label for="">GST:</label> <span class="amount">10000.00</span>
+      </div>
+      <div class="col-lg-2">
+        <span class="tcs-wrapper">
+          <label for="">TCS :</label> <span class="amount">10000.00</span>
+        </span>
+      </div>
+      <div class="col-lg-2">
+        <label for="">Fine:</label> <span class="amount">10000.00</span>
+      </div>
+      <div class="col-lg-2">
+        <label for="">Penalty:</label> <span class="amount">10000.00</span>
+      </div>
+      <div class="col-lg-2">
+        <label for="">Ex. GST:</label> <span class="amount">10000.00</span>
+      </div>
+      <div class="col-lg-2">
+        <label for="">Total Amount:</label>
+        <span class="amount">10000.00</span>
+      </div>
+      <div class="col-lg-2">
+        <label for="">P. Charge:</label>
+        <span class="amount">10000.00</span>
+      </div>
+      <div class="col-lg-3">
+        <label for="">Charged Fine Day:</label>
+        <span class="amount">10000.00</span>
+      </div>
+      <div class="col-lg-3">
+        <label for="">Balance Amount:</label>
+        <span class="amount">10000.00</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="action-btn-section">
+    <div class="btn-wrapper" id="pay25-btn">
+      <div class="main-wrapper">
+        <div class="icon">
+          <i class="fa-solid fa-money-bill"></i>
+        </div>
+        <div class="text">25% / Tax Pay</div>
+      </div>
+    </div>
+    <div class="btn-wrapper" id="full-pay-btn">
+      <div class="main-wrapper">
+        <div class="icon">
+          <i class="fa-sharp fa-solid fa-check-double"></i>
+        </div>
+        <div class="text">Full Pay</div>
+      </div>
+    </div>
+    <div class="btn-wrapper" id="payment-history-btn">
+      <div class="main-wrapper">
+        <div class="icon"><i class="fa-sharp fa-solid fa-clock-rotate-left"></i></div>
+        <div class="text">Payment History</div>
+      </div>
+    </div>
+    <div class="btn-wrapper" id="purchase-lots-btn">
+      <div class="main-wrapper">
+        <div class="icon">
+          <i class="fa-sharp fa-solid fa-bag-shopping"></i> 
+        </div>
+        <div class="text">Purchased Lots</div>
+      </div>
+    </div>
+    <div class="btn-wrapper" id="ground-rent-btn">
+      <div class="main-wrapper">
+        <div class="icon">
+          <i class="fa-sharp fa-solid fa-truck-ramp-box"></i>
+        </div>
+        <div class="text">Ground Rent Pay</div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Bottam Modals -->
+  
+    <!-- 25% Pay Modal -->
+    <div id="pay25">
+      <div>
+        <div class="header">
+          25% Payment
+          <hr class="hr">
+        </div>
+        <div class="content-wrapper">
+  
+          <div class="table-wrapper">
+            <table class="table table-bordered" cellspacing="0" cellpadding="0">
+              <thead class="bg-primary text-center text-white">
+                <tr>
+                  <th>select</th>
+                  <th>SrNo</th>
+                  <th>Depot/Sub Office</th>
+                  <th>Auction Date</th>
+                  <th>Lot No.</th>
+                  <th>Species / Material</th>
+                  <th>Length / Girth(Category)</th>
+                  <th>Qty / Vol</th>
+                  <th>Auction Price</th>
+                  <th>GST</th>
+                  <th>TCS</th>
+                  <th>Fine Penalty</th>
+                  <th>Ex. GST</th>
+                  <th>Total Amount</th>
+                  <th>Paid Amount</th>
+                  <th>% Calc Amount</th>
+                  <th>Ball Amount</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+  
+          <div class="pament-wrapper manage-payment pt-2 pb-2">
+            <form>
+              <div class="row" style="width: 100%;">
+                <div class="col-3 calculated-amount-wrapper">
+                  <span class="heading">Calculated Amount To Pay:</span>
+                  <span class="amount">10000</span>
+                </div>
+                <div class="col-5">
+  
+                  <input type="checkbox" value="" id="pay25FromEwallet" class="pay-from-ewallet">
+                  <label for="pay25FromEwallet">Payment From E-Wallet</label>
+           
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+                  <span class="e-wallet-amount">
+                    <span class="heading">E-wallete Amount</span>
+                    <span class="amount">10000</span>
+                  </span>
+  
+                </div>
+                <div class="col-4">
+                  <div class="payment-input"> 
+                    <label for="">Amount:</label>
+                    <input type="number" class="amount" value="10000">
+                    <button class="custome-btn-primary">
+                      <span class="icon"><i class="fa-solid fa-money-bill"></i></span>
+                      <span class="text">Make Payment</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End 25% Pay Modal -->
+  
+    <!-- Full Payment -->
+    <div id="full-payment">
+      <div>
+        <div class="header">
+          Full Payment
+          <hr class="hr">
+        </div>
+        <div class="content-wrapper">
+  
+          <div class="table-wrapper">
+            <table class="table table-bordered" cellspacing="0" cellpadding="0">
+              <thead class="bg-primary text-center text-white">
+                <tr>
+                  <td>select</td>
+                  <td>SrNo.</td>
+                  <td>Depot/Sub office</td>
+                  <td>Auction Date</td>
+                  <td>Lot No.</td>
+                  <td>Species / Material</td>
+                  <td>Length / Girth(Category)</td>
+                  <td>Qty/Vol</td>
+                  <td>Auction Price</td>
+                  <td>GST</td>
+                  <td>TCS</td>
+                  <td>Fine/Penalty</td>
+                  <td>Ex. GST</td>
+                  <td>Total AMount</td>
+                  <td>Paid Amount</td>
+                  <td>% Cal Amount</td>
+                  <td>Bal Amount</td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+  
+          <div class="pament-wrapper manage-payment pt-2 pb-2">
+            <form>
+              <div class="row" style="width: 100%;">
+                <div class="col-3 calculated-amount-wrapper">
+                  <span class="heading">Calculated Amount To Pay:</span>
+                  <span class="amount">10000</span>
+                </div>
+                <div class="col-5">
+  
+                  <input type="checkbox" value="" id="pay25FromEwallet3" class="pay-from-ewallet">
+                  <label for="pay25FromEwallet3">Payment From E-Wallet</label>
+           
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+                  <span class="e-wallet-amount">
+                    <span class="heading">E-wallete Amount</span>
+                    <span class="amount">10000</span>
+                  </span>
+  
+                </div>
+                <div class="col-4">
+                  <div class="payment-input"> 
+                    <label for="">Amount:</label>
+                    <input type="number" class="amount" value="10000">
+                    <button class="custome-btn-primary">
+                      <span class="icon"><i class="fa-solid fa-money-bill"></i></span>
+                      <span class="text">Make Payment</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Full Payment -->
+  
+    <!-- Payment History -->
+    <div id="payment-history">
+      <div>
+        <div class="header">
+          Payment History
+          <hr class="hr">
+        </div>
+        <div class="content-wrapper">
+          <div class="table-wrapper">
+            <table class="table table-bordered" cellspacing="0" cellpadding="0">
+              <thead  class="text-center">
+                <tr>
+                  <th rowspan="2">SrNo.</th>
+                  <th rowspan="2">Trans. No.</th>
+                  <th rowspan="2">Date &amp; Time</th>
+                  <th rowspan="2">Amount</th>
+                  <th colspan="8">Remark Details</th>
+                  <th rowspan="2">Total Amount</th>
+                </tr>
+                <tr>
+                  <th>Depot / Sub Office</th>
+                  <th>Lot No.</th>
+                  <th>EMD</th>
+                  <th>GST</th>
+                  <th>TCS</th>
+                  <th>Fine / Penalty</th>
+                  <th>eX. gst</th>
+                  <th>Ground Rent &amp; GST</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="pt-3 pb-0 text-center">
+            <button class="export-btn">
+              <span class="icon"><i class="fa-sharp fa-solid fa-download"></i></span>
+              <span class="text">Export</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Payment History -->
+  
+    <!-- Purchase Lots -->
+    <div id="purchase-lots">
+      <div>
+        <div class="header">
+          Puchase Lots
+          <hr class="hr">
+        </div>
+        <div class="content-wrapper">
+          <div class="table-wrapper">
+            <table class="table table-bordered" cellspacing="0" cellpadding="0">
+              <thead class="bg-primary text-center text-white">
+                <tr>
+                  <td>SrNo</td>
+                  <td>Depot / Sub Office</td>
+                  <td>Lot No.</td>
+                  <td>Species / Material Type</td>
+                  <td>Lengtd / Girtd(Category)</td>
+                  <td>Qty / Vol</td>
+                  <td>Auction Price</td>
+                  <td>GST</td>
+                  <td>TCS</td>
+                  <td>Late Days</td>
+                  <td>Fine / Penalty</td>
+                  <td>Ex. GST</td>
+                  <td>Auction Date</td>
+                  <td>Sention Date</td>
+                  <td>Payment Status</td>
+                  <td>Grount Rent</td>
+                  <td>G.GST</td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="pt-3 pb-0 text-center">
+            <button class="export-btn">
+              <span class="icon"><i class="fa-sharp fa-solid fa-download"></i></span>
+              <span class="text">Export</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Purchase Lots -->
+  
+    <!-- Ground Rent Pay -->            
+    <div id="ground-rent-pay">
+      <div>
+        <div class="header">
+          Full Payment
+          <hr class="hr">
+        </div>
+        <div class="content-wrapper">
+  
+          <div class="table-wrapper">
+            <table class="table table-bordered" cellspacing="0" cellpadding="0">
+              <thead class="">
+                <tr>
+                  <td>Select</td>
+                  <td>SrNo</td>
+                  <td>Depot / Sub Office</td>
+                  <td>Lot No.</td>
+                  <td>Species / Material Type</td>
+                  <td>Lengtd / Girtd(Category)</td>
+                  <td>Qty / Vol</td>
+                  <td>Auction Price</td>
+                  <td>Senction Date</td>
+                  <td>Dispatch Date</td>
+                  <td>Ground Rent</td>
+                  <td>G GST</td>
+                  <td>Lot Status</td>
+                  <td>Total</td>
+                  <td>Paid</td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+  
+          <div class="pament-wrapper manage-payment pt-2 pb-2">
+            <form>
+              <div class="row" style="width: 100%;">
+                <div class="col-3 calculated-amount-wrapper">
+                  <span class="heading">Calculated Amount To Pay:</span>
+                  <span class="amount">10000</span>
+                </div>
+                <div class="col-5">
+  
+                  <input type="checkbox" value="" id="pay25FromEwallet3" class="pay-from-ewallet">
+                  <label for="pay25FromEwallet3">Payment From E-Wallet</label>
+           
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+                  <span class="e-wallet-amount">
+                    <span class="heading">E-wallete Amount</span>
+                    <span class="amount">10000</span>
+                  </span>
+  
+                </div>
+                <div class="col-4">
+                  <div class="payment-input"> 
+                    <label for="">Amount:</label>
+                    <input type="number" class="amount" value="10000">
+                    <button class="custome-btn-primary">
+                      <span class="icon"><i class="fa-solid fa-money-bill"></i></span>
+                      <span class="text">Make Payment</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Ground Rent Pay -->
+  <!--End Bottam Modals -->    
+</div>

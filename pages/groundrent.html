@@ -1,0 +1,316 @@
+
+<script>
+
+    function GroundRent (){
+      this.mainSetup = () =>{
+        new PR_INPUT_GENERATOR('.pr-input-wrapper',{name:"pr.name"});
+        this.managePaymentStauts();
+        this.managViewAllLots();
+      }
+
+      this.managePaymentStauts = () =>{
+        var useCrDateCheck = document.querySelector('#use-current-date');
+        var statusSelectore = document.querySelector('#select-payment-status');
+
+        statusSelectore.addEventListener('change',()=>{
+          if(statusSelectore.value === 'paid'){
+            FadeOut(useCrDateCheck)
+          }else FadeIn(useCrDateCheck);
+        })
+      
+      }
+
+      this.managViewAllLots = () =>{
+        var viewIcons = document.querySelectorAll('td .view-icon');
+        var popup = new Modal({selector:'.view-lots-popup',wrapperCss:"width:40%"});
+        var numbersWrapper = popup.modal.querySelector('.lot-numbers');
+        viewIcons.forEach(icon=>{
+          icon.addEventListener('click',()=>{
+            var lotsString = '';
+            JSON.parse(icon.closest('td').dataset.lotno).forEach((lotno)=>{
+              lotsString+=lotno+', ';
+            });
+            lotsString = lotsString.substring(0, lotsString.length-2);
+            console.log(lotsString);
+            numbersWrapper.textContent = lotsString;
+            popup.showModal();
+          })
+        })
+
+      }
+
+      this.mainSetup();
+    }
+
+
+    new GroundRent();
+    
+
+
+</script>                     
+
+
+<style>
+  .hilight{
+    font-size: 15px;
+    color: rgba(255, 0, 0, 0.404);
+    /* font-weight: normal !important; */
+  }
+
+  .date-select-wrapper{
+    /* background-color: red; */
+    padding-top: 5px;
+    padding-bottom: 5px;
+    -webkit-box-shadow: 4px 10px 40px 3px rgba(63,106,216,1);
+    -moz-box-shadow: 4px 10px 40px 3px rgba(63,106,216,1);
+    box-shadow: 4px 10px 40px 3px rgba(63,106,216,1);
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    /* text-align: right; */
+  }
+
+  .date-select-wrapper label{
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .date-select-wrapper select{
+    border: 1px solid #99b5fc;
+    font-weight: 700;
+    color: var(--blue);
+  }
+
+  .view-icon{
+    font-size: 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: rgb(179, 179, 250);
+    transition: 0.5s;
+  }
+  .view-icon:hover{
+    color: rgb(89, 89, 223);
+  }
+
+  .lots{
+    font-size: 14px;
+  }
+
+  .lot-numbers{
+    font-size: 15px !important;
+    font-weight: 600;
+    
+  }
+</style>
+
+<div class="ground-rent-pay">
+  
+  <div class="row header" style="width:100%">
+    <div class="col-5 m-auto">
+      <h4 class="text-center">
+        <span class="heading"><strong>Grount Rent</strong></span>
+        <span class="icon">
+          <i class="fa-sharp fa-solid fa-money-bill-wave"></i>
+        </span>
+      </h4>
+      <hr>
+    </div>
+  </div>
+
+  <form class="search-form needs-validation" novalidate id="search-form">
+    <div class="row" style="width:100%">
+        <div class="col-3 search-input-wrapper">
+          <label class="label">Office / Division Name:</label>
+          <select name="" id=""><option value="">Select</option></select>
+        </div>
+        <div class="col-3 search-input-wrapper">
+          <label class="label">eAuction No.:</label>
+          <select name="" id="">
+            <option value="">Select</option>
+          </select>
+        </div>
+        <div class="col-3 search-input-wrapper">
+          <label class="label">PR NO. / Name:</label>
+          <div class="pr-input-wrapper"></div>
+        </div>
+        <div class="col-3 search-input-wrapper">
+          <label class="label">Payment Status:</label>
+          <select name="" id="select-payment-status">
+            <option value="paid">Paid</option>
+            <option value="ppaid">Partially Paid</option>
+            <option value="unpaid">Unpaid</option>
+          </select>
+        </div>
+        <div class="col-3 search-input-wrapper">
+          <div class="form-check pl-1" id="use-current-date" style="display: none;">
+            <input class="form-check-input" type="checkbox" value="" id="use-current-date">
+            <label class="form-check-label" for="use-current-date">User Current Date
+              <span class="hilight" >(As a G.Rent end Date)</span>
+            </label>
+          </div>
+        </div>
+    </div>
+    <div style="width:100%">
+      <hr>
+      <div class="text-center">
+        <button class="custome-icon-btn-primary">
+          <span class="icon"><i class="fa-sharp fa-solid fa-magnifying-glass"></i></span>
+          <span class="text">Search</span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row  mt-3"  style="width: 100% !important;">
+    <div class="col-3">
+      <div class="row">
+        <div class="col-11">
+          <div class="date-select-wrapper">
+            <label for="">Select Senssion Date:</label>
+            <select name="" id="">
+              <option value="">Auction Date</option>
+              <option value="">Sold Date</option>
+            </select>
+          </div>
+      </div>
+     </div>
+    </div>
+    <div class="col-9" style="text-align: right;">
+      <button class="custome-icon-btn-outline-primary">
+        <span class="icon"><i class="fa-solid fa-truck-moving"></i></span>
+        <span class="text">Submit And Intemate Purchaser</span>
+      </button>
+      <button class="custome-icon-btn-primary">
+        <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+        <span class="text">Modify</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="table-wrapper" style="height: 360px;">
+    <table class="table table-bordered">
+      <thead class="text-center">
+        <tr>
+          <th><input type="checkbox"></th>
+          <th style="width: 40px;">S.No.</th>
+          <th>Depot / Sub Office Name</th>
+          <th>DL NO.</th>
+          <th>Total Lots</th>
+          <th>Auction Date</th>
+          <th>Sold Date</th>
+          <th>G. Rent Start Date</th>
+          <th>G. Rent End Date</th>
+          <th>Total Late Days</th>
+          <th>Charged Amount</th>
+          <th>Taxes</th>
+          <th>Total Amount</th>
+          <th>Payment Status</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td rowspan="8"><input type="checkbox"></td>
+          <td rowspan="8">1</td>
+          <td rowspan="8">Gondia</td>
+        </tr>
+
+        <tr>
+          <td rowspan="4">00001</td>
+        </tr>
+        <tr>
+          <td data-lotno="[101,102]"><span class="lots">2</span> <span class="view-icon" title="View All Lot Numbers"><i class="fa-regular fa-eye"></i></span></td>
+          <td>Auction Date</td>
+          <td>Sold Date</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+          <td data-lotno="[103,104,105]"><span class="lots">3</span> <span class="view-icon" title="View All Lot Numbers"><i class="fa-regular fa-eye"></i></span></td>
+          <td>Auction Date</td>
+          <td>Sold Date</td>
+        </tr>
+
+        <tr>
+          <td rowspan="3">00002</td>
+          <td data-lotno="[106,107,108,109,110]"><span class="lots">5</span> <span class="view-icon" title="View All Lot Numbers"><i class="fa-regular fa-eye"></i></span></td>
+          <td>Auction Date</td>
+          <td>Sold Date</td>
+        </tr>
+        <tr>
+          <td data-lotno="[111,112,113]"><span class="lots">3</span> <span class="view-icon" title="View All Lot Numbers"><i class="fa-regular fa-eye"></i></span></td>
+          <td>Auction Date</td>
+          <td>Sold Date</td>
+        </tr>
+        <tr>
+          <td data-lotno="[114,115,116,117]"><span class="lots">4</span> <span class="view-icon" title="View All Lot Numbers"><i class="fa-regular fa-eye"></i></span></td>
+          <td>Auction Date</td>
+          <td>Sold Date</td>
+        </tr>
+
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>2</td>
+          <td>Nagpur</td>
+          <td rowspan="3">00003</td>
+          <td data-lotno="[118,119,120]"><span class="lots">3</span> <span class="view-icon" title="View All Lot Numbers"><i class="fa-regular fa-eye"></i></span></td>
+          <td>Auction Date</td>
+          <td>Sold Date</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>4</td>
+          <td>Bhhandara</td>
+          <td data-lotno="[121,122,123,124,125]"><span class="lots">5</span> <span class="view-icon" title="View All Lot Numbers"><i class="fa-regular fa-eye"></i></span></td>
+          <td>Auction Date</td>
+          <td>Sold Date</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>3</td>
+          <td>Sikkim</td>
+          <td data-lotno="[126,127,128,129,130]"><span class="lots">5</span> <span class="view-icon" title="View All Lot Numbers"><i class="fa-regular fa-eye"></i></span></td>
+          <td>Auction Date</td>
+          <td>Sold Date</td>
+        </tr>     
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="view-lots-popup">
+    <div>
+      <div class="header">
+        Lot Numbers
+        <div class="hr"></div>
+      </div>
+      <div class="content-wrapper">
+        <div class="col-11 m-auto ">
+          <div class="table-wrapper">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Lot No.</th>
+                  <td>Total Amount</td>
+                  <th>Date</th>
+                  <th>Payment Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>101</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="lot-numbers" style="display: none;">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,2165 @@
+
+<script>
+    function ManageAucioningLots(){ 
+        this.mainSetup = () =>{
+            this.manageShowHideSearch();
+            this.manageSelectedLots();
+            this.manageChecks();
+        };
+
+
+        this.manageShowHideSearch = () =>{
+            this.searchForm         = document.querySelector("#search-form");
+            this.lotSelectionTable  = document.querySelector("#lot-table-selection");
+            this.lotTable           = this.lotSelectionTable.querySelector(".table-wrapper");
+            this.hideSearch         = document.querySelector('.hide-search');
+            this.showSearch         = document.querySelector('.show-search');
+
+            this.hideSearch.addEventListener('click',()=>{
+                FadeOut(this.searchForm);
+                FadeIn(this.showSearch);
+                this.lotTable.classList.add("big-table")
+            });
+
+            this.showSearch.addEventListener('click',()=>{
+                FadeOut(this.showSearch);
+                FadeIn(this.searchForm);
+                this.lotTable.classList.remove("big-table")
+            })
+
+        }
+
+        this.manageSelectedLots = () =>{
+            this.selectedLotsPopup = new Modal({selector:'#selected-lots-modal',wrapperCss:"width:80%"});
+            this.selectedLotsBtn   = document.querySelector(".selected-lots-btn");
+            console.log(this.selectedLotsPopup);
+
+            this.selectedLotsBtn.addEventListener('click',this.selectedLotsPopup.showModal)
+        }
+
+        this.manageChecks = () =>{
+            var allCheck = document.querySelector('.check-all');
+            var checks   = Array.from(this.lotTable.querySelectorAll('.check'));
+
+            allCheck.addEventListener('click',()=>{
+                if(allCheck.checked) checks.forEach(check => check.checked = true);
+                else checks.forEach(check => check.checked = false);
+            });
+
+            checks.forEach(checkInput => {
+                
+                checkInput.addEventListener('change',()=>{
+                    var checkedInputs = checks.filter(check => check.checked === true);
+
+                    if(checkInput.checked === true){
+
+                        if(checkedInputs.length !== 0){
+                        if(checkedInputs.length === checks.length){
+                            allCheck.checked = true;
+                        }
+                        }
+                    }else{
+                        allCheck.checked = false;
+                    }
+                })
+            });
+        }
+
+
+        this.mainSetup();
+    }
+
+
+    new ManageAucioningLots();
+</script>
+
+<style>
+    #lot-table-selection p{
+        font-size: 12px !important;
+    }
+
+    #lot-table-selection table thead td{
+        padding-top: 8px !important;
+        padding-bottom: 4px !important;
+    }
+
+    #lot-table-selection .dep-info{
+        font-size: 13px;
+        text-decoration: underline;
+    }
+
+
+    #lot-table-selection .table-wrapper{
+        max-height: 230px ; 
+    }
+
+    #lot-table-selection .big-table{
+        max-height: 410px !important;
+    }
+
+</style>
+
+<div class="ewallet-page">
+
+    <div class="row header" style="width:100%">
+        <div class="col-5 m-auto">
+          <h4 class="text-center">
+            <span class="heading"><strong>Auctioning Lots</strong></span>
+            <span class="icon">
+                <i class="fa-solid fa-table-list"></i>
+            </span>
+          </h4>
+          <hr>
+        </div>
+    </div>
+
+   
+        <form class="search-form needs-validation" novalidate id="search-form">
+            <div class="row" style="width:100%">
+                <div class="col-11 m-auto text-center" style="width: 91%;">
+                    <div class="row">
+                        <div class="col-4 search-input-wrapper department-wrapper text-center">
+                            <label for="dep">Department/Head Office:</label>
+                            <select name="" id="dep" name="dep.nm">
+                                <option value="">Please Select </option>
+                            </select>
+                        </div>
+                        <div class="col-4 search-input-wrapper department-wrapper text-center">
+                            <label for="dep">Country:</label>
+                            <select name="" id="dep" name="dep.nm">
+                                <option value="">Please Select </option>
+                            </select>
+                        </div>
+                        <div class="col-4 search-input-wrapper department-wrapper text-center">
+                            <label for="dep">State:</label>
+                            <select name="" id="dep" name="dep.nm">
+                                <option value="">Please Select </option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr width="100%">
+                </div>
+            </div>
+            <div class="row" style="width:100%">
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Division/Office:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">eAuction No.:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Sub Offices/Depots:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Material Type:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Species:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Length:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Source/Socity Name:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Girth/Category:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Condition/ Scheme:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Considered Status:</label>
+                    <select name="" id="">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="col-3 search-input-wrapper">
+                    <label class="label">Lot Number:</label>
+                    <input type="text" placeholder="101,102,103">
+                </div>
+                
+            </div>
+            <div class="row" style="width:100%">
+                <hr>
+                <div class="text-center">
+                    <button class="custome-icon-btn-primary">
+                        <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <span class="text" >Search</span>
+                    </button>
+                    <button class="custome-icon-btn-outline-primary hide-search" type="button">
+                        <span class="icon"><i class="fa-sharp fa-solid fa-xmark"></i></span>
+                        <span class="text" >Search</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    
+        <section class="mt-2" id="lot-table-selection" >
+            <div class="row" style="width: 101%;">
+                <div class="col-9">
+                    <div class="dep-info">
+                        <span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong>
+                    </div>
+                </div>
+                <div class="col-3" style="text-align:right;">
+                    <button class="custome-icon-btn-outline-primary selected-lots-btn" type="button">
+                        <span class="icon"><i class="fa-sharp fa-solid fa-check-double"></i></span>
+                        <span class="text">Selected Auctioning Lots</span>
+                    </button>
+                    <button class="custome-icon-btn-primary show-search" type="button" style="display:none;">
+                        <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    </button>
+                </div>
+    
+            </div>
+            <div class="row" style="width: 100%;">
+                <div class="col-12 m-auto">
+                    <div class="table-wrapper" style="width: 102%;">
+                        <table class="table table-bordered" id="search-lots-table" >
+                            <thead class="text-center">
+                                <tr class="pt-1 pb-1">
+                                    <td><input class="check-all" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>Lot No.</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td>View</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+    
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                            
+                             
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <td><input class="check" type="checkbox" value="" ></td>
+                                    <td>Sub Office</td>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Girth/Category</td>
+                                    <td>Qty</td>
+                                    <td>Vol/QTS/Bundle/KG</td>
+                                    <td>Auction Count</td>
+                                    <td>Source/Socity</td>
+                                    <td>Auction Starts On</td>
+                                    <td class="text-center"><i class="fa-sharp fa-solid fa-eye"></i></td>
+                                </tr>
+                                <!-- <tr class="info-row">
+                                    <td colspan="15">
+                                        <div class="row">
+                                            <div class="col-10  m-auto">
+                                                <div class="info-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-center"><span class="dep">Department Name,</span> <strong><span class="country ">India</span>, <span class="state ">Maharashtra</span>.</strong></p>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Office/ Division Name:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sub Office/Depot :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Type :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot No. :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Qty :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Vol/Bundle/QTS/KG :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Sale Unit :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Species:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Material Status:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Lot Age/Auction Count:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Girth/Cartegory :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Length:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Source/Socity :</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p><span class="header"><strong>Condition/Scheme:</strong></span><span class="text"></span></p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-outline-success">View Images</button> 
+                                                            <button class="btn btn-danger close-btn">Close</button>
+                                                            <button class="btn btn-primary">Consider/Select Auctioning Lot For Bid</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr> -->
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <p>
+                                <strong class="">Go To Page:</strong> 
+                                <select name="" >
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
+                                    <option value="">5</option>
+                                    <option value="">6</option>
+                                </select>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <strong class="">Row Count:</strong>
+                                <select name="" >
+                                    <option value="">100</option>
+                                    <option value="">200</option>
+                                    <option value="">300</option>
+                                    <option value="">400</option>
+                                    <option value="">500</option>
+                                    <option value="">600</option>
+                                    <option value="">700</option>
+                                    <option value="">800</option>
+                                    <option value="">900</option>
+                                    <option value="">1000</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div class="col-6">         
+                            <div style="text-align:right;">
+                                <button class="custome-icon-btn-primary">
+                                    <span class="text">Consider Selected Lots For Auctioning</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+            </div>
+        </section>
+    
+        <!-- Popups -->
+    
+        <!-- Selected Lots -->
+        <div id="selected-lots-modal">
+            <div>
+                <div class="header">
+                    Selected Auctning Lots
+                    <div class="hr"></div>
+                </div>
+                <div class="content-wrapper">
+                    <div class="table-wrapper">
+                        <table class="table table-bordered">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>Lot No.</th>
+                                    <th>Species</th>
+                                    <th>Material Type</th>
+                                    <th>Status</th>
+                                    <th>Length</th>
+                                    <th>Catgory</th>
+                                    <th>Qty</th>
+                                    <th>vol/QTS/Bundle/KG</th>
+                                    <th>Soure/Socity</th>
+                                    <th>Start Time</th>
+                                    <th>Auction Status</th>
+                                    <th>Remove</th>
+                                    <th>View Images</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Species</td>
+                                    <td>Material Type</td>
+                                    <td>Status</td>
+                                    <td>Length</td>
+                                    <td>Catgory</td>
+                                    <td>Qty</td>
+                                    <td>vol/QTS/Bundle/KG</td>
+                                    <td>Soure/Socity</td>
+                                    <td>Start Time</td>
+                                    <td>Auction Status</td>
+                                    <td class=""><i class="fa-regular fa-trash-can"></i></td>
+                                    <td><i class="fa-solid fa-eye"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>

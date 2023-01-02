@@ -1,0 +1,311 @@
+<html lang="en"><head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Type Selection</title>
+
+    <script src="./assets/js/libs/jquery/js/jquery-3.6.0.js" defer></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/root.css">
+    <link rel="stylesheet" href="./assets/css/alerts.css">
+    <link rel="stylesheet" href="./assets/css/confirmation.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="stylesheet" href="./assets/css/modal.css">
+    <link rel="stylesheet" href="./assets/css/tables.css">
+    <link rel="stylesheet" href="./assets/css/buttons.css">
+    <link rel="stylesheet" href="./assets/css/forms.css">
+    <!-- End CSS -->
+
+    <!-- JS -->
+    <script src="./assets/js/utils/auth.js" defer></script>
+    <script src="./assets/js/utils/env.js"           defer></script>
+    <script src="./assets/js/utils/code-utils.js"    defer></script>
+    <script src="./assets/js/utils/basic-ui-util.js" defer></script>
+    <script src="./assets/js/utils/ui-utilities.js"  defer></script>
+    <script src="./assets/js/utils/ajax.js" defer></script>
+
+    
+    <script>
+    
+         function ManageComodities(){
+    
+            this.mainSetup = () =>{
+                this.comWrapper = document.querySelector('section');
+                this.loadCommodities();
+                this.comWrapper.addEventListener('click',this.selectCommodity__handler)
+            }
+
+            this.loadCommodities =  async ()=> {
+                var reqData = new FormData();
+                    reqData.append('act', 'getCommodities')
+                var resp = await sendHttpRequest('eaucnmanage/clintsettings', reqData)
+                    console.log(resp.Records);
+                    this.renderComodities(resp.Records)
+            }
+            
+            this.renderComodities = (comData) =>{
+                comData.forEach(com => {
+                    this.comWrapper.innerHTML+=`
+                    <article data-comid="${com.CMDTYID}" data-comname="${com.CMDT_NME}">
+                        <figure>
+                            <h2>${com.CMDT_NME}</h2>
+                        </figure>
+                        <img alt src='${com.image}'/>
+                    </article>`;
+                });
+            }
+
+            this.selectCommodity__handler = (event) =>{
+                var article = event.target.closest('article'); 
+
+                if(article){
+                    localStorage.setItem('comodityId',article.dataset.comid);
+                    localStorage.setItem('comodityName',article.dataset.comname);
+                    location.replace('index.html');
+                }
+            }
+
+            // this.renderComodities = (comData) =>{
+            //     comData.forEach(com=>{
+            //         comWrapper.innerHTML +=`
+            //         <article data-comid="${com.CMDTYID}" data-comname="${com.CMDT_NME}">
+            //             <figure>
+            //                 <h2>${com.CMDT_NME}</h2>
+            //             </figure>
+            //             <img alt src='${com.image}'/>
+            //         </article>`;
+            //     })
+    
+            //     comWrapper.addEventListener('click',(event)=>{
+            //         var article = event.target.closest('article'); 
+            //         if(article){
+            //             localStorage.setItem('comodityId',article.dataset.comid)
+            //             localStorage.setItem('comodityName',article.dataset.comname)
+            //             location.replace('index.html')
+            //         }
+            //     });
+            // }
+
+            this.mainSetup();
+        }
+        
+    
+       setTimeout( ()=>new ManageComodities(),1000)
+    
+    </script>
+
+    <style>
+        *, *:after, *:before {box-sizing: inherit;}
+        * {margin:0;padding:0;border: 0 none; position: relative;}
+
+        :root {
+            --sinSerif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            --Nhexa: 4;
+            --gap: 2vw;
+            --size: calc(calc(100vw / var(--Nhexa)) - var(--gap));
+        }
+
+        @media only screen and (min-width: 1100px) {:root {--Nhexa: 6;}}
+        @media only screen and (max-width: 600px) {
+            :root {--Nhexa: 2;}
+            body {margin-right: calc(var(--size) * .3);}
+        }
+
+        html {
+            /* background: #e9e9e7; */
+        box-sizing: border-box;
+            font-family: var(--sinSerif);
+            font-size: 1rem;
+        }
+        body {
+            padding-right: calc(var(--size) * .5);
+            overflow-X: hidden;
+            hyphens: auto;
+            background-color: #b5bfd8;
+            padding-top: 70px;
+        }
+
+        section {
+        margin: calc(var(--size) * .5) auto 0;
+
+        width: calc(var(--size) * calc(var(--Nhexa) - 1));
+            display: grid;
+            grid-template-columns: repeat(var(--Nhexa), 1fr);
+            grid-gap: var(--gap);
+        }
+
+        article {
+            background: cadetblue;
+            width: var(--size); 
+            height: calc(var(--size) / 1.1111111);
+            clip-path: url(#hexagono);
+            clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+            margin-right: calc(var(--size) / 2);
+            color: #fff;
+            overflow: hidden;
+            -webkit-box-shadow: 0px 1px 70px 146px rgba(207,209,230,1);
+            -moz-box-shadow: 0px 1px 70px 146px rgba(207,209,230,1);
+            box-shadow: 0px 1px 70px 146px rgba(207,209,230,1);
+            cursor: pointer;
+            scale: 0.9;
+            transition: 0.5s;
+            position: relative;
+        }
+
+        article:nth-child(2n) {margin: calc(var(--size) * -.5) calc(var(--size) * -.25) 0 calc(var(--size) * -.75);}
+        article::before {
+            content: '';
+            float: left;
+            width: 25%;
+            height: 100%;
+            clip-path: polygon(0% 0%, 100% 0%, 0% 50%, 100% 100%, 0% 100%);
+            shape-outside: polygon(0% 0%, 100% 0%, 0% 50%, 100% 100%, 0% 100%);
+        }
+        img::after{
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: red !important;
+            z-index: 10;
+        }
+        img {
+        width: var(--size);
+            height: var(--size);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform-origin: 0% 50%;
+            transition: .75s;
+            clip-path: url(#hexagono);
+            clip-path: inherit;
+            z-index:  10;
+            
+        }
+        article:hover{
+            -webkit-box-shadow: 0px 1px 70px 146px rgba(207,209,230,1);
+            -moz-box-shadow: 0px 1px 70px 146px rgba(207,209,230,1);
+            box-shadow: 0px 1px 70px 146px rgba(207,209,230,1);
+        }
+
+        article:hover img {transform: translate(-50%, -50%) rotate(-110deg);}
+        h2 {font-size: 100%;}
+        figure {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: center;
+            max-width: 50%;
+            height: 100%;
+            font-size: calc(9 / var(--Nhexa) * 1vw);
+            line-height: 1;
+            color: #fff;
+            transition: .75s .05s;
+        text-align: center;
+        }
+        figure p {
+            font-size: 70%;
+            line-height: 1.2;
+            width: 100%;
+        }
+        h1 {
+            width: 100vw;
+            background: #3f6ad8;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            margin-bottom: calc(var(--size) * .55 + var(--gap));
+            padding: 2vh 0;
+            text-align: center;
+            font-weight: 400;
+            color: #fff;
+        }
+        body > p {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem calc(var(--size) * .5);
+            font-weight: 200;
+        } 
+    </style>
+
+</head>
+<body>
+
+    <section>    
+        <!-- <article data-comid="1" data-comname="Bamboo">
+                        <figure>
+                            <h2>Bamboo</h2>
+                        </figure>
+                        <img alt="" src="">
+        </article>
+        <article data-comid="2" data-comname="Tendu">
+                        <figure>
+                            <h2>Tendu</h2>
+                        </figure>
+                        <img alt="" src="">
+        </article>
+        <article data-comid="3" data-comname="Firewood">
+                        <figure>
+                            <h2>Firewood</h2>
+                        </figure>
+                        <img alt="" src="">
+        </article>
+        <article data-comid="4" data-comname="Timber">
+                        <figure>
+                            <h2>Timber</h2>
+                        </figure>
+                        <img alt="" src="">
+        </article>
+        <article data-comid="1" data-comname="Bamboo">
+                        <figure>
+                            <h2>Bamboo</h2>
+                        </figure>
+                        <img alt="" src="">
+        </article> -->
+    </section>
+
+    <div id="loader" style="display: none; justify-content: center; align-items: center; z-index: 10; height: 100vh; width: 100%; position: fixed !important;">
+        <img src="https://gifimage.net/wp-content/uploads/2018/04/loader-gif-blue-8.gif" style="width: 200px;" alt="">
+    </div>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+</body></html>

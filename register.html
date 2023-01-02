@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchaser Registration</title>
+
+    <!------------------ Template Source------------------>
+    <link href="./assets/template/styles/main.css" rel="stylesheet">
+    <script type="text/javascript" src="./assets/template/scripts/main.js" defer></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!------------------ End Template Source------------------>
+
+    <script src="./assets/js/libs/jquery.js" defer></script>
+
+    <script src="./assets/js/libs/fastselect.min.js" defer></script>
+    <script src="./assets/js/libs/fastselect.standalone.js" defer></script>
+    <link rel="stylesheet" href="./assets/js/libs/fastselect.min.css">
+
+    <script src="./assets/js/util/env.js" defer></script>
+    <script src="./assets/js/util/global-util.js" defer></script>
+    <script src="./assets/js/util/app-util.js" defer></script>
+    <script src="./assets/js/register.js" defer></script>
+</head>
+
+
+<style>
+
+
+    body{
+        background-color: #e0f3ff;
+        scroll-behavior: smooth;
+    }
+    .container-fluid .wrapper{
+        margin-top: 20PX;
+    }
+
+
+    label{
+        font-weight: 500;
+    }
+    
+
+    .file-refresh-icon{
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        color: red;
+        font-weight: bold;
+    }
+
+
+    fieldset{
+        border: 1px solid rgba(0,0,0,0.1);
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;      
+        padding-bottom: 20px;  
+    }
+
+    fieldset legend{
+        width: auto;
+        margin-left: 10%;
+        color: #3f6ad8;
+        background-color: transparent !important;
+        font-weight: 700;
+    }
+
+
+    #header{
+        background-color: #2e53b3;
+    }
+
+
+    /* Step Wizard */
+    .step-wizard {
+        display: inline-block;
+        position: relative;
+        width:100%;
+    }
+    .step-wizard .progress {
+        position: absolute;
+        top: 28px;
+        left: 10.5%;
+        width: 75%;
+    }
+    .step-wizard .progressbar {
+        position: absolute;
+        background-color: #3f6ad8;
+        opacity: 1;
+        height: 3px;
+        width: 0%;
+        -webkit-transition: width 0.6s ease;
+        -o-transition: width 0.6s ease;
+        transition: width 0.6s ease;
+    }
+    .step-wizard .progressbar.empty {
+        opacity: 1;
+        width: 100%;
+        /* background-color: #d0d0d0; */
+    }
+    .step-wizard ul {
+        /* position: absolute; */
+        width: 100%;
+        list-style-type: none;
+        padding: 0;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        left: -2%;
+        margin: auto;
+    }
+    .step-wizard li {
+        display: inline-block;
+        text-align: center;
+        width: 24%;
+    }
+    .step-wizard li .step {
+        text-align: center;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: bold;
+        padding-top: 0px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 3px solid;
+        border-color: #d0d0d0;
+        background: #ffffff;
+        -webkit-transition: background-color 0.6s ease, border-color 0.6s ease;
+        -o-transition: background-color 0.6s ease, border-color 0.6s ease;
+        transition: background-color 0.6s ease, border-color 0.6s ease;
+    }
+    .step-wizard li .title {
+        width: 100%;
+        padding-top: 0px;
+        color: #767676;
+        -webkit-transition: color 0.6s ease;
+        -o-transition: color 0.6s ease;
+        transition: color 0.6s ease;
+    }
+    .step-wizard li.active .step {
+        border-color: #3f6ad8;
+        color: #3f6ad8;
+    }
+    .step-wizard li.active .title {
+        text-decoration: none;
+        color: #3f6ad8;
+        font-weight: bold;
+    }
+    .step-wizard li.done .title {
+        color: #3f6ad8;
+    }
+    .step-wizard li.done .title:hover {
+        color: #3f6ad8;
+    }
+    .step-wizard li.done .step {
+        color: white;
+        background-color: #3f6ad8;
+        border-color: #3f6ad8;
+    }
+    .step-wizard li > button {
+        background: none;
+        border: none;
+        display: block;
+        width: 100%;
+        color: #777;
+        position: relative;
+        text-align: center;
+    }
+    .step-wizard li > button:hover .step {
+        border-color: #3f6ad8;
+        background: #eee;
+        color: #3f6ad8;
+    }
+    .step-wizard li > button:hover .title {
+        color: #3f6ad8;
+    }
+    .step-wizard .buttons {
+        position: absolute;
+        top: 180px;
+        text-align: center;
+        width: 100%;
+    }
+    .step-wizard .btn {
+        width: 50px;
+        height: 30px;
+    }
+    @media only screen and (max-width: 1200px) {
+    .step-wizard li {
+        width: 24%;
+    }
+    }
+    @media only screen and (max-width: 375px) {
+    .step-wizard li {
+        width: 22%;
+    }
+    }
+    .step-wizard li.done button div.step {
+        font-size: 0;
+    }
+    .step-wizard li.done button div.step::before {
+        content: "\2713 ";
+        font-size: 18px;
+    }
+
+/* End Step Wizard */
+
+.group-bagde{
+    cursor: pointer;
+    background-color: #3f6ad8; ;
+}
+</style>
+
+<body>
+  
+    <div class="container-fluid">
+        <div class="row wrapper">
+            <div class="col-lg-8 m-auto">
+
+                <div id="landing-page">
+                    <div class="row">
+                        <div class="col-7 m-auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-title">Chose a registration type</div>
+                                    <hr>
+
+                                    <div>
+
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" value="" id="terms-check">
+                                            <label class="form-check-label" for="terms-check">
+                                              You Have Read And Accept <a href="#">Terms And Conditions</a>
+                                            </label>
+                                        </div>
+
+                                        <div class="regtype-wrapper">
+                                            <label for="reg-type">Select Registration Type</label>
+                                            <select id="reg-type" class="form-control mb-2">
+                                                <option value="none">Select</option>
+                                                <option value="I">Individual</option>
+                                                <option value="F">Firm</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="setup-wrapper">
+                    <div class="card mb-1" id="header">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 m-auto text-white">
+                                    <h2 class="text-center">Registration</h2>
+                                    <hr class="bg-white">
+                                </div>
+                                <div class="mb-1 col-12">&nbsp;</div>
+                                <div class="step-wizard m-auto  bg-white rounded mt-5" role="navigation">
+                                    <div class="progress">
+                                      <div class="progressbar empty"></div>
+                                      <div id="prog" class="progressbar"></div>
+                                    </div>
+                                    <ul>
+                                      <li class="active">
+                                        <button id="">
+                                          <div class="step" data-stepname="pesonal-info">1</div>
+                                          <div class="title">Personal Information</div>
+                                        </button>
+                                      </li>
+                                      <li class="">
+                                        <button id="">
+                                          <div class="step" data-stepname="account-gstin">2</div>
+                                          <div class="title">Account & GSTIN Details</div>
+                                        </button>
+                                      </li>
+                                      <li class="">
+                                        <button id="">
+                                          <div class="step" data-stepname="other-info">3</div>
+                                          <div class="title">Other Information</div>
+                                        </button>
+                                      </li>
+                                      <li class="">
+                                        <button id="">
+                                          <div class="step" data-stepname="document-info">4</div>
+                                          <div class="title">Upload Documents</div>
+                                        </button>
+                                      </li>
+    
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <form id="registeration-form" class="needs-validation" novalidate>
+
+                        <div class="step-wrapper" id="pesonal-info">
+                            <div class="card mb-1">
+                                <div class="card-body">
+                                    <div class="card-title">Personal Information</div>
+                                    <hr>
+                                    <div id="field-loader"></div>
+                                    <div class="check-verified">
+                                        <input  type="hidden" id="verify-phone" value="true">
+                                        <input  type="hidden" id="verify-email" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-wrapper" id="account-gstin">
+                            <div class="card mb-1">
+                                <div class="card-body">
+                                    <div class="card-title">Account & GSTIN Details</div>
+                                    <hr>
+                                    <div id="field-loader"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-wrapper" id="other-info">
+                            <div class="card mb-1">
+                                <div class="card-body">
+                                    <div class="card-title">Other Information</div>
+                                    <hr>
+
+                                    <fieldset>
+                                        <legend>Login Information</legend>
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <div class="mb-3">
+                                                    <label for="logid" class="form-label">Login ID</label>
+                                                    <input required type="text" class="form-control required no-space" id="logid" name="logid" maxlength="50">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="password" class="form-label">Password</label>
+                                                    <div class="input-group">
+                                                        <input required type="password" class="form-control required" id="password" name="pwd" maxlength="50">
+                                                        <span class="input-group-text btn btn-success show-password" href="#">show</span>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="mb-3">
+                                                    <label for="que1_id" class="form-label">Security Quertion 1</label>
+                                                    <select required class="form-control required" name="que1.id" id="que1_id">
+                                                        <option value="none">-</option>
+                                                        <option value="0">Select a question from the following options.</option>
+                                                        <option value="1">Who's your daddy?</option>
+                                                        <option value="2">What is your favorite color?</option>
+                                                        <option value="3">What is your mother's favorite aunt's favorite color?</option>
+                                                        <option value="4">Where does the rain in Spain mainly fall?</option>
+                                                        <option value="5">If Mary had three apples, would you steal them?</option>
+                                                        <option value="6">What brand of food did your first pet eat?</option>
+                                                     </select>
+                                                </div>
+    
+                                                <div class="mb-3">
+                                                    <label for="que2_id" class="form-label">Security Quertion 2</label>
+                                                    <select required class="form-control required" name="que2.id" id="que2_id">
+                                             
+                                                    </select>
+                                                </div>    
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="cnfrm-password" class="form-label">Confirm Password</label>
+                                                    <input required type="password" class="form-control required" id="cnfrm-password">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="ans1" class="form-label">Your Answer</label>
+                                                    <input required type="text" class="form-control required" id="ans1" name="ans1" maxlength="50">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="ans2" class="form-label">Your Answer</label>
+                                                    <input required type="text" class="form-control required" id="ans2" name="ans2" maxlength="50">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                   
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="step-wrapper" id="document-info">
+                            <div class="card mb-1" id="">
+                                <div class="card-body">
+                                    <div class="card-title">Uploaded Documents</div>
+                                    <hr>
+                                    <div id="field-loader"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="state-value" value="" name="state.cd" maxlength="2">
+                        <input type="hidden" id="state-text" value="" name="state" maxlength="50">               
+                        
+                        <button id="submit" style="display: none;">This Button Will Click Programatically</button>
+                        
+                    </form>
+    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="buttons text-right">
+                                <button class="btn btn-primary btn-lg" id="prev">Back</button>
+                                <button class="btn btn-success btn-lg" id="next">Next</button>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <template id="personal-info-individual">
+        <fieldset class="mb-3">
+            <legend>Area Of Intrest</legend>
+            <div class="mb-3">
+                <select class="form-control" name="area" id="area_of_intrest" multiple>
+                   <option value="0">Timber</option>
+                   <option value="1">Bambu</option>
+                   <option value="2">Firewood</option>
+                   <option value="3">Tendu</option>
+                   <option value="4">Scrap</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset class="mb-3">
+            <legend>Basic Information</legend>  
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="purchaser_name" class="form-label">Authority First Name</label>
+                        <input required type="text" class="form-control required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="lst_nm" class="form-label">Last Name</label>
+                        <input required type="text" class="form-control required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="indentity_no" class="form-label">Identity No.</label>
+                        <input required type="number" class="form-control required" id="indentity_no" name="id.no" maxlength="50">   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="id_doc">Upload Govt. approved indentity Documents</label>
+                    <div class="input-group">
+                        <input required type="file" id="id_doc" accept=".pdf,.png,.jpg,.jpeg"  name="id.doc" class="form-control required">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="gndr" class="form-label">Gender</label>
+                        <select required name="gndr" id="gndr" class="form-control required">
+                            <option value="">Select</option>
+                            <option value="M" >Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date Of Birth</label>
+                        <input required type="date" class="form-control required" id="dob" name="dob">
+                    </div>
+                </div>
+            </div>      
+        </fieldset>
+
+        <fieldset class="mb-3">
+            <legend>Communication Information</legend>     
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="mob_no" class="form-label">Contact Number</label>
+                        <div class="input-group mb-3">
+                            <input rrequired type="number" class="form-control required" id="mob_no" name="mob.no" maxlength="20" aria-describedby="verify-phone">
+                            <span class="input-group-text text-white group-bagde" id="verify-phone">Verify</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email ID</label>
+                        <div class="input-group mb-3">
+                            <input required type="email" class="form-control required" id="email" name="email.id" maxlength="100" aria-describedby="verify-usremail">
+                            <span class="input-group-text text-white group-bagde" id="verify-usremail">Verify</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="addr1" class="form-label">Address Line 1</label>
+                        <input required type="text" class="form-control required" id="addr1" name="addr.1" maxlength="100">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="addr2" class="form-label">Address Line 2</label>
+                        <input required type="text" class="form-control" id="addr2" name="addr.2" maxlength="100">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="state" class="form-label">State</label>
+                        <select required id="state" class="form-control required">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <input required type="text" class="form-control required" id="city" name="city" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="pin" class="form-label">Pin</label>
+                        <input required type="number" class="form-control required" id="pin" name="pin" maxlength="6">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <select required name="country" id="country" class="form-control required">
+                            <option value="india">India</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="addr_doc">Upload Address Proof:</label>
+                    <div class="input-group">
+                        <input required type="file" id="addr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="addr.doc" class="form-control required">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+    </template>
+    <template id="personal-info-firm">
+
+        <fieldset class="mb-3">
+            <legend>Area Of Intrest</legend>
+            <div class="mb-3">
+                <select  class="form-control" name="area" id="area_of_intrest" multiple>
+                   <option value="0">Timber</option>
+                   <option value="1">Bambu</option>
+                   <option value="2">Firewood</option>
+                   <option value="3">Tendu</option>
+                   <option value="4">Scrap</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset class="mb-3">
+            <legend>Basic Information</legend>  
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="purchaser_nm" class="form-label">Firm/Organization Name</label>
+                        <input required type="text" class="form-control required" name="purchaser.nm" maxlength="50" >
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="firm_doc">Upload Firm Registration Doc</label>
+                    <div class="input-group">
+                        <input required  type="file" id="firm_doc" accept=".pdf,.png,.jpg,.jpeg"  name="firm.doc" class="form-control required">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="purchaser_name" class="form-label">Authority First Name</label>
+                        <input required type="text" class="form-control required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="lst_nm" class="form-label">Last Name</label>
+                        <input required type="text" class="form-control required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="indentity_no" class="form-label">Identity No.</label>
+                        <input required type="number" class="form-control required" id="indentity_no" name="id.no" maxlength="50">   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="id_doc">Upload Govt. approved indentity Documents</label>
+                    <div class="input-group">
+                        <input required type="file" id="id_doc" accept=".pdf,.png,.jpg,.jpeg"  name="id.doc" class="form-control required">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="gndr" class="form-label">Gender</label>
+                        <select required name="gndr" id="gndr" class="form-control required">
+                            <option value="">Select</option>
+                            <option value="M" >Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-2 col-6">
+                    <label for="auth_ltr_doc">Upload Bidder Authority Letter</label>
+                    <div class="input-group">
+                        <input required  type="file" id="auth_ltr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="auth.ltr.doc" class="form-control required" >
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+            </div>      
+        </fieldset>
+
+        <fieldset class="mb-3">
+            <legend>Communication Information</legend>     
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="mob_no" class="form-label">Contact Number</label>
+                        <div class="input-group mb-3">
+                            <input rrequired type="number" class="form-control required" id="mob_no" name="mob.no" maxlength="20" aria-describedby="verify-phone">
+                            <span class="input-group-text text-white group-bagde" id="verify-phone">Verify</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email ID</label>
+                        <div class="input-group mb-3">
+                            <input required type="email" class="form-control required" id="email" name="email.id" maxlength="100" aria-describedby="verify-usremail">
+                            <span class="input-group-text text-white group-bagde" id="verify-usremail">Verify</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="addr1" class="form-label">Address Line 1</label>
+                        <input required type="text" class="form-control required" id="addr1" name="addr.1" maxlength="100">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="addr2" class="form-label">Address Line 2</label>
+                        <input required type="text" class="form-control" id="addr2" name="addr.2" maxlength="100">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="state" class="form-label">State</label>
+                        <select required id="state" class="form-control required">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <input required type="text" class="form-control required" id="city" name="city" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="pin" class="form-label">Pin</label>
+                        <input required type="number" class="form-control required" id="pin" name="pin" maxlength="6">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <select required name="country" id="country" class="form-control required">
+                            <option value="india">India</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="addr_doc">Upload Address Proofs:</label>
+                    <div class="input-group">
+                        <input required type="file" id="addr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="addr.doc" class="form-control required">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+    </template>
+
+    <template id="account-gstin-individual">
+
+        <fieldset id="gstin-info" class="mb-3">
+            <legend>GSTIN & PAN</legend>
+            <div class="row">
+                <div class="col-7 mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="gstcheck">
+                        <label class="form-check-label" for="gstcheck">
+                            Individual propriority Firm/Comapny GST certification
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12 gst-input">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="gstinno" class="form-label">GSTIN No.</label>
+                                <div class="row">
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" id="gstinno" name="gstn.no" maxlength="15">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_gstinno-btn">Verify</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label for="gst_proof">Upload GST Np. Proof:</label>
+                            <div class="input-group">
+                                <input   type="file" id="gst_proof" accept=".pdf,.png,.jpg,.jpeg"  name="gst.doc" class="form-control">
+                                <label class="input-group-text file-refresh-icon" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                    </svg>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="pancard" class="form-label">PAN CARD No.</label>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <input required type="text" class="form-control required" id="pancard" name="pan.crd" maxlength="10">
+                            </div>
+                            <div class="col-lg-3">
+                                <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_pancard-btn">Verify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="pancard_doc">Upload Pancard:</label>
+                    <div class="input-group">
+                        <input required type="file" id="pancard_doc" accept=".pdf,.png,.jpg,.jpeg"  name="pancard.doc" class="form-control required">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                 </div>
+            </div>
+        </fieldset>
+
+        <fieldset id="bank-info" class="mb-3">
+            <legend>Bank Account Information</legend>
+            <div class="row">
+                <div class="col-7">
+                    <div class="mb-3">
+                        <label for="holdernm" class="form-label">Account Holder Name</label>
+                        <input required type="text" class="form-control required" id="holdernm" name="accnt.nm">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="backaccntno" class="form-label">Bank Account No</label>
+                        <input required type="text" class="form-control required" id="backaccntno" name="accnt.no" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="re-backaccntno" class="form-label">Re-Enter  Account No</label>
+                        <input required type="text" class="form-control required" id="re-backaccntno">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="ifsc" class="form-label">IFSC Code.</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <input required type="text" class="form-control required" id="ifsc" name="ifsc" maxlength="11">
+                            </div>
+                            <div class="col-3">
+                                <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_ifsc-btn">Verify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="banknm" class="form-label">Bank Name</label>
+                        <input required type="text" class="form-control required" id="banknm" name="bnk.nm" >
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="cancel_cheque">Upload Scanned Cancel Cheque:</label>
+                    <div class="input-group">
+                        <input required  type="file" id="cancel_cheque" accept=".pdf,.png,.jpg,.jpeg"  name="cancel.cheque.doc" class="form-control required" >
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+    </template>
+    <template id="account-gstin-firm">
+
+        <fieldset id="gstin-info" class="mb-3">
+            <legend>GSTIN & PAN</legend>
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="gstinno" class="form-label">GSTIN No.</label>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <input required type="text" class="form-control" id="gstinno" name="gstn.no" maxlength="15">
+                            </div>
+                            <div class="col-lg-3">
+                                <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_gstinno-btn">Verify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2 col-6">
+                    <label for="gst_proof">Upload GST Np. Proof:</label>
+                    <div class="input-group">
+                        <input required   type="file" id="gst_proof" accept=".pdf,.png,.jpg,.jpeg"  name="gst.doc" class="form-control">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="pancard" class="form-label">PAN CARD No.</label>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <input required type="text" class="form-control required" id="pancard" name="pan.crd" maxlength="10">
+                            </div>
+                            <div class="col-lg-3">
+                                <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_pancard-btn">Verify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="pancard_doc">Upload Pancard:</label>
+                    <div class="input-group">
+                        <input required type="file" id="pancard_doc" accept=".pdf,.png,.jpg,.jpeg"  name="pancard.doc" class="form-control required">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                 </div>
+                 <div class="col-6">
+                    <div class="mb-3">
+                        <label for="f27Celigible" class="form-label">Select Yes If Applicable</label>
+                        <select required name="f27c" id="f27Celigible" class="form-control required">
+                            <option value="">Select</option>
+                            <option value="Y">Yes</option>
+                            <option value="N" selected>No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="f27c_doc">Upload Form 27 C (If Applicable)</label>
+                    <div class="input-group">
+                        <input required  type="file" id="f27c_doc" accept=".pdf,.png,.jpg,.jpeg"  name="f27c.doc" class="form-control">
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset id="bank-info" class="mb-3">
+            <legend>Bank Account Information</legend>
+            <div class="row">
+                <div class="col-7">
+                    <div class="mb-3">
+                        <label for="holdernm" class="form-label">Account Holder Name</label>
+                        <input required type="text" class="form-control required" id="holdernm" name="accnt.nm">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="backaccntno" class="form-label">Bank Account No</label>
+                        <input required type="text" class="form-control required" id="backaccntno" name="accnt.no" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="re-backaccntno" class="form-label">Re-Enter  Account No</label>
+                        <input required type="text" class="form-control required" id="re-backaccntno">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="ifsc" class="form-label">IFSC Code.</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <input required type="text" class="form-control required" id="ifsc" name="ifsc" maxlength="11">
+                            </div>
+                            <div class="col-3">
+                                <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_ifsc-btn">Verify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="banknm" class="form-label">Bank Name</label>
+                        <input required type="text" class="form-control required" id="banknm" name="bnk.nm" >
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="cancel_cheque">Upload Scanned Cancel Cheque:</label>
+                    <div class="input-group">
+                        <input required  type="file" id="cancel_cheque" accept=".pdf,.png,.jpg,.jpeg"  name="cancel.cheque.doc" class="form-control required" >
+                        <label class="input-group-text file-refresh-icon" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+    </template>
+
+    <template id="document-upload-individual">
+        <div class="row">
+        </div>
+    </template>
+    <template id="document-upload-firm">
+        <div class="row">
+
+        </div>
+    </template>
+
+
+    <div id="loader" style="display: none;justify-content: center;align-items: center;position: fixed;z-index: 10; height: 100vh;width: 100%;">
+        <img src="https://gifimage.net/wp-content/uploads/2018/04/loader-gif-blue-8.gif" style="width: 200px;" alt="">
+    </div>
+</body>
+</html>

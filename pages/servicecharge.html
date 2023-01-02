@@ -1,0 +1,495 @@
+<script>
+    function SeviceCharge(){
+        this.mainSetup = () =>{
+            closeSidebar();
+        }
+    }
+
+    var serviceCharge = new SeviceCharge();
+        serviceCharge.mainSetup();
+</script>
+
+<style>
+    .service-charge-section{
+        background-color: #fff;
+        padding-top: 8px;
+        -webkit-box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        -moz-box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        background-color: #fff;
+        border-radius: 7px;
+    }
+
+    .search-section{
+        margin-bottom: 10px;
+    }
+
+    .search-section .label{
+        font-weight: 600;
+    }
+
+    .service-charge-section hr{
+        padding: 0 !important ;
+        margin-top: 5px;
+        margin-bottom: 0px !important;
+    }
+
+    .table-wrapper{
+        max-height: 290px;
+        overflow-y: scroll;
+        position: relative;
+
+    }
+
+    /* width */
+    .table-wrapper::-webkit-scrollbar {
+        width: 1px;
+    }
+
+    /* Track */
+    .table-wrapper::-webkit-scrollbar-track {
+      /* box-shadow: inset 0 0 5px grey;  */
+      border-radius: 10px;
+    }
+
+    /* Handle */
+    .table-wrapper::-webkit-scrollbar-thumb {
+      background: #f1f4f6;
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    .table-wrapper::-webkit-scrollbar-thumb:hover {
+      background: #f1f4f6;
+    }
+
+    .table-wrapper thead{
+        position: sticky;
+        top:0;
+    }
+
+    .total-section .text{
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .total-section hr{
+        background-color: rgba(63,106,216,1);
+    }
+</style>
+
+
+<div class="service-charge-page">
+
+    <div class="row header" style="width:100%">
+      <div class="col-5 m-auto">
+        <h4 class="text-center">
+          <span class="heading"><strong>Service Charge</strong></span>
+          <span class="icon">
+            <i class="fa-solid fa-cash-register"></i>
+          </span>
+        </h4>
+        <hr>
+      </div>
+    </div>
+
+    <form action="" class="search-form">
+        <div class="row" style="width:100%">
+            <div class="col-6 search-input-wrapper department-wrapper m-auto">
+                <label for="dep">Department/Head Office:</label>
+                <select name="" id="dep" name="dep.nm">
+                    <option value="">Please Select Department</option>
+                </select>
+                <hr width="68%">
+            </div>
+        </div>
+        <div class="row" style="width:100%">
+            <div class="col-3 search-input-wrapper">
+                <label class="label">Date From:</label>
+                <input type="date">
+            </div>
+            <div class="col-3 search-input-wrapper">
+                <label class="label">To:</label>
+                <input type="date">
+            </div>
+            <div class="col-3 search-input-wrapper">
+                <label class="label">Status:</label>
+                <select name="" id="">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" style="width:100%">
+            <hr>
+            <div class="text-center">
+                <!-- <button class="custome-icon-btn-outline-primary view-payment-ledger-btn">
+                    <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <span class="text">Search</span>
+                </button> -->
+
+                <button class="custome-icon-btn-primary view-payment-ledger-btn">
+                    <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <span class="text">Search</span>
+                </button>
+
+                <!-- <button class="custome-icon-btn-primary">
+                    <span class="icon"><i class="fa-sharp fa-solid fa-file-export"></i></span>
+                    <span class="text">Export</span>
+                </button> -->
+            </div>
+        </div>
+    </form>
+
+    <div class="table-wrapper pb-1 mt-4" style="max-height:320px">
+        <table class="table table-bordered">
+            <thead class="text-center">
+                <tr>
+                    <th>SrNo</th>
+                    <th>Division</th>
+                    <th>e-Auction No</th>
+                    <th>Auction Date</th>
+                    <th>Lot No</th>
+                    <th>Sale Price</th>
+                    <th>Service Charge</th>
+                    <th>CGST</th>
+                    <th>SGST</th>
+                    <th>IGST</th>
+                    <th>Total Amount</th>
+                    <th>Balance</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>  
+
+    <div class="text-center mt-1">
+        <button class="custome-icon-btn-primary">
+            <span class="icon"><i class="fa-sharp fa-solid fa-file-export"></i></span>
+            <span class="text">Export</span>
+        </button>
+    </div>
+
+</div>

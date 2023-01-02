@@ -1,0 +1,2249 @@
+
+<script>
+
+    var profileData;
+
+    var tabButtons = document.querySelector('.tab-btns');
+    var tabCards   = Array.from(document.querySelectorAll('.tab-cards .tab-card'));
+
+    var downloadForm = document.getElementById('download-form');
+    var prinput      = downloadForm.querySelector('#pr_input');
+    var fileInput    = downloadForm.querySelector('#file_nm');
+
+    var showModalBtn    = document.getElementById('click-cmplt-reg');
+    var modalTemplate   = document.getElementById('modal-template');
+    var individualModal = document.getElementById('individual-information');
+    var firmModal       = document.getElementById('firm-information');
+
+    functionInitializer(
+        ()=>{
+    
+            getProfileData();
+          
+            closeSidebar();
+
+            tabCards.forEach(tabcard=> tabcard.style.display = 'none')
+            tabCards[3].style.display='block';
+
+            document.querySelectorAll('.show-password').forEach(shw=>shw.addEventListener('click',(event)=>{
+                var pwdinput = event.target.closest('span').previousElementSibling; 
+                if(pwdinput.type === 'text'){
+                    pwdinput.type = 'password';
+                }else{
+                    pwdinput.type = 'text';
+                }
+            }))
+            
+            fadeOut(showModalBtn)
+
+
+            basicDetailSetup()
+            
+            loginSetup();
+
+            accoutnDetailsSetup();
+
+            settingSetup();
+
+            documentSetup()
+        },
+    )
+
+    function sendReq(data) { 
+        return new Promise(resolve=>{
+            let reqData = data;
+                reqData.delete('TOKEN')
+                reqData.append('TOKEN',localStorage.getItem('token'))
+                appLoader.style.display = 'flex';
+            $.ajax({
+                type: "POST",
+                url: "http://78.47.157.146:8080/usermanage/api/usrprfl",
+                data: reqData,
+                processData: false,
+                contentType:false,
+                timeout: 600000,
+                success: function (response) {
+                    valResponse(response)
+                    resolve(response)
+                    appLoader.style.display = 'none'
+                },
+                error: function(response){
+                    valResponse(response)
+                    resolve(response)
+                }
+            });
+        })
+    }
+
+    function tabNavidator(tab){
+        tabCards.forEach(tabcard=> tabcard.style.display = 'none');
+        tabCards.find(tabcard=>tabcard.dataset.tab === tab).style.display= 'block';
+    }
+
+    async function getProfileData(){
+        var reqdata = new FormData();
+            reqdata.append('ACT','srch')
+        var reqs = await sendReq(reqdata);
+        
+        profileData = reqs.Record; 
+        printPorfileData(reqs.Record)       
+        
+    }
+
+    function printPorfileData(profiledata){
+        
+        var textkeys = Array.from(document.querySelectorAll('.text-keys'));
+        
+        for(var key in profiledata){
+            var span = textkeys.find(textkey=>textkey.dataset.key === key)
+                if(span){
+                    span.textContent = profiledata[key]
+                }
+        }
+
+        if(profiledata.status ==='M'){
+
+        }
+
+        checkedComodities(profiledata.comdty)
+        renderQuestions(profiledata)
+        printLinks(JSON.parse(profiledata['file.nms']));
+        printConvertData(profiledata);
+        document.getElementById('pr_input').value = profiledata['pr.no'];
+    }
+
+    function renderModal(){
+        var modal        = document.getElementById('reg-modal');
+        var modalWrapper = modal.querySelector('#modal-wrapper');
+        var modalContent = modal.querySelector('.modal_content');    
+        var updateForm;
+        var cancelBtn; 
+        var submitUpdateBtn;
+
+
+        modalContent.innerHTML = '';
+        modalContent.append(document.importNode(modalTemplate.content,true))
+
+        updateForm = modalContent.querySelector('#cmp-reg-form')
+        cancelBtn       = document.getElementById('cancel-btn');
+        submitUpdateBtn  = document.getElementById('update-btn');
+
+        if(profileData['pr.typ'] === 'F'){
+            modalContent.querySelector('#cmp-reg-form').append(document.importNode(firmModal.content,true))
+        
+        }else{
+            
+        }
+
+        
+
+        fadeIn(modal);
+        closeSidebar();
+
+        // addFormValidations('cmp-reg-form',()=>completeRegistration());
+        cancelBtn.addEventListener('click',()=> fadeOut(modal));;
+        submitUpdateBtn.addEventListener('click',()=>completeRegistration());
+
+        printModalInfo();
+
+        return modal;
+    }
+
+    function printModalInfo(){
+
+        var topInfo = Array.from(document.querySelectorAll('.top-info'));
+        var inputs = Array.from(document.querySelectorAll("#cmp-reg-form input")); 
+        var selects = Array.from(document.querySelectorAll("#cmp-reg-form select")); 
+        var userInfo = Array.from(document.querySelectorAll('.user-info'));
+
+            
+            userInfo.forEach(info=>{
+                info.style.display = 'none';
+            })
+
+            for(var infokey in profileData){
+                var input   = inputs.find(input=>input.name === infokey);
+                var select  = selects.find(select=>select.name === infokey); 
+                var info    = topInfo.find(info=>info.dataset.text === infokey); 
+
+                if(input){
+                    input.value = profileData[infokey]
+                }
+                if(select){
+                    select.value = profileData[infokey]
+                }
+
+                if(info){
+                    info.textContent = profileData[infokey]
+                }
+            }
+
+            inputs.forEach(input=>input.disabled = true);
+            selects.forEach(select=>select.disabled = true);
+
+
+            Array.from(JSON.parse(profileData.rmerk)).forEach(remark=>{
+
+                var rejected = userInfo.find(userinfo=> userinfo.dataset.value === remark.value);
+                var rej_inputs  = rejected.querySelectorAll("#cmp-reg-form input"); 
+                var rej_selects = rejected.querySelectorAll("#cmp-reg-form select"); 
+
+                    rej_inputs.forEach(input=>input.disabled = false);
+                    rej_selects.forEach(select=>select.disabled = false);
+
+                    rejected.style.display = 'block';
+            })
+
+}
+    
+// Area Of Intrest And Basic Details
+
+function basicDetailSetup() { 
+    var showEditContact      = document.getElementById('show-edit-contact');
+    var showEditEmail      = document.getElementById('show-edit-email');
+    var updateContactWrapper = document.getElementById('new-contact');
+    var updateEmailWrapper   = document.getElementById('new-email');
+    var phoneInput = updateContactWrapper.querySelector('#contact-no');
+    var phoneOtpBtn = updateContactWrapper.querySelector('#sent-phone-otp'); 
+    var emailInput   = updateEmailWrapper.querySelector('#contact-email');
+    var emailOtpBtn = updateEmailWrapper.querySelector('#send-otp-email'); 
+    
+    showEditContact.addEventListener('click',()=> updateContactWrapper.classList.toggle('hide'));
+    showEditEmail.addEventListener('click',()=> updateEmailWrapper.classList.toggle('hide'));
+
+    phoneOtpBtn.addEventListener('click',()=>{
+        if(phoneInput.value !== ''){
+            var reqdata = new FormData();
+                reqdata.append('act','sndotp');
+                reqdata.append('cntc',phoneInput.value);
+                reqdata.append('usr.login',profileData['usr.login'])
+            sendReq(reqdata)
+        }else{
+            alert("Please Enter Valid Mobile Number")
+        }
+    });
+    emailOtpBtn.addEventListener('click',()=>{
+        if(emailInput.value !== ''){
+            var reqdata = new FormData();
+                reqdata.append('act','sndotp');
+                reqdata.append('cntc',emailInput.value);
+                reqdata.append('usr.login',profileData['usr.login']);
+            sendReq(reqdata)
+        }else{
+            alert("Please Enter Valid Email ID!")
+        }
+    });
+
+    renderCheckBoxes()
+    addFormValidations('aio-form',updateAreaOfItrst);
+    addFormValidations('new-contact',updateContact);
+    addFormValidations('new-email',updateEmail);
+}
+
+function renderCheckBoxes(){
+    var checksWrapper = document.getElementById('area-of-intrest');
+
+    $.getJSON('./json/modulity.json',(comoditys)=>{
+        comoditys.forEach(comodity=>{
+            checksWrapper.innerHTML+=`
+                <div class="col-lg-2 col-4">
+                    <div class="form-check">
+                    <input class="form-check-input comodity" type="checkbox" value="${comodity.value}" id="${comodity.value}" data-comid="${comodity.value}">
+                    <label class="form-check-label" for="${comodity.value}">
+                        ${comodity.text}
+                    </label>
+                    </div>
+                </div>
+            `;  
+        })
+    })
+}
+
+function checkedComodities(data){
+    var checkBoxes = Array.from(document.querySelectorAll(".comodity"));
+
+    JSON.parse("["+data+"]").forEach((comid=>{
+        checkBoxes.find(check=>parseInt(check.dataset.comid) === parseInt(comid)).checked = true;
+   
+    }))
+
+}
+
+function updateAreaOfItrst(){
+    var reqdata = new FormData();
+    var checkBoxes = Array.from(document.querySelectorAll(".comodity")); 
+    var area =  '';
+
+    checkBoxes.forEach(check=>{
+        if(check.checked){
+            area += check.value + ",";
+        }
+    })
+
+    reqdata.append('comdty',area.slice(0,-1));
+    reqdata.append('pr.no',prinput.value);
+    reqdata.append('ACT','cmdtyupdt');
+
+
+    sendReq(reqdata)
+
+}
+
+function updateContact(){
+    var reqdata = new FormData(document.getElementById('new-contact'));
+        reqdata.append('act','cntcupdt')
+        reqdata.append('usr.login',profileData['usr.login'])
+        reqdata.append('pid',profileData['pr.id'])
+        reqdata.append('pname',profileData['purchaser.nm'])
+        
+    sendReq(reqdata)
+}   
+
+function updateEmail(){
+    var reqdata = new FormData(document.getElementById('new-email'));
+        reqdata.append('act','cntcupdt')
+        reqdata.append('usr.login',profileData['usr.login'])
+        reqdata.append('pid',profileData['pr.id'])
+        reqdata.append('pname',profileData['purchaser.nm'])
+    sendReq(reqdata)
+}
+// End Area Of Intrest And Basic Details
+
+
+// Login And Security
+var otpInput   = document.getElementById('otp-inpt');
+var otpBtn     = document.getElementById('otp-send-btn');
+var submitBtn  = document.getElementById('submit-btn');
+var showPwd    = document.querySelector('.show-pwd');
+
+var passForm   = document.getElementById('change-password-ans');
+
+function loginSetup() { 
+
+    addFormValidations('change-password-ans',updateLoginDetail);
+    fadeOut(otpInput,submitBtn)
+    otpBtn.addEventListener('click',()=>sendPwdOtp())
+    showPwd.addEventListener('click',(event)=>{
+        var pwdFeild = event.target.closest('span').previousElementSibling;
+        if(pwdFeild.type ==='text'){
+            pwdFeild.type = 'password'
+        }else{
+            pwdFeild.type= 'text';
+        }
+    })
+}
+
+function renderQuestions(profiledata){
+
+    var que1 = document.getElementById('que1');
+    var que2 = document.getElementById('que2');
+
+    $.getJSON('./json/registeration.json',(json)=>{
+      var q1 = json[1].keyValues.find(keyvalue=>parseInt(keyvalue.value) === profileData['que1.id']);
+      var q2 = json[1].keyValues.find(keyvalue=>parseInt(keyvalue.value) === profileData['que2.id']);
+        que1.textContent =  q1.key;
+        que2.textContent =  q2.key;
+    })
+    
+}
+
+async function sendPwdOtp(){
+
+    var valresp;
+    var reqdata = new FormData();
+
+    if($("#pwd").val() === '' || $("#ans1").val() === '' || $("#ans2").val() === ''){
+        passForm.classList.add('was-validated');
+        return;
+    }
+    
+    if($("#pwd").val() !== $("#confrmpwd").val() ){
+        Toaster('error','Not Mathed !',"Password You Entered Dit Not Matched !")
+        return;
+    }
+
+    reqdata.append('act','sndotpbylgn');
+    reqdata.append('usr.login',profileData['usr.login']);
+
+    valresp = await sendReq(reqdata);
+
+    if(valresp.Result === 'OK'){
+        fadeIn(otpInput,submitBtn)
+        fadeIn(otpBtn,submitBtn)
+        otpInput.disabled = false;    
+    }
+
+
+}
+
+async function updateLoginDetail(){
+    var valresp;
+    var reqdata = new FormData(passForm);
+    reqdata.append('act','pwdupdt');
+    reqdata.append('usr.login',profileData['usr.login']);
+    reqdata.append('pid',profileData['pr.id']);
+    reqdata.append('pname',profileData['purchaser.nm']);
+
+    valresp = await sendReq(reqdata);
+
+}
+// End Login And Security
+
+
+// Account Details
+var anntNo  =  document.querySelector('#update-account-form #backaccntno');
+var anntNoRe =  document.querySelector('#update-account-form  #re-backaccntno');
+
+function accoutnDetailsSetup(){
+    var bagdes = document.querySelectorAll('.form-badge');
+    bagdes.forEach(button=>{
+        button.addEventListener('click',(event)=>{
+            var inputBox = document.querySelector('.'+event.target.closest('span').dataset.inputbox);
+            if(inputBox.style.display === 'none'){
+                inputBox.style.display = 'flex';
+            }else{
+                inputBox.style.display = 'none';
+            }
+        })
+    })
+
+    addFormValidations('update-gstin-form',sendGstData)
+    addFormValidations('update-account-form',sendAccntData)
+}
+    
+function sendGstData(){
+    var reqData = new FormData($('#update-gstin-form')[0]);
+
+        // reqData.append('act','')
+        reqData.append('INFO1',JSON.stringify({['gstn.no']:$("#update-gstin-form #gstin-no-input").val()}))
+        reqData.delete('gstn.no')
+    sendReq(reqData)
+}
+
+function sendAccntData(){
+    var reqData = new FormData($('#update-account-form')[0]);
+    if(anntNo.value !== anntNoRe.value){
+        Toaster("error","Invalid Ac. Number","Bank Account You Entered Did Not Matched !");
+    }else{
+        var info = formdataToObject(reqData,true);
+        for(var keys in info){
+            reqData.delete(keys);
+        }
+        // reqData.append('ACT')
+        reqData.append('INFO2',JSON.stringify(info));
+
+        sendReq(reqData)
+    }
+}
+// End Account Details
+
+// Setting 
+
+function settingSetup(){
+    var  checkStatus = document.getElementById("check-status") ;
+    var  checkYes = document.getElementById('checkactions')
+    var  convertViewBtn = document.getElementById("convert-view-btn");
+    var  convertModal = document.getElementById('convert-reg-popup');
+    var  closeCloseConvertBtn = document.querySelector('#close-convert-btn');
+    var  deactivateBtn = document.getElementById("deactivate-btn") ;
+    var  tableWrapper = document.getElementById('table-wrapper');
+
+    var formSubmitBtn = document.getElementById('submit'); 
+    var formSubmitClick = document.getElementById('submit-click'); 
+
+    var  statusModal = document.getElementById('payment-popup');
+    var  closeBtn = statusModal.querySelector('#close-btn')
+    checkStatus.addEventListener('click',()=> statusModal.style.display = 'flex');
+
+    checkYes.addEventListener('change',()=>{
+        if(checkYes.checked){
+            convertViewBtn.disabled = false;
+            deactivateBtn.disabled = false;
+        }else{
+            convertViewBtn.disabled = true;
+            deactivateBtn.disabled = true;
+        }
+    })
+
+    closeBtn.addEventListener('click',()=>statusModal.style.display = 'none');
+    convertViewBtn.addEventListener('click',()=>convertModal.style.display = 'flex');
+    deactivateBtn.addEventListener('click',sendDeactivate)
+    closeCloseConvertBtn.addEventListener('click',()=>convertModal.style.display = 'none');
+    formSubmitClick.addEventListener('click',()=>formSubmitBtn.click())
+    $("#area_of_intrest").fastselect()
+    new RenderStepWizard()
+    addFormValidations('registeration-form',sendConvertData)
+}
+
+function displayConvertAndView(){
+    
+}
+
+function RenderStepWizard(){
+
+    this.stepIndecatores = document.querySelectorAll('#step-indecatores li'); 
+    this.stepWrappers = document.querySelectorAll('.step-wrapper');
+
+    this.stepIndex  = 0;
+
+    this.stepChanger = ()=>{
+        this.stepWrappers.forEach(stepwrapper=>fadeOut(stepwrapper))
+        fadeIn(this.stepWrappers[this.stepIndex]);
+
+
+        if(this.stepIndex === 0){
+            this.stepIndecatores[this.stepIndex].classList.add('active');
+            this.stepIndecatores[this.stepIndex].classList.remove('done');
+        }else{
+            this.stepIndecatores[this.stepIndex-1].classList.add('done');
+            this.stepIndecatores[this.stepIndex].classList.remove('done');
+            this.stepIndecatores.forEach(stepindecatore=>stepindecatore.classList.remove('active'));
+            this.stepIndecatores[this.stepIndex].classList.add('active');
+        }
+       
+
+        console.log(this.stepIndecatores);
+
+        console.log(this.stepIndex-1);
+    }
+
+    this.manageBtnClicks = () =>{
+        
+        this.prevBtn = document.getElementById('prev');
+        this.nextBtn = document.getElementById('next');
+        this.sumbitClick = document.getElementById('submit-click');
+        
+        this.prevBtn.addEventListener('click',()=>{
+            this.stepIndex--;
+            if(this.stepIndex !== (this.stepWrappers.length-1)){
+                this.nextBtn.disabled = false;
+                this.sumbitClick.style.display = 'none';
+            
+            };
+            if(this.stepIndex === 0 ) this.prevBtn.disabled = true;
+            this.stepChanger();
+        })
+        
+        this.nextBtn.addEventListener('click',()=>{
+            this.stepIndex++;
+            if(this.stepIndex === (this.stepWrappers.length-1)) {
+                this.nextBtn.disabled = true;
+                this.sumbitClick.style.display = 'inline-block';
+            
+            };
+            if(this.stepIndex === 1 ) this.prevBtn.disabled = false;
+            this.stepChanger();
+        })
+        
+    }
+
+    this.stepChanger(this.stepIndex);
+    this.manageBtnClicks()
+}
+
+function printConvertData(){
+    var allInputs  = Array.from(document.querySelectorAll('#registeration-form input'));
+    var allSelects = Array.from(document.querySelectorAll('#registeration-form select'));
+
+    for(var key in profileData){
+        var input = allInputs.find(inputs=>inputs.name === key);
+        var select = allInputs.find(selects=>selects.name === key);
+
+        if(input){
+            input.value = profileData[key]
+        }
+
+        if(select){
+            
+            select.value = profileData[key]
+        }
+    }
+};
+
+async function sendConvertData(){
+
+}
+
+async function sendDeactivate(){
+    if(confirm("Do You Want To Decative Account")){
+        console.log("De-activating");
+    }
+}
+// End Setting
+
+
+// Uploaded Documents
+
+function documentSetup(){
+    var viewBytton = document.querySelector('.btn-outline-primary')
+    var historyWrapper = document.querySelector('.history-wrapper');
+
+
+
+    viewBytton.addEventListener('click',()=>historyWrapper.classList.toggle('hide'))
+
+}
+
+function printLinks(docs){
+
+    var mainLinks = Array.from(document.querySelectorAll('.download-doc'));
+    var tableBdy = document.querySelector('.history-wrapper tbody');
+    var doclinkTexts = [{key:"Indenty Document",text:"ID_DOC"},{key:"Address Proof",text:"ADDR_DOC"},{key:"Firm Registration Document",text:"FIRM_DOC"},{key:"GSTIN Document",text:"GST_DOC"},{key:"Pancard Document",text:"PANCARD_DOC"},{key:"Cancel Cheque Document",text:"CANCEL_CHEQUE_DOC"},{key:"Firm Registration Document",text:"F27C_DOC"},{key:"Bidder Authority letter Document",text:"AUTH_LTR_DOC"}]
+
+    // Active Documents
+        mainLinks.forEach(link=>{
+          var  doc =  docs.find( doc=> link.dataset.doc in doc && doc.STATUS === 'E');
+          link.textContent = doc[link.dataset.doc]
+          link.dataset.filename= doc[link.dataset.doc];
+        //   link.addEventListener('click',(event)=>fileDownlaod(event))
+        });
+        
+
+    // Print Document History
+        doclinkTexts.forEach(linktext=>{
+            var lastDocs = docs.filter(doc=>linktext.text in doc && doc.STATUS === 'D');
+                
+
+                lastDocs.forEach(doc=>{
+                    tableBdy.innerHTML += `
+                        <tr>
+                            <td>${linktext.key}</td>
+                            <td>${doc.ADD_ON}</td>
+                            <td><a href="#" data-filename="${doc[linktext.text]}" class="download-doc">${doc[linktext.text]}</a></td>
+                        </tr>
+                    `;
+                })
+        })
+
+        document.querySelectorAll('.download-doc').forEach(link=>{
+            link.addEventListener('click',(event)=>fileDownlaod(event))
+        })
+}
+
+function fileDownlaod(event){
+    fileInput.value = event.target.dataset.filename;
+    downloadForm.submit();
+}
+
+// End Uploaded Documents
+async function completeRegistration(){
+        var remarks = JSON.parse(profileData.rmerk);
+        var updateRequestData = new FormData();
+        var basicInfoFormData = new FormData(document.getElementById('basic_info-form'));
+        var accountInfoFormData = new FormData(document.getElementById('accnt_info-form'));
+
+        updateRequestData.append('ACT','cmpreg')
+        // updateRequestData.append('pr.typ', profileData['pr.typ'])
+        updateRequestData.append('pr.no', profileData['pr.no'])
+
+        var info1Data = formdataToObject(basicInfoFormData,true);
+        var info2Data = formdataToObject(accountInfoFormData,true);
+            info1Data['pr.typ'] = profileData['pr.typ'];
+        
+        // Manage Info 1
+        for(var info1keys in info1Data){
+                basicInfoFormData.delete(info1keys)
+            }
+                
+        for(var keys of basicInfoFormData.keys()){
+                updateRequestData.append(keys,basicInfoFormData.get(keys));
+            }
+        
+        // Manage Info 2
+        for(var info2keys in info2Data){
+            accountInfoFormData.delete(info2keys)
+        }
+                
+        for(var keys of accountInfoFormData.keys()){
+            updateRequestData.append(keys,accountInfoFormData.get(keys));
+        }
+
+        if( remarks.length === 2 ||  remarks.length === 1 && 'accnt_info' in remarks[0]){
+
+            for(var mergekeys in info2Data){
+                if(mergekeys === 'gstn.no' || mergekeys === 'pan.crd' || mergekeys === 'f27c'){
+                    info1Data[mergekeys] = info2Data[mergekeys] ;
+                    delete info2Data[mergekeys]
+                }
+            }
+
+            updateRequestData.append('INFO1', JSON.stringify(info1Data));
+            updateRequestData.append('INFO2', JSON.stringify(info2Data));
+        }else{
+            updateRequestData.append('INFO1', JSON.stringify(info1Data));
+        }
+        
+
+
+        return new Promise(resolve=>{
+
+            updateRequestData.delete('TOKEN')
+            updateRequestData.append('TOKEN',localStorage.getItem('token'))
+            appLoader.style.display = 'flex';
+            $.ajax({
+                type: "POST",
+                url: "http://78.47.157.146:8080/usermanage/api/register",
+                data: updateRequestData,
+                processData: false,
+                contentType:false,
+                timeout: 600000,
+                success: function (response) {
+                    valResponse(response)
+                    resolve(response)
+                    appLoader.style.display = 'none'
+                },
+                error: function(response){
+                    valResponse(response)
+                    resolve(response)
+                }
+                });
+        })
+    }
+tabButtons.addEventListener('click',(event)=> tabNavidator(event.target.closest('button').dataset.link))
+showModalBtn.addEventListener('click',renderModal)
+</script>
+
+<style>
+
+
+.my-popup{
+   width: 100% !important;
+   height: 100vh !important;
+   position: fixed !important;
+   top: 0 !important;
+   left: 0 !important;
+   background-color: rgba(0,0,0,0.3) !important;
+}
+
+
+    .modal-wrapper{
+        width: 75%;
+        height: 100vh;
+        margin: auto;
+        overflow-y: scroll;
+
+    }
+
+    /* width */
+    .modal-wrapper::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    /* Track */
+    .modal-wrapper::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+    }
+    
+    /* Handle */
+    .modal-wrapper::-webkit-scrollbar-thumb {
+        background: #3f6ad8; 
+    border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    .modal-wrapper::-webkit-scrollbar-thumb:hover {
+        background: #3f6ad8; 
+    }
+
+
+    .modal_content{
+        margin-top: 70px ;   
+
+    }
+
+    .info{
+        font-weight: 800;
+    }
+
+
+.badge{
+    cursor: pointer;
+}
+
+.tab-wrapper{
+    padding: 7px 5px 5px 5px;
+}
+
+.text-right{
+    font-weight: 600;
+    color: rgba(0,0,0,0.9);
+}
+
+.input-group-text{
+    cursor:pointer;
+}
+
+
+.hide{
+    display: none !important;
+}
+
+
+#new-contact input,#new-email input{
+    height: 35px !important;
+}
+
+thead{
+    background-color: #3f6ad8 ;
+    color: white;  
+}
+
+
+/* Step Wizard */
+label{
+        font-weight: 500;
+    }
+    
+
+    .file-refresh-icon{
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        color: red;
+        font-weight: bold;
+    }
+
+
+    fieldset{
+        border: 1px solid rgba(0,0,0,0.1);
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;      
+        padding-bottom: 20px;  
+    }
+
+    fieldset legend{
+        width: auto;
+        margin-left: 10%;
+        color: #3f6ad8;
+        background-color: transparent !important;
+        font-weight: 700;
+    }
+
+
+    #header{
+        background-color: #2e53b3;
+    }
+
+
+    /* Step Wizard */
+    .step-wizard {
+        display: inline-block;
+        position: relative;
+        width:100%;
+    }
+    .step-wizard .progress {
+        position: absolute;
+        top: 28px;
+        left: 25%;
+        width: 50%;
+    }
+    .step-wizard .progressbar {
+        position: absolute;
+        background-color: #3f6ad8;
+        opacity: 1;
+        height: 3px;
+        width: 0%;
+        -webkit-transition: width 0.6s ease;
+        -o-transition: width 0.6s ease;
+        transition: width 0.6s ease;
+    }
+    .step-wizard .progressbar.empty {
+        opacity: 1;
+        width: 100%;
+        /* background-color: #d0d0d0; */
+    }
+    .step-wizard ul {
+        /* position: absolute; */
+        width: 100%;
+        list-style-type: none;
+        padding: 0;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        left: -2%;
+        margin: auto;
+        text-align: center;
+    }
+    .step-wizard li {
+        display: inline-block;
+        text-align: center;
+        width: 24%;
+    }
+    .step-wizard li .step {
+        text-align: center;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: bold;
+        padding-top: 0px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 3px solid;
+        border-color: #d0d0d0;
+        background: #ffffff;
+        -webkit-transition: background-color 0.6s ease, border-color 0.6s ease;
+        -o-transition: background-color 0.6s ease, border-color 0.6s ease;
+        transition: background-color 0.6s ease, border-color 0.6s ease;
+    }
+    .step-wizard li .title {
+        width: 100%;
+        padding-top: 0px;
+        color: #767676;
+        -webkit-transition: color 0.6s ease;
+        -o-transition: color 0.6s ease;
+        transition: color 0.6s ease;
+    }
+    .step-wizard li.active .step {
+        border-color: #3f6ad8;
+        color: #3f6ad8;
+    }
+    .step-wizard li.active .title {
+        text-decoration: none;
+        color: #3f6ad8;
+        font-weight: bold;
+    }
+    .step-wizard li.done .title {
+        color: #3f6ad8;
+    }
+    .step-wizard li.done .title:hover {
+        color: #3f6ad8;
+    }
+    .step-wizard li.done .step {
+        color: white;
+        background-color: #3f6ad8;
+        border-color: #3f6ad8;
+    }
+    .step-wizard li > button {
+        background: none;
+        border: none;
+        display: block;
+        width: 100%;
+        color: #777;
+        position: relative;
+        text-align: center;
+    }
+    .step-wizard li > button:hover .step {
+        border-color: #3f6ad8;
+        background: #eee;
+        color: #3f6ad8;
+    }
+    .step-wizard li > button:hover .title {
+        color: #3f6ad8;
+    }
+    .step-wizard .buttons {
+        position: absolute;
+        top: 180px;
+        text-align: center;
+        width: 100%;
+    }
+    .step-wizard .btn {
+        width: 50px;
+        height: 30px;
+    }
+    @media only screen and (max-width: 1200px) {
+    .step-wizard li {
+        width: 33%;
+    }
+    }
+    @media only screen and (max-width: 375px) {
+    .step-wizard li {
+        width: 33%;
+    }
+    }
+    .step-wizard li.done button div.step {
+        font-size: 0;
+    }
+    .step-wizard li.done button div.step::before {
+        content: "\2713 ";
+        font-size: 18px;
+    }
+
+/* End Step Wizard */
+
+.group-bagde{
+    cursor: pointer;
+    background-color: #3f6ad8;
+}
+/* End Step Wizard */
+
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h4>Profile</h4>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-2 col-12 tab-btns">
+        <div class="card">
+            <div class="card-body tab-wrapper">
+                <button class="btn btn-primary btn-lg w-100 mb-3" data-link="basic-details"><i class="pe-7s-news-paper"></i> Basic Details</button>
+                <button class="btn btn-primary btn-lg w-100 mb-3" data-link="login-security"><i class="pe-7s-user"></i> Login And Security</button>
+                <button class="btn btn-primary btn-lg w-100 mb-3" data-link="account-details"><i class="pe-7s-user"></i> Account Details</button>
+                <button class="btn btn-primary btn-lg w-100 mb-3" data-link="setting"><i class="pe-7s-settings"></i> Setting</button>
+                <button class="btn btn-primary btn-lg w-100 mb-3" data-link="uploaded-documnets"><i class="pe-7s-photo"></i> Uploaded Documents</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-10 col-12 tab-cards">
+        <div class="text-center"><button class="btn btn-danger" id="click-cmplt-reg">Click Tod Do Complete Registration</button></div>
+        <div  class="tab-card" data-tab="basic-details" >
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="card-title">Area Of Intrest</div>
+                    <hr>
+                    <form class="needs-validation row" id="aio-form" novalidate>
+                        <div class="col-12">
+                            <div class="row" id="area-of-intrest">
+        
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <hr><button class="btn btn-primary btn-sm" type="submit">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title"> Basic Details</div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">Firm Registration Name:</p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="purchaser.nm"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">Authority First Name:</p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="purchaser.fnm"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">Last Name:</p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="purchaser.lnm"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">Identy No:</p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="id.no"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">Gender:</p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="gndr"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">DOB:</p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="dob"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"><div class="col-12"><hr></div></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p class="text-right">Mobile:</p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="row">
+                                        <div class="col-8"><span class="text-keys" data-key="mob.no"></span></div>
+                                        <div class="col-4"><span  class="badge badge-primary" id="show-edit-contact">Edit </span ></div>
+                                        <div class="col-12">
+                                            
+                                            <form id="new-contact" class="needs-validation  hide" novalidate>
+                                                <HR></HR>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control"  name="cntc" id="contact-no" required placeholder="Enter New Mo." aria-label="Enter New Mo." aria-describedby="sent-phone-otp">
+                                                    <span class="input-group-text bg-success text-white mobile-otp-btn" id="sent-phone-otp">OPT</span>
+                                                </div>
+                                                <input type="number" class="form-control" name="otp" placeholder="Enter OTP" required>
+                                                <button class="btn btn-primary mt-1">Submit</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p class="text-right">Email:</p>
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="row">
+                                        <div class="col-8"><span class="text-keys" data-key="email.id"></span></div>
+                                        <div class="col-4"><span  class="badge badge-primary" id="show-edit-email">Edit </span ></div>
+                                        <div class="col-12">
+                                            <div class="col-12">
+                                                <form id="new-email" class="needs-validation  hide" novalidate>
+                                                    <HR></HR>
+                                                    <div class="input-group mb-3">
+                                                        <input type="email" id="contact-email" name="cntc"   required class="form-control" placeholder="Email" aria-label="Email" aria-describedby="opt-emain">
+                                                        <span class="input-group-text bg-success text-white email-otp-btn" id="send-otp-email">OTP</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="otp" placeholder="Enter OTP" required>
+                                                    <button class="btn btn-primary mt-1">Submit</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  class="tab-card" data-tab="login-security" >
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">Login And Security</div>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class=""><strong>Username:</strong> <span class="text-keys" data-key="usr.login"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12"><hr></div>
+                            </div>
+
+                            <form id="change-password-ans" class="needs-validation" novalidate>
+                                <div class="row">
+                                    <div class="col-10">
+                                        <label for="ans1" >New Password</label>
+                                       <div class="input-group mb-3">
+                                            <input type="password" required class="form-control" id="pwd" placeholder="" name="usr.pwd" aria-label="newpwd" aria-describedby="newpwd">
+                                            <span class="input-group-text show-pwd" id="newpwd">
+                                                <i class="pe-7s-look"> </i>
+                                            </span>
+                                        </div>
+                                        <label for="ans1">Confirm Password</label>
+                                        <div class="input-group mb-3">
+                                            <input required type="password"  class="form-control" id="confrmpwd" aria-label="oldpwd" aria-describedby="oldpwd">
+                                        </div>
+                                        <label for="ans1" id="que1"></label>
+                                        <div class="input-group mb-3">
+                                            <input required type="text"  class="form-control" id="ans1" name="ans1" placeholder="Write Your Answer"  aria-label="oldpwd" aria-describedby="oldpwd">
+                                        </div>
+                                        <label for="ans1" id="que2"></label>
+                                        <div class="input-group mb-3">
+                                            <input required type="text"  class="form-control" id="ans2" name="ans2" placeholder="Write Your Answer"  aria-label="oldpwd" aria-describedby="oldpwd">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <input required type="text" disabled  class="form-control" id="otp-inpt" name="otp" placeholder="Enter Your OPT" value="Paste Your OTP" >
+                                        </div>
+                                    </div>
+                                    <div class="col-10">
+                                        <span class="btn btn-primary"   id="otp-send-btn">Send OTP</span>
+                                        <button class="btn btn-primary" id="submit-btn">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  class="tab-card" data-tab="account-details" >
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Account Details</div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">GSTIN NO.: </p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="gstn.no"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">PAN Card NO.: </p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="pan.crd"></span></div>
+                            </div>
+                        </div>  
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">Account Holder Name : </p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="accnt.nm"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">Account NO.: </p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="accnt.no"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">IFSC Code : </p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="ifsc"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <p class="text-right">Bank Name. : </p>
+                                </div>
+                                <div class="col-lg-6"><span class="text-keys" data-key="bnk.nm"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-12"><hr></div>
+                    </div>
+
+                    <p class=""><span class="badge badge-primary form-badge" data-inputbox="update-gstin-details">Update GSTIN</span></p>
+                    <form id="update-gstin-form" class="needs-validation mb-2" novalidate>
+                        <div class="row input-box update-gstin-details" style="display: none;">
+                            <div class="col-12"><hr></div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Enter GSTIN" aria-label="Enter GSTIN" name="gstn.no" id="gstin-no-input"aria-describedby="gstin-no-input" required>
+                                            <span class="input-group-text bg-danger text-white" >Verify</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="file" class="form-control" name="gst.doc" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6"><button class="btn btn-primary btn-lg">Send Update Request</button></div>
+                        </div>
+                    </form>
+
+                    <p class=""><span class="badge badge-primary form-badge" data-inputbox="update-account-details">Update Account Details</span></p>
+                    <form id="update-account-form" class="needs-validation" novalidate>
+                        <div class="row input-box update-account-details"  style="display: none;">
+                            <div class="col-12"><hr></div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="mb-3">
+                                            <label for="holdernm" class="form-label">Account Holder Name</label>
+                                            <input type="text" class="form-control " id="holdernm" name="accnt.nm" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="backaccntno" class="form-label">Bank Account No</label>
+                                            <input type="text" class="form-control " id="backaccntno" name="accnt.no" maxlength="50"  required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="re-backaccntno" class="form-label">Re-Enter  Account No</label>
+                                            <input type="text" class="form-control " id="re-backaccntno" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="ifsc" class="form-label">IFSC Code.</label>
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <input type="text" class="form-control required" id="ifsc" name="ifsc" maxlength="11" required>
+                                                </div>
+                                                <div class="col-3">
+                                                    <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_ifsc-btn">Verify</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="banknm" class="form-label">Bank Name</label>
+                                            <input type="text" class="form-control required" id="banknm" name="bnk.nm" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="cancel_cheque">Upload Scanned Cancel Cheque:</label>
+                                        <div class="input-group">
+                                            <input required  type="file" id="cancel_cheque" accept=".pdf,.png,.jpg,.jpeg"  name="cancel.cheque.doc" class="form-control required" >
+                                            <label class="input-group-text file-refresh-icon" >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                </svg>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12"><button class="btn btn-primary btn-lg mt-2">Send Update Request</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div  class="tab-card" data-tab="setting" >
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Setting /Convert Registration</div>
+                    <hr>
+                    <span class="text-success" id="check-status" style="cursor: pointer;"><u>View Payment Status</u></span>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="checkactions">
+                                <label class="form-check-label text-primary" for="checkactions">
+                                    I am all ready cleared my all portal purchased material balance payements & I also ready to Convert/Deactivate my registration type.
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <p>
+                                Individual To <select id="select-convert-type">
+                                    <option value="F">Firm</option>
+                                </select>
+                                <button class="btn btn-primary " id="convert-view-btn" disabled>Convert And View</button>
+                                <button class="btn btn-danger " id="deactivate-btn" disabled>Deactivate</button>
+                            </p>
+                        </div>
+                        <div class="col-12 mt-2"><hr></div>
+                        <div class="col-12" id="table-wrapper">
+                            <table class="table table-bordered border-primary">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Remarks</th>
+                                        <th>Request Date And Time</th>
+                                        <th>Action Date</th>
+                                        <th>Status</th>
+                                        <th>View</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Payment Modal -->
+            <div class="my-popup" id="payment-popup" style="display: none;">
+                <div class="modal-wrapper">
+                    <div class="modal_content">
+                        <div class="row">
+                            <div class="col-10 m-auto">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="text-center">Payment Status</h3>
+                                        <hr>
+                                        <table class="table table-bordered border-primary">
+                                            <thead class="text-center">
+                                                <tr>
+                                                    <th>Portal Name</th>
+                                                    <th>Total Purchased Amount</th>
+                                                    <th>Total Paid Amount</th>
+                                                    <th>Totla Balance Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                        <hr>
+                                        <div class="text-right"><button class="btn btn-danger" id="close-btn">Close</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Payment Modal -->
+        
+            <!-- Convert Reg Modal -->
+            <div class="my-popup" id="convert-reg-popup" >
+                <div class="modal-wrapper">
+                    <div class="modal_content">
+                        <div id="setup-wrapper">
+
+                            <div class="card mb-1" id="header">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="step-wizard m-auto  bg-white rounded mt-5" role="navigation">
+                                            <div class="progress">
+                                              <div class="progressbar empty"></div>
+                                              <div id="prog" class="progressbar"></div>
+                                            </div>
+                                            <ul id="step-indecatores">
+                                              <li class="active">
+                                                <button id="">
+                                                  <div class="step" data-stepname="pesonal-info">1</div>
+                                                  <div class="title">Personal Information</div>
+                                                </button>
+                                              </li>
+                                              <li class="">
+                                                <button id="">
+                                                  <div class="step" data-stepname="account-gstin">2</div>
+                                                  <div class="title">Account & GSTIN Details</div>
+                                                </button>
+                                              </li>
+                                              <li class="">
+                                                <button id="">
+                                                  <div class="step" data-stepname="document-info">4</div>
+                                                  <div class="title">Upload Documents</div>
+                                                </button>
+                                              </li>
+            
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <form id="registeration-form" class="needs-validation" novalidate>
+        
+                                <div class="step-wrapper" id="pesonal-info">
+                                    <div class="card mb-1">
+                                        <div class="card-body">
+                                            <div class="card-title">Personal Information</div>
+
+                                            <hr>
+
+                                            <fieldset class="mb-3">
+                                                <legend>Area Of Intrest</legend>
+                                                <div class="mb-3">
+                                                    <select  class="form-control" name="area" id="area_of_intrest" multiple>
+                                                       <option value="0">Timber</option>
+                                                       <option value="1">Bambu</option>
+                                                       <option value="2">Firewood</option>
+                                                       <option value="3">Tendu</option>
+                                                       <option value="4">Scrap</option>
+                                                    </select>
+                                                </div>
+                                            </fieldset>
+                                    
+                                            <fieldset class="mb-3">
+                                                <legend>Basic Information</legend>  
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="purchaser_nm" class="form-label">Firm/Organization Name</label>
+                                                            <input required type="text" class="form-control required" name="purchaser.nm" maxlength="50" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="firm_doc">Upload Firm Registration Doc</label>
+                                                        <div class="input-group">
+                                                            <input required  type="file" id="firm_doc" accept=".pdf,.png,.jpg,.jpeg"  name="firm.doc" class="form-control required">
+                                                            <label class="input-group-text file-refresh-icon" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="purchaser_name" class="form-label">Authority First Name</label>
+                                                            <input required type="text" class="form-control required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="lst_nm" class="form-label">Last Name</label>
+                                                            <input required type="text" class="form-control required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="indentity_no" class="form-label">Identity No.</label>
+                                                            <input required type="number" class="form-control required" id="indentity_no" name="id.no" maxlength="50">   
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="id_doc">Upload Govt. approved indentity Documents</label>
+                                                        <div class="input-group">
+                                                            <input required type="file" id="id_doc" accept=".pdf,.png,.jpg,.jpeg"  name="id.doc" class="form-control required">
+                                                            <label class="input-group-text file-refresh-icon" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="gndr" class="form-label">Gender</label>
+                                                            <select required name="gndr" id="gndr" class="form-control required">
+                                                                <option value="">Select</option>
+                                                                <option value="M" >Male</option>
+                                                                <option value="F">Female</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2 col-6">
+                                                        <label for="auth_ltr_doc">Upload Bidder Authority Letter</label>
+                                                        <div class="input-group">
+                                                            <input required  type="file" id="auth_ltr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="auth.ltr.doc" class="form-control required" >
+                                                            <label class="input-group-text file-refresh-icon" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>      
+                                            </fieldset>
+                                    
+                                            <fieldset class="mb-3">
+                                                <legend>Communication Information</legend>     
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="mob_no" class="form-label">Contact Number</label>
+                                                            <div class="input-group mb-3">
+                                                                <input rrequired type="number" class="form-control required" id="mob_no" name="mob.no" maxlength="20" aria-describedby="verify-phone">
+                                                                <span class="input-group-text text-white group-bagde" id="verify-phone">Verify</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="email" class="form-label">Email ID</label>
+                                                            <div class="input-group mb-3">
+                                                                <input required type="email" class="form-control required" id="email" name="email.id" maxlength="100" aria-describedby="verify-usremail">
+                                                                <span class="input-group-text text-white group-bagde" id="verify-usremail">Verify</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="addr1" class="form-label">Address Line 1</label>
+                                                            <input required type="text" class="form-control required" id="addr1" name="addr.1" maxlength="100">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="addr2" class="form-label">Address Line 2</label>
+                                                            <input required type="text" class="form-control" id="addr2" name="addr.2" maxlength="100">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="state" class="form-label">State</label>
+                                                            <select required id="state" class="form-control required" name="">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="city" class="form-label">City</label>
+                                                            <input required type="text" class="form-control required" id="city" name="city" maxlength="50">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="pin" class="form-label">Pin</label>
+                                                            <input required type="number" class="form-control required" id="pin" name="pin" maxlength="6">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="country" class="form-label">Country</label>
+                                                            <select required name="country" id="country" class="form-control required">
+                                                                <option value="india">India</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label for="addr_doc">Upload Address Proofs:</label>
+                                                        <div class="input-group">
+                                                            <input required type="file" id="addr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="addr.doc" class="form-control required">
+                                                            <label class="input-group-text file-refresh-icon" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                    
+                                            <div class="check-verified">
+                                                <input  type="hidden" id="verify-phone" value="true">
+                                                <input  type="hidden" id="verify-email" value="">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="step-wrapper" id="account-gstin">
+                                    <div class="card mb-1">
+                                        <div class="card-body">
+                                            <div class="card-title">Account & GSTIN Details</div>
+                                            <hr>
+                                            <fieldset id="gstin-info" class="mb-3">
+                                                <legend>GSTIN & PAN</legend>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="gstinno" class="form-label">GSTIN No.</label>
+                                                            <div class="row">
+                                                                <div class="col-lg-9">
+                                                                    <input required type="text" class="form-control" id="gstinno" name="gstn.no" maxlength="15">
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_gstinno-btn">Verify</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2 col-6">
+                                                        <label for="gst_proof">Upload GST Np. Proof:</label>
+                                                        <div class="input-group">
+                                                            <input required   type="file" id="gst_proof" accept=".pdf,.png,.jpg,.jpeg"  name="gst.doc" class="form-control">
+                                                            <label class="input-group-text file-refresh-icon" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="pancard" class="form-label">PAN CARD No.</label>
+                                                            <div class="row">
+                                                                <div class="col-lg-9">
+                                                                    <input required type="text" class="form-control required" id="pancard" name="pan.crd" maxlength="10">
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_pancard-btn">Verify</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="pancard_doc">Upload Pancard:</label>
+                                                        <div class="input-group">
+                                                            <input required type="file" id="pancard_doc" accept=".pdf,.png,.jpg,.jpeg"  name="pancard.doc" class="form-control required">
+                                                            <label class="input-group-text file-refresh-icon" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="f27Celigible" class="form-label">Select Yes If Applicable</label>
+                                                            <select required name="f27c" id="f27Celigible" class="form-control required">
+                                                                <option value="">Select</option>
+                                                                <option value="Y">Yes</option>
+                                                                <option value="N" selected>No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="f27c_doc">Upload Form 27 C (If Applicable)</label>
+                                                        <div class="input-group">
+                                                            <input required  type="file" id="f27c_doc" accept=".pdf,.png,.jpg,.jpeg"  name="f27c.doc" class="form-control">
+                                                            <label class="input-group-text file-refresh-icon" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset id="bank-info" class="mb-3">
+                                                <legend>Bank Account Information</legend>
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <div class="mb-3">
+                                                            <label for="holdernm" class="form-label">Account Holder Name</label>
+                                                            <input required type="text" class="form-control required" id="holdernm" name="accnt.nm">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="backaccntno" class="form-label">Bank Account No</label>
+                                                            <input required type="text" class="form-control required" id="backaccntno" name="accnt.no" maxlength="50">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="re-backaccntno" class="form-label">Re-Enter  Account No</label>
+                                                            <input required type="text" class="form-control required" id="re-backaccntno">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="ifsc" class="form-label">IFSC Code.</label>
+                                                            <div class="row">
+                                                                <div class="col-9">
+                                                                    <input required type="text" class="form-control required" id="ifsc" name="ifsc" maxlength="11">
+                                                                </div>
+                                                                <div class="col-3">
+                                                                    <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_ifsc-btn">Verify</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label for="banknm" class="form-label">Bank Name</label>
+                                                            <input required type="text" class="form-control required" id="banknm" name="bnk.nm" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="cancel_cheque">Upload Scanned Cancel Cheque:</label>
+                                                        <div class="input-group">
+                                                            <input required  type="file" id="cancel_cheque" accept=".pdf,.png,.jpg,.jpeg"  name="cancel.cheque.doc" class="form-control required" >
+                                                            <label class="input-group-text file-refresh-icon" >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                                                </svg>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="step-wrapper" id="document-info">
+                                    <div class="card mb-1" id="">
+                                        <div class="card-body">
+                                            <div class="card-title">Uploaded Documents</div>
+                                            <hr>
+                                            <div id="field-loader"></div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <input type="hidden" id="state-value" value="" name="state.cd" maxlength="2">
+                                <input type="hidden" id="state-text" value="" name="state" maxlength="50">     
+                                          
+                                
+                                <button id="submit" style="display: none;">This Button Will Click Programatically</button>
+                                
+                            </form>
+            
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="buttons text-right">
+                                        <button class="btn btn-primary btn-lg" id="prev" disabled>Previus</button>
+                                        <button class="btn btn-success btn-lg" id="next">Next</button>
+                                        <button class="btn btn-success btn-lg" id="submit-click" style="display: none;">Submit</button>
+                                        <button class="btn btn-danger btn-lg" id="close-convert-btn">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- End Convert Reg Modal -->
+        </div>
+        <div  class="tab-card" data-tab="uploaded-documnets" >
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Uploaded Documents</div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-right">Identy Proof:</p>
+                                </div>
+                                <div class="col-6"><a href="#" data-doc="ID_DOC" data-filename="" class="download-doc"></a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-right">Address Proof:</p>
+                                </div>
+                                <div class="col-6"><a href="#" data-doc="ADDR_DOC" data-filename="" class="download-doc"></a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-right">Firm Registration Doc:</p>
+                                </div>
+                                <div class="col-6"><a href="#" data-doc="FIRM_DOC" data-filename="" class="download-doc"></a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-right">GSTIN Certificate:</p>
+                                </div>
+                                <div class="col-6"><a href="#" data-doc="GST_DOC" data-filename="" class="download-doc"></a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-right">PAN Card:</p>
+                                </div>
+                                <div class="col-6"><a href="#" data-doc="PANCARD_DOC" data-filename="" class="download-doc"></a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-right">Bank Document:</p>
+                                </div>
+                                <div class="col-6"><a href="#" data-doc="CANCEL_CHEQUE_DOC" data-filename="" class="download-doc"></a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-right">Form 27C Document:</p>
+                                </div>
+                                <div class="col-6"><a href="#" data-doc="F27C_DOC" data-filename="" class="download-doc"></a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="text-right">Bidder Authority Letter:</p>
+                                </div>
+                                <div class="col-6"><a href="#" data-doc="AUTH_LTR_DOC" data-filename="" class="download-doc"></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"><div class="col-12"><button type="button" class="btn btn-outline-primary">View Document History</button></div></div>
+            <div class="card mt-2 hide history-wrapper">
+                <div class="card-body">
+                    <div class="card-title">Document History</div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-bordered border-primary">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Document Name</th>
+                                        <th>Uploaded On</th>
+                                        <th>File Name</th>
+                                      
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<form id="download-form" action="http://78.47.157.146:8080/usermanage/api/docdwnld">
+    <input type="hidden" name="FILE.NM" id="file_nm" value="">
+    <input type="hidden" name="PR.NO" id="pr_input" value="">
+    <input type="hidden" name="ACT" value="P">
+</form>
+
+<!-- Modal -->
+<div id="reg-modal" class="my-popup" style="display: none;">
+    <div id="modal-wrapper" class="modal-wrapper">
+        <div class="modal_content">
+
+        </div>
+    </div>
+</div>
+
+<template id="modal-template">
+    <div class="card">
+        <div class="card-body">
+            <div id="info-template">
+               <div class="row">
+                <div class="col-12">
+                    <div class="row" id="date-temp">
+                        <div class="col-4">
+                            <p><span class="text-dark text-bold"><strong>Registration Date: </strong></span><span class="top-info" data-text="add.on"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <p><span class="text-dark text-bold"><strong>Last Action date: </strong></span><span class="top-info" data-text="updton"></span></p>
+                        </div>
+                        <div class="col-4">
+                            <p><span class="text-dark text-bold"><strong>Action Authority: </strong></span><span class="top-info" data-text="updtby"></span></p>
+                        </div>
+                        <div class="col-12"><hr></div>
+                    </div>
+                </div>
+               </div>
+            </div>
+            <div id="cmp-reg-form" class="needs-validation" novalidate>
+               
+            </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 m-auto">
+                    <div class="row text-right">
+                        <p class="text-right">
+                            <button class="btn btn-danger" id="cancel-btn">Cancel</button> 
+                            <button class="btn btn-primary" id="update-btn">Update</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="individual-information">
+
+    <fieldset class="user-info" data-value="basic_info">
+
+    </fieldset>
+    <fieldset class="user-info mt-5" data-value="accnt_info">
+
+    </fieldset>
+
+</template>
+
+<template id="firm-information">    
+
+    <fieldset class="user-info" data-value="basic_info">
+        <legend>Basic Information</legend>
+        <form id="basic_info-form">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="purchaser_nm" class="form-label">Firm/Organization Name</label>
+                        <input type="text" class="form-control required" name="purchaser.nm" maxlength="50" >
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="firm_doc">Upload Firm Registration Doc</label>
+                    <div class="input-group">
+                        <input  type="file" id="firm_doc" accept=".pdf,.png,.jpg,.jpeg"  name="firm.doc" class="form-control required">
+            
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="purchaser_name" class="form-label">Authority First Name</label>
+                        <input type="text" class="form-control required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="lst_nm" class="form-label">Last Name</label>
+                        <input type="text" class="form-control required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="indentity_no" class="form-label">Identity No.</label>
+                        <input type="number" class="form-control required" id="indentity_no" name="id.no" maxlength="50">   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="id_doc">Upload Govt. approved indentity Documents</label>
+                    <div class="input-group">
+                        <input type="file" id="id_doc" accept=".pdf,.png,.jpg,.jpeg"  name="id.doc" class="form-control required">
+            
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="gndr" class="form-label">Gender</label>
+                        <select name="gndr" id="gndr" class="form-control required">
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="auth_ltr_doc">Upload Bidder Authority Letter</label>
+                    <div class="input-group">
+                        <input  type="file" id="auth_ltr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="auth.ltr.doc" class="form-control required" >
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="addr1" class="form-label">Address Line 1</label>
+                        <input type="text" class="form-control required" id="addr1" name="addr.1" maxlength="100">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="addr2" class="form-label">Address Line 2</label>
+                        <input type="text" class="form-control" id="addr2" name="addr.2" maxlength="100">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="state" class="form-label">State</label>
+                        <select id="state" class="form-control required" name="state.cd"><option value="">select</option><option value="35">Andaman and Nicobar Islands</option><option value="28">Andhra Pradesh</option><option value="37">Andhra Pradesh (New)</option><option value="12">Arunachal Pradesh</option><option value="18">Assam</option><option value="10">Bihar</option><option value="4">Chandigarh</option><option value="22">Chattisgarh</option><option value="26">Dadra and Nagar Haveli</option><option value="25">Daman and Diu</option><option value="7">Delhi</option><option value="30">Goa</option><option value="24">Gujarat</option><option value="6">Haryana</option><option value="2">Himachal Pradesh</option><option value="1">Jammu and Kashmir</option><option value="20">Jharkhand</option><option value="29">Karnataka</option><option value="32">Kerala</option><option value="31">Lakshadweep Islands</option><option value="23">Madhya Pradesh</option><option value="27">Maharashtra</option><option value="14">Manipur</option><option value="17">Meghalaya</option><option value="15">Mizoram</option><option value="13">Nagaland</option><option value="21">Odisha</option><option value="34">Pondicherry</option><option value="3">Punjab</option><option value="8">Rajasthan</option><option value="11">Sikkim</option><option value="33">Tamil Nadu</option><option value="36">Telangana</option><option value="16">Tripura</option><option value="9">Uttar Pradesh</option><option value="5">Uttarakhand</option><option value="19">West Bengal</option></select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control required" id="city" name="city" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="pin" class="form-label">Pin</label>
+                        <input type="number" class="form-control required" id="pin" name="pin" maxlength="6">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <select name="country" id="country" class="form-control required">
+                            <option value="india">India</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="addr_doc">Upload Address Proofs:</label>
+                    <div class="input-group">
+                        <input type="file" id="addr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="addr.doc" class="form-control required">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <h4 class="remark"></h4> 
+    </fieldset>
+
+    <fieldset class="user-info mt-5" data-value="accnt_info">
+        <legend>Account Information</legend>
+        <form id="accnt_info-form">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="gstinno" class="form-label">GSTIN No.</label>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="gstinno" name="gstn.no" maxlength="15">
+                            </div>
+                            <div class="col-lg-3">
+                                <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_gstinno-btn">Verify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2 col-6">
+                    <label for="gst_proof">Upload GST Np. Proof:</label>
+                    <div class="input-group">
+                        <input   type="file" id="gst_proof" accept=".pdf,.png,.jpg,.jpeg"  name="gst.doc" class="form-control">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="pancard" class="form-label">PAN CARD No.</label>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control required" id="pancard" name="pan.crd" maxlength="10">
+                            </div>
+                            <div class="col-lg-3">
+                                <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_pancard-btn">Verify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="pancard_doc">Upload Pancard:</label>
+                    <div class="input-group">
+                        <input type="file" id="pancard_doc" accept=".pdf,.png,.jpg,.jpeg"  name="pancard.doc" class="form-control required">
+                    </div>
+                 </div>
+                 <div class="col-6">
+                    <div class="mb-3">
+                        <label for="f27Celigible" class="form-label">Select Yes If Applicable</label>
+                        <select name="f27c" id="f27Celigible" class="form-control required">
+                            <option value="">Select</option>
+                            <option value="Y">Yes</option>
+                            <option value="N" selected>No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="f27c_doc">Upload Form 27 C (If Applicable)</label>
+                    <div class="input-group">
+                        <input  type="file" id="f27c_doc" accept=".pdf,.png,.jpg,.jpeg"  name="f27c.doc" class="form-control">
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="mb-3">
+                        <label for="holdernm" class="form-label">Account Holder Name</label>
+                        <input type="text" class="form-control required" id="holdernm" name="accnt.nm">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="backaccntno" class="form-label">Bank Account No</label>
+                        <input type="text" class="form-control required" id=" #backaccntno" name="accnt.no" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="re-backaccntno" class="form-label">Re-Enter  Account No</label>
+                        <input type="text" class="form-control required" id=" #re-backaccntno">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="ifsc" class="form-label">IFSC Code.</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <input type="text" class="form-control required" id="ifsc" name="ifsc" maxlength="11">
+                            </div>
+                            <div class="col-3">
+                                <span class="btn btn-sm btn-success" style="width: 100%;" id="verify_ifsc-btn">Verify</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="banknm" class="form-label">Bank Name</label>
+                        <input type="text" class="form-control required" id="banknm" name="bnk.nm" >
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="cancel_cheque">Upload Scanned Cancel Cheque:</label>
+                    <div class="input-group">
+                        <input  type="file" id="cancel_cheque" accept=".pdf,.png,.jpg,.jpeg"  name="cancel.cheque.doc" class="form-control required" >
+                    </div>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+    
+</template>
+
+<!-- End Modal -->

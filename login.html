@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <!-- Jquery -->
+    <script src="./assets/js/libs/jquery/js/jquery-3.6.0.js" defer></script>
+    <script src="./assets/js/libs/jquery/js/jquery-ui.js" defer></script>
+    <link rel="stylesheet" href="./assets/js/libs/jquery/css/jquery-ui.css">
+    <!-- End Jquery -->
+    
+    <!-- Bootstrap -->
+    <script src="./assets/js/libs/bootstrap/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous" defer></script>
+    <link href="./assets/js/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- End Bootstrap -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,700,1,0" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- End Font Awesome-->
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/root.css">
+    <link rel="stylesheet" href="./assets/css/alerts.css">
+    <link rel="stylesheet" href="./assets/css/confirmation.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="stylesheet" href="./assets/css/modal.css">
+    <link rel="stylesheet" href="./assets/css/tables.css">
+    <link rel="stylesheet" href="./assets/css/buttons.css">
+    <link rel="stylesheet" href="./assets/css/forms.css">
+    <!-- End CSS -->
+
+    <!-- JS -->
+    <!-- <script src="./assets/js/utils/auth.js" defer></script> -->
+    <script src="./assets/js/utils/env.js"           defer></script>
+    <script src="./assets/js/utils/code-utils.js"    defer></script>
+    <script src="./assets/js/utils/basic-ui-util.js" defer></script>
+    <script src="./assets/js/utils/ui-utilities.js"  defer></script>
+    <script src="./assets/js/utils/ajax.js"          defer></script>
+
+
+    <!-- End JS -->
+
+
+    <style>
+
+        body{
+            background-image: url(./assets/imgs/background.jpg);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+        }
+    
+        .login-wrapper{
+          background-color: #fff;
+          padding: 7px 10px;
+          border-radius: 5px;
+          margin-top: 160px;
+        }
+    
+        .login-wrapper label{
+            font-size: 14px;
+            margin-bottom: 3px;
+            color: rgba(0,0,0,0.3);
+            font-weight: 600;
+        }
+    
+        .login-wrapper input{
+            font-size: 14px;
+        }
+    
+        .input-group-text{
+            height: 40px !important;
+            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%) !important;
+            color: white;
+        }
+    </style>
+
+  </head>
+  <body>
+    <div class="col-lg-3 login-wrapper">
+
+        <h2 class="text-center">Login</h2>
+        <hr>
+        <div class="needs-validation pt-1 pb-3" id="login-form" novalidate>
+            <div class="row">
+                <div class="col-md-12 pb-3 m-auto">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" id="usernamePrepend"><i class="fa-solid fa-user"></i></div>
+                        </div>
+                        <input required type="text" class="form-control" id="username" name="USR_LOGIN" placeholder="Username" aria-describedby="usernamePrepend" required="">
+                    </div>
+                </div>
+                <div class="col-md-12 pb-3 m-auto">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" id="passwordPrepend">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                        </div>
+                        <input required type="password" class="form-control" id="password" name="USR_PWD" placeholder="Password" aria-describedby="passwordPrepend" required="">
+                    </div>
+                </div>
+            </div>
+            <p><a href="forgot-password.html">Forget Username/Password</a></p>
+            <button class="btn btn-primary w-100 col-6 m-auto" id="login-btn">Login</button>
+        </div>
+    </div>
+    
+    <script>
+        function ManageLogin(){
+    
+        this.mainSetup = () =>{
+            this.userNameField = document.querySelector('#username');
+            this.passwordFied = document.querySelector('#password');
+            this.loginBtn = document.querySelector('#login-btn');  
+        
+            
+            this.loginBtn.addEventListener('click',this.submitForm)
+        }
+
+
+        this.submitForm = async ()  =>{
+
+            if(this.userNameField.value === ''){
+                Alert("error","Username Is Missing !","Please Enter Username !")
+                return;
+            }
+        
+            if(this.passwordFied.value === ''){
+                Alert("error","Password Is Missing !","Please Enter Password !")
+                return;
+            }
+
+            if(this.passwordFied.value  && this.userNameField.value){
+                let formData = new FormData();
+
+                formData.append('USR_LOGIN',this.userNameField.value);
+                formData.append('USR_PWD',this.passwordFied.value);
+                this.manageResponse(await this.sendHTTPRequest('eaucnmanage/login',formData));
+            }
+           
+        }
+            
+    
+        this.manageResponse = (response) =>{
+            if(response.Result ==='NOK'){
+                Alert('error',"Please Enter Valid Details","ERROR! Invalid Username / Password. Try Again!");
+            }else if(response.Result ==='OK'){
+                Alert('success',"Login Successfull !","You are redirectring.......");
+                this.saveResponse(response);
+                
+                this.redirecting();
+            }
+        }
+
+        this.saveResponse = async (response) =>{
+            var reqdata = new FormData();
+                reqdata.append('ACT','srch')
+            for(let key in response.Record) localStorage.setItem(key,response.Record[key]);
+            localStorage.setItem('token',response.token);
+
+            console(await sendHttpRequest('usermanage/api/usrprfl',reqdata))
+        }
+
+        this.saveUserInfo = (response) =>{
+            for(let key in response.Record) localStorage.setItem(key,response.Record[key]);
+        }
+
+        
+        this.redirecting = () =>{
+            // location.replace('comodities.html')
+        };
+
+
+
+        this.sendHTTPRequest = (url,data) =>{
+             return new Promise(resolve=>{
+                 let reqData = data;
+                 $.ajax({
+                        type: "POST",
+                        url: host+url,
+                        data: reqData,
+                        processData: false,
+                        contentType:false,
+                        timeout: 600000,
+                        success: function (response) {
+                            resolve(response);  
+                        },
+                        error: function(response){
+                            console.log(response);  
+                        }
+                    });
+             })
+        
+         }
+            
+        this.mainSetup();
+
+        }
+
+        new ManageLogin();
+    </script>
+  </body>
+</html>

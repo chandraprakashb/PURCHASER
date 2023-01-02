@@ -1,0 +1,117 @@
+
+.custome-btn-primary{
+    border: none;
+    outline: none;
+    font-size: 14px;
+    /* font-weight: bold; */
+    background-image: linear-gradient(to right, var(--blue) , #4778f4);
+    padding: 5px 5px;
+    border-radius: 5px;
+    margin-top: -6px;
+    text-transform: capitalize;
+}
+
+
+
+.custome-btn-primary:hover{
+    background-image: linear-gradient(to left, var(--blue) , #003acd);
+}
+
+.custome-btn-outline-primary{
+    border: 2px solid var(--blue);
+    outline: none;
+    font-size: 10px;
+    font-weight: 600;
+    background:none;
+    border-radius: 5px;
+    padding: 3px 3px;
+    margin: 0px;
+}
+
+.custome-btn-outline-light{
+    border: 2px solid var(--light_blue);
+    outline: none;
+    margin-top: 4px;
+    border-radius: 5px;
+    padding: 5px 2px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: transparent;
+}
+
+.custome-btn-primary .text{
+    color: var(--light_blue);
+}
+
+
+.export-btn{
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+    background-image: linear-gradient(to right, var(--blue) , #4778f4);
+    padding: 5px 5px;
+    border-radius: 5px;
+    margin-top: -6px;
+}
+
+.export-btn:hover{
+    background-image: linear-gradient(to left, var(--blue) , #003acd);
+}
+
+.export-btn .icon{
+    color: var(--light_blue);
+}
+
+/* custome-icon-btn-primary */
+.custome-icon-btn-primary{
+    border: 2px solid var(--blue);
+    outline: none;
+    border-radius: 5px;
+    padding: 0px 5px;
+    transition: 0.5s;
+    color: var(--light_blue);
+    background-color: #003acd;
+    
+}
+
+.custome-icon-btn-primary .text{
+    font-size: 12px;
+}
+
+.custome-icon-btn-primary:hover{
+    background-color: transparent;
+    color:var(--blue);
+}
+
+/* custome-icon-btn-primary */
+
+
+/* custome-icon-btn-outline-primary */
+
+.custome-icon-btn-outline-primary{
+    border: 2px solid var(--blue);
+    outline: none;
+    border-radius: 5px;
+    padding: 0px 5px;
+    transition: 0.5s;
+}
+
+.custome-icon-btn-outline-primary .icon{
+    font-weight: bold !important;
+    color:var(--blue);
+}
+
+.custome-icon-btn-outline-primary .text{
+    font-size: 12px;
+}
+
+.custome-icon-btn-outline-primary:hover{
+    background-color: #003acd;
+    color: var(--light_blue) !important;
+}
+.custome-icon-btn-outline-primary:hover .icon{
+    color: var(--light_blue) !important;
+}
+
+/* End custome-icon-btn-outline-primary */

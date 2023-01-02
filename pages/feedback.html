@@ -1,0 +1,859 @@
+<script>
+
+    function FeedbackHelp(){
+
+        this.mainSetup = () =>{
+            this.manageFeedback();
+            this.manageTicketIssue();
+        }
+
+        this.manageFeedback = () =>{
+            this.feedbackPopup = new Modal({selector:"#feedback-form-popup",wrapperCss:"width:50%;"});
+
+
+            this.shoFeedbackPopupBtn = document.querySelector('.main-btn-section .show-feedback-popup');
+            this.shoFeedbackPopupBtn.addEventListener('click',this.feedbackPopup.showModal)
+        }
+
+        this.manageTicketIssue = () =>{
+            this.ticketModal        = new Modal({selector:"#raise-ticket",wrapperCss:"width:75%;"});
+            this.ticketFormModal    = new Modal({selector:"#submit-ticket-form",wrapperCss:"width:50%;"});
+            this.showTicketModalBtn = document.querySelector('.show-ticket-popup');
+            this.openAddnewTicketFormBtn = this.ticketModal.modal.querySelector('#open-addnew-ticket-form');
+
+            this.showTicketModalBtn.addEventListener('click',this.ticketModal.showModal);
+            this.openAddnewTicketFormBtn.addEventListener('click',this.ticketFormModal.showModal);
+        }
+
+        this.mainSetup();
+
+        // this.manageHomeNavigation = () =>{
+        //     var btnWrapper  = document.querySelector('.btn-section');
+        //     var navBtns     = document.querySelectorAll('.main-btns');
+        //     var backBtns    = document.querySelectorAll('.back-btns');
+        //     var navSection  = document.querySelectorAll('.nav-section');
+
+        //     var loadNavigation = (sectionName) =>{
+        //         fadeOut(btnWrapper);
+        //         console.log(sectionName);
+        //         fadeIn(document.querySelector('.'+sectionName));
+        //     }
+
+                
+        //     navBtns.forEach((btn)=>{
+        //         fadeOut(document.querySelector('.'+btn.dataset.btn))
+        //         btn.addEventListener('click',loadNavigation.bind(null,btn.dataset.btn))
+        //     })
+
+        //     backBtns.forEach(btn=>{
+        //         btn.addEventListener('click',()=>{
+        //             navSection.forEach(section=>fadeOut(section));
+        //             fadeIn(btnWrapper);
+        //         })
+        //     })
+
+            
+        // }
+
+        // Manage Ticke/Issue
+        // this.manageTicketIssue = () =>{
+        //     var addBtn = document.querySelector('.show-ticket-popup');
+        //     var ticketPopup = new Modal({
+        //         modalSelector:'#add-new-ticket',
+        //         width:'40%',
+        //         closeSidebar:true
+        //     })
+
+
+        //     addBtn.addEventListener('click',ticketPopup.showModal)
+
+            
+        //         console.log(addBtn);
+        // }
+
+        // End Manage Ticket Issue
+    }
+
+    var feedback = new FeedbackHelp();
+        feedback.mainSetup();
+</script>
+
+<style> 
+    .btn-section{
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-section .btn-primary{
+        width: 100%;
+        margin: 7px 0px;
+        height: 50px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .wrapper{
+        background-color: #fff;
+        border-radius: 10px;
+        -webkit-box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        -moz-box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        
+    }
+
+   
+
+    /* Ticket Wrapper */
+
+
+    .ticket{
+        -webkit-box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        -moz-box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        box-shadow: 2px 3px 31px -8px rgba(63,106,216,1);
+        background-color: #fff;
+        padding:5px 5px;
+        border-radius: 5px;
+    }   
+
+    .table-wrapper{
+        position: relative;
+        max-height: 260px;
+        overflow-y: scroll;
+    }
+
+    /* width */
+    .table-wrapper::-webkit-scrollbar {
+        width: 1px;
+    }
+
+    /* Track */
+    .table-wrapper::-webkit-scrollbar-track {
+      /* box-shadow: inset 0 0 5px grey;  */
+      border-radius: 10px;
+    }
+
+      /* Handle */
+      .table-wrapper::-webkit-scrollbar-thumb {
+        background: #f1f4f6;
+        border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      .table-wrapper::-webkit-scrollbar-thumb:hover {
+        background: #f1f4f6;
+      }
+
+    .table-wrapper table thead{
+        position: sticky !important;
+        top: 0;
+        z-index: 12;
+    }
+
+
+    /* End Ticket Wrapper */
+
+</style>
+
+<div class="feedback-page">
+
+    <div class="row header" style="width:100%">
+        <div class="col-5 m-auto">
+          <h4 class="text-center">
+            <span class="heading"><strong>Feedback/Help</strong></span>
+            <span class="icon">
+                <i class="fa-solid fa-comment-medical"></i>
+            </span>
+          </h4>
+          <hr>
+        </div>
+    </div>
+
+    <section class="main-btn-section">
+        <div class="row" style="width: 100%;">
+            <div class="col-4 m-auto">
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <button class="show-feedback-popup">
+                            <span class="icon-text">Give Feedback</span>
+                            <i class="fa-sharp fa-solid fa-comments"></i>
+                        </button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button class="show-ticket-popup">
+                            <span class="icon-text">Raise Ticket</span>
+                            <i class="fa-sharp fa-solid fa-ticket"></i>
+                        </button>       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popups -->
+
+    <!-- 1. Feedback Popups -->
+    <div id="feedback-form-popup">
+        <div>
+            <div class="header">
+                Give Your Feedback
+                <div class="hr"></div>
+            </div>
+            <div class="content-wrapper">
+                <form action="" class="template-form">
+                    <div class="row">
+                        <div class="col-8 m-auto">
+
+                            <div class="input-row row">
+                                <div class="col-4 form-label">
+                                    <label for="dep">Dept/ Head Office:</label>
+                                </div>
+                                <div class="col-8">
+                                    <select name="" id="dep" class=""></select>
+                                </div>
+                            </div>
+
+                            <div class="input-row row">
+                                <div class="col-4 form-label">
+                                    <label for="office">Office Name:</label>
+                                </div>
+                                <div class="col-8">
+                                    <select name="" id="office" class="">as</select>
+                                </div>
+                            </div>
+
+                            <div class="input-row row">
+                                <div class="col-4 form-label">
+                                    <label for="desc">Description:</label>
+                                </div>
+                                <div class="col-8">
+                                    <textarea name="" id="desc" rows="6" class=""></textarea>
+                                </div>
+                            </div>
+
+                            <div class="input-row row text-center">
+                                <div class="col-4 form-label">
+                                </div>
+                                <div class="col-8">
+                                    <button type="reset" class="reset-form-btn custome-btn-outline-primary">Reset</button>
+                                    <button type="button" class="submit-form-btn search-btn custome-btn-primary btn-lg btn">
+                                        <span class="icon">
+                                            <i class="fa-sharp fa-solid fa-paper-plane"></i>
+                                        </span>
+                                        <span class="text">Send Feedback</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Ticket Popup -->
+    <div id="raise-ticket">
+        <div>
+            <div class="header">
+                Ticket Issue
+                <div class="hr"></div>
+            </div>
+            <div class="content-wrapper">
+                <div class="table-wrapper">
+                    <table class="table table-bordered" cellspacing="0" cellpadding="0">
+                      <thead class="bg-primary text-center text-white">
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Ticket No.</th>
+                            <th>Queries</th>
+                            <th>Complaint Discription</th>
+                            <th>Office Name</th>
+                            <th>Date</th>
+                            <th>Ticket Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+
+                <hr>
+                <div class="text-center mt-2 mb-1">
+                    <button class="custome-btn-primary" id="open-addnew-ticket-form">
+                        <span class="icon"><i class="fa-sharp fa-solid fa-plus"></i></span>
+                        <span class="text">Add New Ticket</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Add New Ticket Form -->
+    <div id="submit-ticket-form">
+        <div>
+            <div class="header">
+                Add New Ticket
+                <div class="hr"></div>
+            </div>
+            <div class="content-wrapper">
+                <form action="" class="template-form">
+                    <div class="row" style="width: 100%;">
+                        <div class="col-9 m-auto">
+
+                            <div class="input-row row">
+                                <div class="col-4 form-label">
+                                    <label for="dep">Dept/ Head Office:</label>
+                                </div>
+                                <div class="col-8">
+                                    <select name="" id="dep" class="">
+                                        <option>sa</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="input-row row">
+                                <div class="col-4 form-label">
+                                    <label for="office">Office Name:</label>
+                                </div>
+                                <div class="col-8">
+                                    <select name="" id="office" class="">
+                                        <option>sa</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="input-row row">
+                                <div class="col-4 form-label">
+                                    <label for="queries">Queries</label>
+                                </div>
+                                <div class="col-8">
+                                    <select name="" id="queries" class="">
+                                        <option value="All type Auction related issue.">All type Auction related issue.</option>
+                                        <option value="Status of Online/Offline Payment Issue.">Status of Online/Offline Payment Issue.</option>
+                                        <option value="e-Wallet balance issue">e-Wallet balance issue</option>
+                                        <option value="Lot Payment Status">Lot Payment Status</option>
+                                        <option value="Auction Bill related issues">Auction Bill related issues</option>
+                                        <option value="OTP Related Issues">OTP Related Issues</option>
+                                        <option value="Update Mobile Number And Email id">Update Mobile Number And Email id</option>
+                                        <option value="Update GSTIN Number & Back Account Details">Update GSTIN Number & Back Account Details</option>
+                                        <option value="Convert Registration Proccess">Convert Registration Proccess</option>
+                                        <option value="Auction Lots Details & images Issues">Auction Lots Details & images Issues</option>
+                                        <option value="Others.">Others.</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="input-row row">
+                                <div class="col-4 form-label">
+                                    <label for="desc">Description</label>
+                                </div>
+                                <div class="col-8">
+                                    <textarea name="" id="desc" rows="6"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="input-row row text-center">
+                                <div class="col-4 form-label">
+                                </div>
+                                <div class="col-8">
+                                    <button type="reset" class="reset-form-btn custome-btn-outline-primary">Reset</button>
+                                    <button type="button" class="submit-form-btn search-btn custome-btn-primary btn-lg btn">
+                                        <span class="icon">
+                                            <i class="fa-sharp fa-solid fa-paper-plane"></i>
+                                        </span>
+                                        <span class="text">Send Ticket Request</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+
+    .main-btn-section{
+        height: 70px;
+        /* background-color: red; */
+        /* display: flex; */
+        justify-content: center;
+        align-items: center;
+        /* background-color: #a7bcf1; */
+        border-radius: 5px;
+        margin-top: 50px;
+    }
+    
+    .main-btn-section button{
+        outline: none;
+        border: none;
+        padding: 10px 5px;
+        border-radius: 10px;
+        -webkit-box-shadow: 3px 6px 24px 3px rgba(167,188,241,1);
+        -moz-box-shadow: 3px 6px 24px 3px rgba(167,188,241,1);
+        box-shadow: 3px 6px 24px 3px rgba(167,188,241,1);
+        transition: linear 0.5s;
+    }
+
+    .main-btn-section button .icon-text{
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .main-btn-section button i{
+        font-size: 20px;
+        color: var(--blue);
+    }
+
+    .main-btn-section button:hover{
+        background-color: var(--blue);
+    }
+
+
+    .main-btn-section button:hover i {
+        color: #bfd1ff;
+    }
+
+    #raise-ticket .table-wrapper{
+        max-height: 70vh !important;
+    }
+
+   
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<section class="btn-section">
+    <div class="row">
+        <div class="col-8 m-auto">
+            <button class="btn btn-primary btn-lg main-btns" data-btn="feedback">Give Feedback</button>
+            <button class="btn btn-primary btn-lg main-btns" data-btn="ticket">Raise Ticket</button>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="nav-section feedback">
+
+    <form action="">
+        <div class="row">
+            <div class="col-10 m-auto">
+                <div class="row">
+
+                    <div class="col-6">
+                        <label for="dep">Dept/ Head Office</label>
+                        <select name="" id="dep" class="form-control">as</select>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="office">Office Name</label>
+                        <select name="" id="office" class="form-control">as</select>
+                    </div>
+
+                </div>
+                <label for="desc">Description</label>
+                <textarea name="" id="desc" rows="6" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="text-center pb-1">
+            <hr>
+            <button class="btn btn-primary"> Submit </button>
+            <button class="btn btn-danger back-btns" type="button">Back</button>
+        </div>
+    </form>
+</section>
+
+
+<section class="nav-section ticket">
+    <div class="table-wrapper">
+        <table class="table table-bordered border-primary">
+            <thead class="bg-primary text-white text-center">
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Ticket No.</th>
+                    <th>Queries</th>
+                    <th>Complaint Discription</th>
+                    <th>Office Name</th>
+                    <th>Date</th>
+                    <th>Ticket Status</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="btn-wrapper text-center">
+        <hr>
+        <button class="btn btn-primary show-ticket-popup btn-lg">Add New Ticket</button>
+        <button class="btn btn-danger back-btns btn-lg">Back</button>
+    </div>
+    <div id="add-new-ticket">
+        <div>
+            <h3 class="text-center">Ticket Issue</h3>
+            <hr>
+            
+        </div>
+    </div>
+</section> -->
