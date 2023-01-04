@@ -6,9 +6,7 @@ function ManageIndexHtml () {
         this.manageHelp();
         this.loadUserLinks();
         this.manageDefaulterStatus();
-        this.pageLoad('auctionapproved');
-        // this.pageLoad('usermnage');
-        
+        pageLoad('account');
     } 
 
     // Manage Render UserInfo 
@@ -136,7 +134,7 @@ function ManageIndexHtml () {
                 linkEls.linkDiv.classList.add('link');
                 linkEls.linkDiv.dataset.link = data.value;
 
-                linkEls.linkDiv.addEventListener('click',this.pageLoad.bind('',data.value))
+                linkEls.linkDiv.addEventListener('click',()=> pageLoad(data.value))
 
                 linkEls.textWrapper.classList.add('text');
                 linkEls.iconWrapper.classList.add('icon');
@@ -187,9 +185,7 @@ function ManageIndexHtml () {
         this.helpBtn.addEventListener('click',this.helpModal.showModal)
     }
 
-    this.pageLoad = (pagename) => $("#main").load(`pages/${pagename}.html`);
     
-
     this.manageDefaulterStatus = () =>{
         this.listModal = new Modal({
             selector:"#view-list-popup",

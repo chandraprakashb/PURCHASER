@@ -314,11 +314,11 @@ function Loader(){
         document.body.append(this.laoderEl);
     }
 
-    this.showLoader = () => this.createLoader();
+    this.showLoader = () => //this.createLoader();
     
 
     this.hideLoader = () => {
-        if(this.laoderEl)this.laoderEl.remove()
+       // if(this.laoderEl)this.laoderEl.remove()
     };
 
 }

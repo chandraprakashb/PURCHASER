@@ -1,0 +1,217 @@
+body{
+    background-color: #F1F4F6;
+}
+
+.app-main{
+    
+}
+
+.app-header{
+    height: 110px;
+    /* height: 120px; */
+    /* padding-top: 10px !important; */
+}
+
+.app-main .app-main__inner{
+    padding-top: 0px;
+    margin-top: 110px;
+    margin-bottom: 50px;
+}
+
+
+.app-header-left .widget-heading{
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 700;
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+.app-header-center{
+    margin-top: -25px !important;
+    text-align: center;
+}
+
+.app-header-center p{
+    margin-bottom: 5px !important;
+}
+
+.welcome-heading{
+    font-size: 25px;
+    color: #fff;
+}
+
+.app-header-center .widget-heading{
+    color: #fff;
+    
+}
+
+.scrollbar-sidebar{
+    margin-top: 20px;
+}
+
+.logo-src{
+    color: #fff;
+    /* margin-top: -20px; */
+    font-size: 16px;
+    width: 100% !important;
+}
+
+.btn-wrapper{
+    position: relative;
+}
+
+.btn-wrapper span{
+    position: absolute;
+    margin-top: 5px !important;
+    margin-left: 15px;
+}
+.widget-content .widget-content-left .widget-heading,.widget-content .widget-content-left .widget-subheading {
+    opacity: 1;
+}
+
+.widget-content .widget-content-left .badge {
+    cursor: pointer;
+}
+.dashboard {
+    color: #fff !important;
+}
+.dashboard a{
+    background-color: #3f6ad8 !important;
+    color: #fff !important;
+}
+
+.logout a {
+    background-color: #e0f3ff !important;
+}
+
+
+form input, form select{
+    /* height: 45px !important; */
+
+}
+
+form label{
+    color: #313552 !important;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+
+.dailog{
+    position: fixed;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 1040 !important;
+
+}
+
+.upload_btn{
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;  
+    padding: 20px 0px 20px 0px;  
+}
+
+.upload_btn i{
+    position: absolute;
+}
+
+.session-expired{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+
+.treeview,.treeview *{
+    user-select: none;
+    margin:0px;padding: 0px;box-sizing: border-box;
+    font-size: 20px;
+}
+
+
+.treeview p{
+    padding-left:20px;
+    margin-top: 5px;
+}
+
+
+.treeview .item{
+    cursor:pointer;
+    display: inline-block;
+    padding: 4px;
+    width: calc(100% - 30px)
+}
+
+.treeview .item:hover{
+    background: #DDD;
+}
+
+.treeview .group [fold-button]{
+    display: inline-block;
+    padding: 5px;
+    width: 30px;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #7cc5f3;
+}
+
+.treeview .group [fold-button]:hover{
+    background: #3f6ad8;
+}
+
+.treeview .item i {
+    margin-right: 10px;
+}
+.treeview .item[check-value="2"]{
+    color: #3f6ad8;
+}
+
+.treeview .item[check-value="1"]{
+    color: #3f6ad8;
+}
+.treeview .item[check-value="0"]{
+    color: #333;
+}
+
+fieldset{
+    border: 1px solid rgba(0,0,0,0.1);
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;      
+    padding-bottom: 20px;  
+}
+
+fieldset legend{
+    width: auto;
+    margin-left: 10%;
+    color: #3f6ad8;
+    background-color: transparent !important;
+    font-weight: 700;
+}
+
+
+/* Modal */
+.block-list-modal{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 100000000;
+    top: 0; 
+    left: 0;   
+}
+/* End Modal */
+

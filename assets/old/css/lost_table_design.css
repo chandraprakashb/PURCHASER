@@ -1,0 +1,121 @@
+body{
+    transition: ease 1s;
+}
+#comodity-type{
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #3f6ad8;
+    background-color: transparent;
+    font-size: 20px;
+    height: 50px;
+    font-weight: 600;
+    color: #3f6ad8;
+}
+
+#searchButton{
+    width: 100%;
+    border: none;
+    outline: none;
+    height: 50px;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    margin-top: 5px;
+    border-radius: 5px;
+    background-color: #3f6ad8;
+}
+
+
+
+.lot-table-wrapper{
+    width: 100%;
+    background-color: #e0f3ff;
+    padding: 0 !important;
+}
+
+.lot-table-wrapper table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lot-table-wrapper table thead th{
+    background-color: #bdc6db !important;
+    color: rgb(59, 59, 59);
+  
+}
+
+.lot-table-wrapper table th , .lot-table-wrapper table td{
+    border: 2px solid #fff;
+    border-collapse: collapse;
+}
+
+.lot-table-wrapper table thead{
+    text-align: center;
+}
+
+.lot-table-wrapper .selcted{
+    background-color: rgba(0,0,0,0.1);
+}
+
+.search-box{
+    width: 100%;
+}
+
+.search-box label{
+    font-weight: 700 !important;
+}
+
+#empty{
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.update-lot .edited {
+    background-color: #3f6ad8;
+    color: #fff;
+}
+
+.no-imgs{
+    background-color: #F24C4C;
+    color: #fff;
+}
+
+.has-imgs{
+    background-color: #B4FF9F;
+}   
+
+
+#popup-wrapper{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:0;
+    left: 0;
+}
+
+#popup-wrapper #popup{
+    background-color: #fff;
+    width: 70%;
+    padding: 10px 10px 10px 10px;
+    border-radius: 5px;
+    -webkit-box-shadow: 17px 88px 222px 8px rgba(77,74,77,1);
+    -moz-box-shadow: 17px 88px 222px 8px rgba(77,74,77,1);
+    box-shadow: 17px 88px 222px 8px rgba(77,74,77,1);
+}
+
+.lot-number{
+    font-size: 18px;
+}
+
+.upload-imgs img{
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+

@@ -127,3 +127,9 @@ function characterSetter(config){
    this.mainSetup()
 }
 
+
+async function pageLoad (pagename) {{
+    localStorage.setItem('activePage',pagename);
+    await $("#main").load(`pages/${pagename}.html`);
+    sp_translate.translate();
+}} 

@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+
+/* Notification Pannel */
+    .notification-pannel{
+        position: fixed;
+        top: 16.7%;
+        width: 90%;
+        background-color: #f1f4f6 !important;
+        padding: 2px 5px;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+
+    .notification-pannel .heading{
+        font-weight: 600;
+        font-size: 16px;
+        /* display: inline; */
+       background-color: #96b0f3 ;
+    }
+
+    .notification-pannel marquee{
+        margin: 0 !important;
+        padding: 0 !important;
+        display: inline-block !important;
+    }
+
+    .notification-pannel hr{
+        margin: 2px 0px;
+    }
+
+    .notification{
+        color: #3f6ad8;
+        font-size: 14px;
+        font-weight: 600;
+
+    }
+/* End Notification Pannel */
+
+/* Chat Support */
+    .support-wrapper{
+        position: fixed;
+        top: 85%;
+        left: 95%;
+        /* bottom: 3%;
+        left: 1%;
+         */
+    }
+
+    .support-wrapper  .main_wrapper{
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
+        animation: pulse 5s infinite;
+    }
+
+    @-webkit-keyframes pulse {
+        0% {
+          -webkit-box-shadow: 0 0 0 0 rgb(63, 106, 216);
+        }
+        70% {
+            -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+        }
+        100% {
+            -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+        }
+    }
+    @keyframes pulse {
+        0% {
+          -moz-box-shadow: 0 0 0 0 rgb(63, 106, 216);
+          box-shadow: 0 0 0 0 rgb(63, 106, 216);
+        }
+        70% {
+            -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+            box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+        }
+        100% {
+            -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+            box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+        }
+    }
+
+    .support-wrapper  .main_wrapper .big{
+        font-size: 40px;
+        cursor: pointer;
+        color: #3f6ad8;
+    }
+
+    .msg-wrapper{
+        position: absolute !important;
+        left: 300%;
+        margin-top: 10px;
+        z-index: -1;
+        transition: 0.5s linear;
+    }
+
+    .msg-wrapper .text{
+        background-color: #fff;
+        margin-bottom: 10px;
+        height: 30px;
+        border-radius: 8px;
+        -webkit-box-shadow: -1px 7px 85px -6px rgba(63,106,216,1);
+        -moz-box-shadow: -1px 7px 85px -6px rgba(63,106,216,1);
+        box-shadow: -1px 7px 85px -6px rgba(63,106,216,1);
+        padding-top: 3px;
+        padding-left: 5px;
+        width: 200px;
+    }
+
+    .msg-wrapper .text i{
+        font-size: 18px;
+    }
+
+    .msg-wrapper .text .number{
+        font-weight: 600;
+        margin-left: 5px;
+        color: #3f6ad8;
+    }
+
+    .support-wrapper  .main_wrapper:hover .msg-wrapper{
+        left: -300%;
+    }
+/* End Chat Support */
+
+
+.utility-modal{
+    position:fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.6);
+    top: 0;
+    left: 0;
+    z-index: 10000000000000000 !important;
+}
+
+.utility-modal-wrapper{
+    background-color: #fff;
+    margin: auto;
+    border-radius: 5px;
+    transform: translateY(115px);
+    z-index: 10000000000000000 !important;
+}
+
+.utility-modal .utility-modal-wrapper__default{
+    width: 75%;
+    height: 75vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
+/* width */
+.utility-modal .utility-modal-wrapper__default::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Track */
+.utility-modal .utility-modal-wrapper__default::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+
+/* Handle */
+.utility-modal .utility-modal-wrapper__default::-webkit-scrollbar-thumb {
+    background: #3f6ad8; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+.utility-modal .utility-modal-wrapper__default::-webkit-scrollbar-thumb:hover {
+    background: #3f6ad8; 
+}

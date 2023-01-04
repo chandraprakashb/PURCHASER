@@ -1,0 +1,21 @@
+.confirm-action-modal-title{
+    font-size: 30px !important;
+    font-weight: 600 !important;
+    color: rgba(0,0,0,0.8) !important;
+}
+
+
+.confirm-action-modal .confirm-action-modal-button{
+    color: #fff !important;
+    font-size: 17px !important;
+    border: none;
+    outline: none;
+}
+
+.confirm-action-modal .confirm-action-modal-button:first-of-type{
+    background-color: #3f6ad8 !important;
+}
+
+.confirm-action-modal .confirm-action-modal-button:last-of-type{
+    background-color: #d92550 !important;
+}

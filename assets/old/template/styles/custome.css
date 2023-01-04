@@ -1,0 +1,5 @@
+html{
+    scroll-behavior: smooth;
+    transition: ease 0.9s;
+}
+

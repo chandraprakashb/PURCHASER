@@ -217,7 +217,7 @@
     <div class="row header" style="width:100%">
       <div class="col-5 m-auto">
         <h4 class="text-center">
-          <span class="heading"><strong>e-Wallet Account</strong></span>
+          <span class="heading"><strong><span class="sp-translate" data-translate-key="page-heading">e-Wallet Account</span></strong></span>
           <span class="icon">
             <i class="fa-sharp fa-solid fa-money-bill-wave"></i>
           </span>
@@ -234,16 +234,16 @@
                     <div class="row">
                         <div class="col-12 mb-2">
                             <div>
-                                <span class="heading">Available Amount For BID/Payment:</span>
+                                <span class="heading sp-translate" data-translate-key="availableBidAmount">Available Amount For BID/Payment:</span>
                                 <span class="amount">100000.00</span>
                             </div>
                         </div>
                         <div class="col-12 mb-2">
                             <div>
-                                <span class="heading">Amount Utilized in BID:</span>
+                                <span class="heading sp-translate" data-translate-key="utilizeBidAmount">Amount Utilized in BID</span>
                                 <span class="amount">100000.00</span>
-                                <button class="custome-btn-outline-primary view-history-btn" title="View Amount History">
-                                    <span class="text">View</span>
+                                <button  class="custome-btn-outline-primary view-history-btn " title="View Amount History">
+                                    <span class="text sp-translate" data-translate-key="viewText">View</span>
                                 </button>
                             </div>
                         </div>
@@ -254,7 +254,7 @@
     
         <section class="make-payment">
             <hr>
-            <div class="make-payment-heading text-center">To increase you Bid capacity/paid any payment, Please transfer amount to your anr Registered/Unregistered Bank Account.</div>
+            <div class="make-payment-heading text-center sp-translate" data-translate-key="infoHeading">To increase you Bid capacity/paid any payment, Please transfer amount to your anr Registered/Unregistered Bank Account.</div>
             <div class="row mt-2" style="width: 100%;">
                 <div class="col-lg-6">
                     <div class="row">
@@ -262,13 +262,13 @@
                             <form id="payment-form" action="" class="template-form needs-validation" novalidate>
                                 <div class="input-row row">
                                     <div class="col-4 form-label">
-                                        <label for="">Enter Deposi Amount:</label>
+                                        <label for="" class="sp-translate" data-translate-key="enterAmountText">Enter Deposit Amount:</label>
                                     </div>
                                     <div class="col-5">
                                     <input type="number" name="amount" required class="amount">
                                     </div>
                                     <div class="col-3">
-                                        <button class="custome-btn-primary btn-lg"><span class="text">Make Payment</span></button>
+                                        <button class="custome-btn-primary btn-lg"><span class="text sp-translate"  data-translate-key="makePayment">Make Payment</span></button>
                                     </div>
                                 </div>
                             </form>
@@ -279,11 +279,11 @@
                     <div class="button-wrapper">
                         <button class="custome-icon-btn-outline-primary view-payment-ledger-btn">
                             <span class="icon"><i class="fa-brands fa-paypal"></i></span>
-                            <span class="text">View Payment Ledger</span>
+                            <span class="text sp-translate" data-translate-key="ViewPaymentLedger">View Payment Ledger</span>
                         </button>
                         <button class="custome-icon-btn-outline-primary payback-section-btn">
                             <span class="icon"><i class="fa-sharp fa-solid fa-code-pull-request"></i></span>
-                            <span class="text">Initiate Payback Request</span>
+                            <span class="text sp-translate" data-translate-key="paybackRequest">Initiate Payback Request</span>
                         </button>
                     </div>
                 </div>
@@ -295,10 +295,10 @@
                 <table class="table table-bordered">
                     <thead class="text-center">
                         <tr>
-                            <td>Transaction Number</td>
-                            <td>Amount</td>
-                            <td colspan="2">Payment Mode</td>
-                            <td></td>
+                            <th class="sp-translate"  data-translate-key="TranNo">Transaction Number</th>
+                            <th class="sp-translate"  data-translate-key="Amount">Amount</th>
+                            <th class="sp-translate"  data-translate-key="PaymentMode" colspan="2">Payment Mode</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
@@ -316,21 +316,21 @@
                             <td>
                                 <div class="">
                                     <input class="form-check-input" type="radio" name="payment-mode" id="online-check" value="online">
-                                    <label class="form-check-label" for="online-check">Online</label>
-                                    <p class="text-center">(Net Banking/UPI/QR Code /Wallet/Credit Card/Debit Card)</p>
+                                    <label class="form-check-label  sp-translate" for="online-check" data-translate-key="online" >Online</label>
+                                    <p class="text-center sp-translate" data-translate-key="onlineOptions" >(Net Banking/UPI/QR Code /Wallet/Credit Card/Debit Card)</p>
                                 </div>
                             </td>
                             <td>
                                 <div class="">
                                     <input class="form-check-input" type="radio" name="payment-mode" id="offline-check" value="offline">
-                                    <label class="form-check-label" for="offline-check">Ofline Chalan</label>
-                                    <p class="text-center">(NEFT/IMPS/RTGS)</p>
+                                    <label class="form-check-label sp-translate" for="offline-check" data-translate-key="offline" >Ofline Chalan</label>
+                                    <p class="text-center sp-translate" data-translate-key="offlineOptions">(NEFT/IMPS/RTGS)</p>
                                 </div>  
                             </td>
                             <td>
                                 <button class="custome-btn-primary make-payment-btn">
                                     <span class="icon"><i class="fa-solid fa-money-bill"></i></span>
-                                    <span class="text">Make Payment</span>
+                                    <span class="text sp-translate" data-translate-key="makePayment" >Make Payment</span>
                                 </button>
                             </td>
                         </tr>
@@ -347,19 +347,19 @@
                         <hr>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">Bank Account Holder Name:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="acHolderName">Bank Account Holder Name:</div>
                         <div class="col-6 info">Chandraprakash Ramesh Bagde</div>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">Bank Account Number:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="accNumber">Bank Account Number:</div>
                         <div class="col-6 info">920 187 265 41</div>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">IFSC Code:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="ifsccode">IFSC Code:</div>
                         <div class="col-6 info">MAHAB0000058</div>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">Initiate Amount PayBack:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="InitiateAmount">Initiate Amount PayBack:</div>
                         <div class="col-6 info">
                             <form class="template-form" style="padding:0">
                                 <div class="col-12">
@@ -367,7 +367,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="mt-3">
-                                        <button class="custome-btn-primary btn-lg"><span class="text">Initiate Request</span></button>
+                                        <button class="custome-btn-primary btn-lg"><span class="text sp-translate" data-translate-key="InitiateBtn">Initiate Request</span></button>
                                     </div>
                                 </div>
                             </form>
@@ -381,27 +381,27 @@
             <div class="row" style="width:100%">
                 <div class="col-lg-5 m-auto info-box">
                     <div class="row">
-                        <h3>Your Account Details</h3>
+                        <h3 class="sp-translate" data-translate-key="YourAccountDetails">Your Account Details</h3>
                         <hr>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">Bank Account Holder Name:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="acHolderName">Bank Account Holder Name:</div>
                         <div class="col-6 info">Chandraprakash Ramesh Bagde</div>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">Account Number:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="accNumber">Account Number:</div>
                         <div class="col-6 info">098765432112</div>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">IFSC Code:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="ifsccode">IFSC Code:</div>
                         <div class="col-6 info">MAHAB0000058</div>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">Bank Name:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="bankName">Bank Name:</div>
                         <div class="col-6 info">Bank Of Maharashtra</div>
                     </div>
                     <div class="row info-row">
-                        <div class="col-6 heading">Branch:</div>
+                        <div class="col-6 heading sp-translate" data-translate-key="branch">Branch:</div>
                         <div class="col-6 info">Gondia</div>
                     </div>
                 </div>
@@ -440,7 +440,7 @@
     <div id="history-popup">
         <div>
             <div class="header">
-                Amount Utilized in BID
+                <span class="sp-translate" data-translate-key="utilizeBidAmount">Amount Utilized in BID</span>
                 <div class="hr"></div>
             </div>
             <div class="content-wrapper">
@@ -448,17 +448,17 @@
                     <table class="table table-bordered">
                         <thead class="text-center">
                             <tr>
-                                <td rowspan="2">Portal Name</td>
-                                <td rowspan="2">Office Name</td>
-                                <td rowspan="2">Lot No.</td>
-                                <td rowspan="2">Total Bid Amount</td>
-                                <td colspan="4">Utilize Payment Details</td>
+                                <th rowspan="2" class="sp-translate" data-translate-key="portalName">Portal Name</th>
+                                <th rowspan="2" class="sp-translate" data-translate-key="officeDivivsionName" >Office/Division Name</th>
+                                <th rowspan="2" class="sp-translate" data-translate-key="lotnumber" >Lot No.</th>
+                                <th rowspan="2" class="sp-translate" data-translate-key="totalBidAmount" >Total Bid Amount</th>
+                                <th colspan="4" class="sp-translate" data-translate-key="UtilizePaymentDetail" >Utilized Payment Details</th>
                             </tr>
                             <tr>
-                                <td>Use Bid Amount/Sale Price</td>
-                                <td>GST</td>
-                                <td>TCS</td>
-                                <td>Bidding Date & Time</td>
+                                <th class="sp-translate" data-translate-key="userBiAmountSalePrice">Used Bid Amount/Sale Price</th>
+                                <th class="sp-translate" data-translate-key="gst">GST</th>
+                                <th class="sp-translate" data-translate-key="tcs">TCS</th>
+                                <th class="sp-translate" data-translate-key="bidDateTime">Bidding Date & Time</th>
                                 
                             </tr>
                         </thead>
@@ -563,7 +563,7 @@
     <div id="payment-ledger-popup">
         <div>
             <div class="header">
-                Payament Ledgers
+                <span class="sp-translate" data-translate-key="payamentLedgers">Payament Ledgers</span>
                 <div class="hr"></div>
             </div>
             <div class="content-wrapper">
@@ -572,15 +572,15 @@
                     <div class="col-9 m-auto">
                         <div class="row">
                             <div class="col-4">
-                                <span class="heading">Online Deposit Count / Amount:</span>
+                                <span class="heading sp-translate" data-translate-key="onlineDepCount">Online Deposit Count / Amount:</span>
                                 <span class=" textamount">10000.00</span>
                             </div>
                             <div class="col-4">
-                                <span class="heading">Offline Deposit Count / Amount:</span>
+                                <span class="heading sp-translate" data-translate-key="offlineDepCount">Offline Deposit Count / Amount:</span>
                                 <span class="amount">10000.00</span>
                             </div>
                             <div class="col-4">
-                                <span class="heading">Total Office Paid:</span>
+                                <span class="heading sp-translate" data-translate-key="totalOfficePaid">Total Office Paid:</span>
                                 <span class="amount">10000.00</span>
                             </div>
                         </div>
@@ -588,11 +588,11 @@
                     <div class="col-5 m-auto">
                         <div class="row">
                             <div class="col-6">
-                                <span class="heading">Total Serive Charge Paid:</span>
+                                <span class="heading sp-translate" data-translate-key="totalChargePaid">Total Serivice Charge Paid:</span>
                                 <span class="amount">10000.00</span>
                             </div>
                             <div class="col-6">
-                                <span class="heading">Total Refund Return:</span>
+                                <span class="heading sp-translate" data-translate-key="totalRefundReturn">Refund/Return:</span>
                                 <span class="amount">10000.00</span>
                             </div>
                         </div>
@@ -604,15 +604,15 @@
                         <div class="col-7 m-auto total-background">
                             <div class="row">
                                 <div class="col-4">
-                                    <span class="heading">Total Deposit:</span>
+                                    <span class="heading sp-translate" data-translate-key="TotalDeposit">Total Deposit:</span>
                                     <span class="amount">100000</span>
                                 </div>
                                 <div class="col-4">
-                                    <span class="heading">Total Used:</span>
+                                    <span class="heading sp-translate" data-translate-key="TotalUsed">Total Used:</span>
                                     <span class="amount">100000</span>
                                 </div>
                                 <div class="col-4">
-                                    <span class="heading">Total Balance:</span>
+                                    <span class="heading sp-translate" data-translate-key="TotalBalance">Total Balance:</span>
                                     <span class="amount">100000</span>
                                 </div>
                             </div>
@@ -626,17 +626,17 @@
                     <table class="table table-bordered">
                         <thead class="text-center">
                             <tr>
-                                <td>Sr. No.</td>
-                                <td>Portal</td>
-                                <td>Paid To</td>
-                                <td>Payment Remark/Remitter Remark</td>
-                                <td>Tran. No.</td>
-                                <td>Date & Time</td>
-                                <td>Credit/Debit</td>
-                                <td>Payment Mode</td>
-                                <td>Amount</td>
-                                <td>Status</td>
-                                <td>Balance Amount</td>
+                                <th class="sp-translate" data-translate-key="srno">Sr. No.</th>
+                                <th class="sp-translate" data-translate-key="portalName">Portal Name</th>
+                                <th class="sp-translate" data-translate-key="PaidTo">Paid To</th>
+                                <th class="sp-translate" data-translate-key="PaymentRemarkRemitterRemark">Payment Remark/Remitter Remark</th>
+                                <th class="sp-translate" data-translate-key="TranNo">Tran. No.</th>
+                                <th class="sp-translate" data-translate-key="DateTime">Date & Time</th>
+                                <th class="sp-translate" data-translate-key="CreditDebit">Credit/Debit</th>
+                                <th class="sp-translate" data-translate-key="PaymentMode">Payment Mode</th>
+                                <th class="sp-translate" data-translate-key="Amount">Amount</th>
+                                <th class="sp-translate" data-translate-key="Status">Status</th>
+                                <th class="sp-translate" data-translate-key="BalanceAmount">Balance Amount</th>
                             </tr>
                         </thead>
                         <tbody>
