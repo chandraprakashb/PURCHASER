@@ -1,0 +1,58 @@
+[
+    {
+        "name":"states",
+        "dom-id":"states",
+        "keyValues":[
+            { "key": "Andaman and Nicobar Islands", "value": "35" },
+            { "key": "Andhra Pradesh", "value": "28" },
+            { "key": "Andhra Pradesh (New)", "value": "37" },
+            { "key": "Arunachal Pradesh", "value": "12" },
+            { "key": "Assam", "value": "18" },
+            { "key": "Bihar", "value": "10" },
+            { "key": "Chandigarh", "value": "4" },
+            { "key": "Chattisgarh", "value": "22" },
+            { "key": "Dadra and Nagar Haveli", "value": "26" },
+            { "key": "Daman and Diu", "value": "25" },
+            { "key": "Delhi", "value": "7" },
+            { "key": "Goa", "value": "30" },
+            { "key": "Gujarat", "value": "24" },
+            { "key": "Haryana", "value": "6" },
+            { "key": "Himachal Pradesh", "value": "2" },
+            { "key": "Jammu and Kashmir", "value": "1" },
+            { "key": "Jharkhand", "value": "20" },
+            { "key": "Karnataka", "value": "29" },
+            { "key": "Kerala", "value": "32" },
+            { "key": "Lakshadweep Islands", "value": "31" },
+            { "key": "Madhya Pradesh", "value": "23" },
+            { "key": "Maharashtra", "value": "27" },
+            { "key": "Manipur", "value": "14" },
+            { "key": "Meghalaya", "value": "17" },
+            { "key": "Mizoram", "value": "15" },
+            { "key": "Nagaland", "value": "13" },
+            { "key": "Odisha", "value": "21" },
+            { "key": "Pondicherry", "value": "34" },
+            { "key": "Punjab", "value": "3" },
+            { "key": "Rajasthan", "value": "8" },
+            { "key": "Sikkim", "value": "11" },
+            { "key": "Tamil Nadu", "value": "33" },
+            { "key": "Telangana", "value": "36" },
+            { "key": "Tripura", "value": "16" },
+            { "key": "Uttar Pradesh", "value": "9" },
+            { "key": "Uttarakhand", "value": "5" },
+            { "key": "West Bengal", "value": "19" }
+        ]
+    },
+    {
+        "name":"questions",
+        "dom-id":"questions",
+        "keyValues":[
+            { "key": "What is your pets name?", "value": "1"},
+            { "key": "What was the name of your first school?", "value": "2"},
+            { "key": "Who was your childhood hero?", "value": "3"},
+            { "key": "What is your favorite pass-time?", "value": "4"},
+            { "key": "What is your fathers middle name?", "value": "5"},
+            { "key": "What make was your first car or bike?", "value": "6"},
+            { "key": "Where did you first meet your spouse?", "value": "7"}
+        ]
+    }
+]
