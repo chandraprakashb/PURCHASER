@@ -6,7 +6,7 @@ function ManageIndexHtml () {
         this.manageHelp();
         this.loadUserLinks();
         this.manageDefaulterStatus();
-        pageLoad('profile');
+        pageLoad('profileb');
     } 
 
     // Manage Render UserInfo 
