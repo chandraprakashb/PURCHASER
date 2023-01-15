@@ -52,3 +52,26 @@ function TabNavigation(btnSection,clickElements='button',pageWrapper,pageClass) 
 
     this.mainSetup();
 }
+
+function formdataToObject(formData,removeEmtyKey = false){
+    let object = {};
+
+    for(let key of formData.keys()){
+        object[key] = formData.get(key)
+    }
+
+    if(removeEmtyKey){
+        for(let emptyKey in object){
+            if( 
+                object[emptyKey] === '' ||
+                object[emptyKey] === 'none' ||
+                typeof object[emptyKey] === 'object'){
+                    delete object[emptyKey]
+            }
+        }
+    }
+
+    console.log(object);
+
+    return object;
+}

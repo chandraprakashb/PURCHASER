@@ -99,3 +99,8 @@
 }
 
 /* End Search Form */
+
+/* Required Field */
+.required-field{
+    border:1px solid rgb(253, 134, 134) !important;
+}
