@@ -35,7 +35,6 @@
     <!-- End CSS -->
 
     <!-- JS -->
-    <!-- <script src="./assets/js/utils/auth.js" defer></script> -->
     <script src="./assets/js/utils/env.js"           defer></script>
     <script src="./assets/js/utils/code-utils.js"    defer></script>
     <script src="./assets/js/utils/basic-ui-util.js" defer></script>
@@ -159,7 +158,9 @@
                 Alert('success',"Login Successfull !","You are redirectring.......");
                 this.saveResponse(response);
                 
-                this.redirecting();
+                setTimeout(()=>{
+                    this.redirecting();
+                },4000)
             }
         }
 
@@ -178,7 +179,7 @@
 
         
         this.redirecting = () =>{
-            // location.replace('comodities.html')
+            location.replace('comodities.html')
         };
 
 
