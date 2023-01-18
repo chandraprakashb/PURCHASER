@@ -1,4 +1,5 @@
 {
+    "officeName":"Office Name",
     "departmentHeadOffice":"Department/Head Office",
     "lotnumber":"Lot No.",
     "officeDivivsionName":"Office/Division Name",
@@ -20,5 +21,7 @@
     "enterAmount":"Enter Amount",
     "pay":"Pay",
     "note":"Note",
-    "remark":"Remark"
+    "remark":"Remark",
+    "description":"Description",
+    "reset":"Reset"
 }

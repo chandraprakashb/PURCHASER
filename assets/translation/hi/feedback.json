@@ -1,0 +1,15 @@
+{
+    "feedbackHealp":"प्रतिक्रिया/सहायता",
+    "giveFeedback":"प्रतिक्रिया दें",
+    "raisTicket":"तिकिट जारि करे",
+    "giveYourFeedback":"अपनी प्रतिक्रिया दें",
+    "sendFeedback":"प्रतिक्रिया भेजें",
+    "ticketIssue":"तिकिट जारि करे",
+    "ticketNo":"टिकित क्रमान्क",
+    "queries":"प्रश्न",
+    "complaintDiscription":"शिकायत का विवरण",
+    "ticketStatus":"टिकट की स्थिति",
+    "actionStatus":"कार्रवाई की स्थिति",
+    "addNewTicket":"नया टिकट जोड़ें",
+    "sendTicketRequest":"टिकट अनुरोध भेजें"
+}
