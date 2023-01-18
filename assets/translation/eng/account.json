@@ -44,6 +44,7 @@
     "online":"Online",
     "onlineOptions":"(Net Banking/UPI/QR Code /Wallet/Credit Card/Debit Card)",
     "offline":"Ofline Chalan",
-    "offlineOptions":"(NEFT/IMPS/RTGS)"
+    "offlineOptions":"(NEFT/IMPS/RTGS)",
+    "initiatePaybackRequest":"INITIATE PAYBACK REQUEST"
 
 }

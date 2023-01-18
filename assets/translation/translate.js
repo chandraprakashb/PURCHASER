@@ -22,17 +22,12 @@ function SP_Translate(){
         await $.getJSON(`assets/translation/${localStorage.currentLanguage}/${localStorage.activePage}.json`, (json)=>{
             allTranslateKey = {...json};
         });
-        console.log(allTranslateKey);
+        
         await $.getJSON(`assets/translation/${localStorage.currentLanguage}/global.json`, (json)=>{
             allTranslateKey = {...allTranslateKey,...json};
         });
 
-        console.log(allTranslateKey);
-        sp_translate.forEach((translation)=>{
-            console.log("Translating.........",translation);
-            translation.textContent = allTranslateKey[translation.dataset.translateKey];
-        });
-
+        sp_translate.forEach( (translation) => translation.textContent = allTranslateKey[translation.dataset.translateKey]);
     }
 
     this.mainSetup();

@@ -1,5 +1,24 @@
 {
+    "departmentHeadOffice":"Department/Head Office",
     "lotnumber":"Lot No.",
     "officeDivivsionName":"Office/Division Name",
-    "srno":"Sr. No"
+    "srno":"Sr. No.",
+    "portalName":"Poratal Name",
+    "eAuctionNo":"eAuction No.",
+    "subOfficesDepots":"Sub Offices/Depots",
+    "materialType":"Material Type",
+    "species":"Species",
+    "length":"Length",
+    "sourceSocityName":"Source/Socity Name",
+    "girthCategory":"Girth/Category",
+    "conditionScheme":"Condition/ Scheme",
+    "consideredStatus":"Considered Status",
+    "date":"Date",
+    "cancel":"Cancel",
+    "addAmount":"Add Amount",
+    "refresh":"Refresh",
+    "enterAmount":"Enter Amount",
+    "pay":"Pay",
+    "note":"Note",
+    "remark":"Remark"
 }

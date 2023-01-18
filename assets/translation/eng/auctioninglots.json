@@ -1,0 +1,9 @@
+{
+    "country":"Country",
+    "state":"State",
+    "depname":"Department Name",
+    "selectedAuctioningLots":"Selected Auctioning Lots",
+    "considerSelectedLotsForAuctioning":"Consider Selected Lots For Auctioning",
+    "goToPage":"Go To Page",
+    "rowCount":"Row Count"
+}

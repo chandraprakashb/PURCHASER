@@ -1,5 +1,24 @@
-{
-    "lotnumber":"चट्टा",
+{   
+    "departmentHeadOffice":"विभाग / प्रधान कार्यालय",
+    "lotnumber":"चट्टा क्र.",
     "officeDivivsionName":"कार्यालय/प्रभाग का नाम",
-    "portalName":"पोर्टल का नाम"
+    "srno":"क्रमिक संख्या",
+    "portalName":"पोर्टल का नाम",
+    "eAuctionNo":"ई-नीलामी सं.",
+    "subOfficesDepots":"उप कार्यालय/डिपो",
+    "materialType":"सामग्री के प्रकार",
+    "species":"प्रजातियाँ",
+    "length":"लंबाई",
+    "sourceSocityName":"स्रोत/समाज का नाम",
+    "girthCategory":"परिधि / श्रेणी",
+    "conditionScheme":"शर्त / योजना",
+    "consideredStatus":"स्थिति मानी जाती है",
+    "date":"तारीख",
+    "cancel":"रद्द करें",
+    "addAmount":"राशि जोड़ें",
+    "refresh":"रिफ़ऱेश",
+    "enterAmount":"राशि दर्ज करें",
+    "pay":"भुगतान करें",
+    "note":"ध्यन दें",
+    "remark":"टिप्पणी"
 }
