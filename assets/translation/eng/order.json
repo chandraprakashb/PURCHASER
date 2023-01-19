@@ -1,0 +1,18 @@
+{
+    "orderReciept":"Order/Reciept",
+    "transNo":"Transaction No.",
+    "sentionOrder":"Sention Order",
+    "paymentSlip":"Payment Receipt",
+    "billOfSupply":"Bill Of Supply",
+    "taxtInvoice":"Tax Invoice",
+    "deleveryOrder":"Delevery Order",
+    "extrataxtInvoice":"Ex. Tax Invoice",
+    "totalCount":"Total Count",
+    "taxableAmount":"Taxable Amount",
+    "orderType":"Order Type",
+    "orderNo":"Order No.",
+    "orderDate":"Order Date",
+    "totalGst":"Total GST",
+    "totalAmount":"Total Amount",
+    "donwload":"Download"
+}

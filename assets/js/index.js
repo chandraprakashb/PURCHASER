@@ -6,7 +6,7 @@ function ManageIndexHtml () {
         this.manageHelp();
         this.loadUserLinks();
         this.manageDefaulterStatus();
-        pageLoad('History');
+        pageLoad('order');
     } 
 
     // Manage Render UserInfo 

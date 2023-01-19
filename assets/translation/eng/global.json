@@ -25,5 +25,16 @@
     "description":"Description",
     "reset":"Reset",
     "export":"Export",
-    "gst":"GST"
+    "gst":"GST",
+    "dateFrom":"Date From",
+    "dateTo":"Date To",
+    "status":"Status",
+    "tcs":"TCS",
+    "auctionDate":"Auction Date",
+    "soldDate":"Sold Date",
+    "cgst":"CGST",
+    "sgst":"SGST",
+    "igst":"IGST",
+    "salePrice":"Sale Price",
+    "balance":"Balance"
 }

@@ -1,0 +1,18 @@
+{
+    "orderReciept":"ऑर्डर / रसीद",
+    "transNo":"ट्रांन्स्याक्सन क्रमांक",
+    "sentionOrder":"सेन्सन ओडर",
+    "paymentSlip":"भुगतान रसीद",
+    "billOfSupply":"आपूर्ति का बिल",
+    "taxtInvoice":"कर चालान",
+    "deleveryOrder":"वितरण आदेश",
+    "extrataxtInvoice":"अतिरिक्त कर चालान",
+    "totalCount":"कुल संख्या",
+    "taxableAmount":"कर योग्य राशि",
+    "orderType":"ओडर का प्रकार",
+    "orderNo":"ओडर क्रमान्क",
+    "orderDate":"ओडर कि तारिख",
+    "totalGst":"कुल जीएसटी",
+    "totalAmount":"कुल राशि",
+    "donwload":"डाउनलोड करे"
+}
