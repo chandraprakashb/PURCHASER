@@ -36,5 +36,7 @@
     "sgst":"SGST",
     "igst":"IGST",
     "salePrice":"Sale Price",
-    "balance":"Balance"
+    "balance":"Balance",
+    "totalAmount":"Total Amount",
+    "details":"Details"
 }

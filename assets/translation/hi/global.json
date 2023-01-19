@@ -36,5 +36,7 @@
     "sgst":"सीजीएसटी",
     "igst":"आईजीएसटी",
     "salePrice":"विक्रय कीमत",
-    "balance":"शेष राशि"
+    "balance":"शेष राशि",
+    "totalAmount":"कुल राशि",
+    "details":"विवरण"
 }
