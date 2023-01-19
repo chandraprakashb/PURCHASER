@@ -23,5 +23,7 @@
     "note":"Note",
     "remark":"Remark",
     "description":"Description",
-    "reset":"Reset"
+    "reset":"Reset",
+    "export":"Export",
+    "gst":"GST"
 }
