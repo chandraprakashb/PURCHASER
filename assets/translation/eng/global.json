@@ -38,5 +38,11 @@
     "salePrice":"Sale Price",
     "balance":"Balance",
     "totalAmount":"Total Amount",
-    "details":"Details"
+    "details":"Details",
+    "payment":"Payment",
+    "amount":"Amount",
+    "time":"Time",
+    "upload":"Upload",
+    "qty":"QTY",
+    "vol":"vol"
 }

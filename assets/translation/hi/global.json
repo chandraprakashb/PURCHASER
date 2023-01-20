@@ -38,5 +38,11 @@
     "salePrice":"विक्रय कीमत",
     "balance":"शेष राशि",
     "totalAmount":"कुल राशि",
-    "details":"विवरण"
+    "details":"विवरण",
+    "payment":"भुगतान",
+    "amount":"रकम",
+    "time":"समय",
+    "upload":"अपलाॅड",
+    "qty":"मात्रा",
+    "vol":"आयतन"
 }

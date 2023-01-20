@@ -142,6 +142,7 @@
             wrapperCss:"width:98%"
         });
         pay25popupBtn.addEventListener('click',()=>this.pay25Popup.showModal())
+
     }
 
     this.manageFullPayment = () =>{
@@ -159,8 +160,9 @@
             selector:"#payment-history",
             wrapperCss:"width:96%"
         });
-        paymentHistoryBtn.addEventListener('click',this.paymentHistoryModal.showModal)
+        paymentHistoryBtn.addEventListener('click',this.paymentHistoryModal.showModal);
 
+        this.paymentHistoryModal.showModal();
     }
 
     this.managePurchaseLot = () =>{
@@ -372,7 +374,7 @@
   <div class="row header" style="width:100%;">
     <div class="col-5 m-auto">
       <h4 class="text-center">
-        <span class="heading"><strong>Payment</strong></span>
+        <span class="heading"><strong><span class="sp-translate" data-translate-key="payment">Payment</span></strong></span>
         <span class="icon">
           <i class="fa-sharp fa-solid fa-money-bill-wave"></i>
         </span>
@@ -385,7 +387,7 @@
     <div class="search-section mb-3">
       <div class="row" style="width: 100%;">
         <div class="col-7 text-center m-auto">
-          <span class="heading">Department/Head Office Name:</span>
+          <span class="heading"><span class="sp-translate" data-translate-key="departmentHeadOffice">Department/Head Office Name</span>:</span>
           <span class="division">Maharashtra</span>
         </div>
         <div class="col-lg-10 m-auto input-section">
@@ -393,7 +395,7 @@
             <div class="row" style="width: 100%;">
               <div class="col-3">
                 <div class="input-div">
-                  <label for="">Division / Office:</label>
+                  <label for=""><span class="sp-translate" data-translate-key="officeDivivsionName">Division / Office</span>:</label>
                   <select name="" id="">
                     <option value="">select</option>
                   </select>
@@ -401,7 +403,7 @@
               </div>
               <div class="col-3">
                 <div class="input-div">
-                  <label for="">e-Auction No.:</label>
+                  <label for=""><span class="sp-translate" data-translate-key="eAuctionNo">e-Auction No.</span>:</label>
                   <select name="" id="">
                     <option value="">select</option>
                   </select>
@@ -409,7 +411,7 @@
               </div>
               <div class="col-3">
                 <div class="input-div">
-                  <label for="">Auction Date:</label>
+                  <label for=""><span class="sp-translate" data-translate-key="auctionDate">Auction Date</span>:</label>
                   <input type="date">
                 </div>
               </div>
@@ -431,35 +433,32 @@
       <table class="table table-bordered" cellspacing="0" cellpadding="0" id="search-table">
         <thead class="text-center">
           <tr>
-          <td rowspan="2" class="table-column" data-colname="select"></td>
-          <td rowspan="2" class="table-column" data-colname="division">Division</td>
-          <td colspan="2">Auction Date</td>
-          <td colspan="2">Sold Date</td>
-          <td rowspan="2" class="table-column" data-colname="purchase-lots">Pucrchase Lots</td>
-          <td rowspan="2" class="table-column" data-colname="auction-price">Auction Price</td>
-          <td rowspan="2" class="table-column" data-colname="total-amount">Total Amount</td>
-          <td rowspan="2" class="table-column" data-colname="balance-amount">Balance Amount</td>
-          <td rowspan="2" class="table-column" data-colname="paid-amount">Paid Amount</td>
+          <th rowspan="2" class="table-column" data-colname="select"></th>
+          <th rowspan="2" class="table-column sp-translate" data-colname="division" data-translate-key="departmentHeadOffice">Division</th>
+          <th colspan="2" class="sp-translate" data-translate-key="auctionDate">Auction Date</th>
+          <th colspan="2" class="sp-translate" data-translate-key="soldDate">Sold Date</th>
+          <th rowspan="2" class="table-column sp-translate" data-translate-key="pucrchaseLots" data-colname="purchase-lots">Pucrchase Lots</th>
+          <th rowspan="2" class="table-column sp-translate" data-colname="auction-price" data-translate-key="auctionPrice">Auction Price</th>
+          <th rowspan="2" class="table-column sp-translate" data-translate-key="totalAmount"  data-colname="total-amount">Total Amount</th>
+          <th rowspan="2" class="table-column sp-translate" data-translate-key="balance" data-colname="balance-amount">Balance Amount</th>
+          <th rowspan="2" class="table-column sp-translate" data-translate-key="paidAmount" data-colname="paid-amount">Paid Amount</th>
           </tr>
           <tr>
-          <td class="table-column" data-colname="auction-date">Date</td>
-          <td class="table-column" data-colname="auction-late-days">Late Days</td>
-          <td class="table-column" data-colname="auction-sold-date">Date</td>
-          <td class="table-column" data-colname="sold-late-days">Late Days</td>
+          <th class="table-column sp-translate" data-translate-key="date" data-colname="auction-date">Date</th>
+          <th class="table-column sp-translate" data-translate-key="lateDays" data-colname="auction-late-days">Late Days</th>
+          <th class="table-column sp-translate" data-translate-key="date" data-colname="auction-sold-date">Date</th>
+          <th class="table-column sp-translate" data-translate-key="lateDays" data-colname="sold-late-days">Late Days</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><input type="radio" class="check-for-payment"></td>
+          <td><input type="radio" class="check-for-payment"></td>
           <td class="division">Nagpur</td>
           <td class="auction-date">20-10-2022</td>
           <td class="late-days">10</td>
           <td class="sold-date">25-10-2022</td>
           <td class="sold-late-days">6</td>
-          <td class="purchase-lots">
-            <span class="total-lots">10</span>
-            <span class="view-btn"><i class="fa-solid fa-eye"></i></span>
-          </td>
+          <td class="purchase-lots"><span class="total-lots">10</span><span class="view-btn"><i class="fa-solid fa-eye"></i></span></td>
           <td class="auction-price amount">10000</td>
           <td class="total-amount amount">10000</td>
           <td class="balance-amount amount">10000</td>
@@ -475,13 +474,13 @@
           <div class="left-wrapper">
             <div class="row" style="width: 100%;">
               <div class="col-7">
-                <span class="heading">Particpatery Charges:</span>
+                <span class="heading"><span class="sp-translate" data-translate-key="particpateryCharges">Particpatery Charges</span>:</span>
                 <span class="particepetory-charge amount">100000.00</span>
               </div>
               <div class="col-5">
                 <input type="checkbox" value="" id="from-wallet" class="pay-from-ewallet">
                 <label class="form-check-label" for="from-wallet">
-                  From E-wallet
+                  <span class="sp-translate" data-translate-key="fromEwallet">From E-wallet</span>
                 </label>
               </div>
             </div>
@@ -489,17 +488,17 @@
         </div>
         <div class="col-lg-3 text-center">
           <div class="e-wallet-amount">
-            <span class="heading">e-Wallet Balance:</span>
+            <span class="heading"><span class="sp-translate" data-translate-key="eWalletBalance">e-Wallet Balance</span>:</span>
             <span class="particepetory-charge amount">100000.00</span>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="pay-wrapper payment-input">
-            <label for="">Amount:</label>
+            <label for=""><span class="sp-translate" data-translate-key="amount">Amount</span>:</label>
             <input type="number" value="100000" class="amount">
             <button class="pay-btn custome-btn-primary">
               <span class="icon"> <i class="fa-solid fa-money-bill"></i></span>
-              <span class="text">Pay</span>
+              <span class="text sp-translate" data-translate-key="pay">Pay</span>
             </button>
           </div>
         </div>
@@ -510,7 +509,7 @@
     <div id="view-lots-modal">
       <div>
         <div class="header">
-          Purchase Lot Numbers
+          <span class="sp-translate" data-translate-key="pucrchaseLots">Purchase Lot Numbers</span>
           <hr class="hr">
         </div>
         <div class="content-wrapper">
@@ -531,17 +530,17 @@
       <div class="col-6">
         <input type="checkbox" value="" id="checkform27c">
         <label class="form-check-label" for="checkform27c">
-          Form 27C Applicable 
+          <span class="sp-translate" data-translate-key="fromEwallet">From E-wallet</span>
         </label>
 
-        <button class="custome-btn-outline-primary view-document-modal">View Document History</button>
+        <button class="custome-btn-outline-primary view-document-modal sp-translate" data-translate-key="viewDocumentHistory">View Document History</button>
 
       </div>
 
       <div class="upload-agree-popup">
         <div>               
           <div class="header">
-            Please Confirm !
+            <span class="sp-translate" data-translate-key="pleaseConfirm">Please Confirm !</span>
             <hr class="hr">
           </div>
 
@@ -552,11 +551,11 @@
                   <div class="row" style="width: 100%;">
                     <div class="col-6">
                       <input type="radio" name="agree" value="allow" id="allow">
-                      <label for="allow">Upload Form 27C Doc</label>
+                      <label for="allow"><span class="sp-translate" data-translate-key="uploadForm27c">Upload Form 27C Doc</span></label>
                     </div>
                     <div class="col-6">
                       <input type="radio" name="agree"  value="deny" id="deny">
-                      <label for="deny">Deny Form 27C Doc</label>
+                      <label for="deny"><span class="sp-translate" data-translate-key="denyForm27c">Deny Form 27C Doc</span></label>
                     </div>
                   </div>
                 </div>
@@ -565,10 +564,10 @@
 
             <hr>
             <div class="text-center">
-              <button class="custome-btn-outline-primary close-popup">Cancel</button>
+              <button class="custome-btn-outline-primary close-popup sp-translate" data-translate-key="cancel">Cancel</button>
               <button class="custome-btn-primary" id="next-btn">
                 <span class="icon"></span>
-                <span class="text">Next</span>
+                <span class="text sp-translate" data-translate-key="next">Next</span>
               </button>
             </div>
           </div>
@@ -606,25 +605,25 @@
       <div class="document-history-modal">
         <div>
           <div class="header">
-            View Document History
+            <span class="sp-translate" data-translate-key="viewDocumentHistory">View Document History</span>
             <hr class="hr">
           </div>
           <div class="content-wrapper">
             <div class="table-wrapper mt-4">
-              <table class="table table-bordered" cellspacing="0" cellpadding="0">
-                <thead class="text-center bg-primary text-white">
+              <table class="table table-bordered">
+                <thead class="text-center ">
                   <tr>
-                    <td rowspan="2">SrNo</td>
-                    <td rowspan="2">Auction Date</td>
-                    <td rowspan="2">Sold Date</td>
-                    <td rowspan="2">27C Doc Name</td>
-                    <td colspan="2">Upload</td>
-                    <td rowspan="2">Status</td>
-                    <td rowspan="2">Uploaded Doc View &amp; Corrections</td>
+                    <th rowspan="2" class="sp-translate" data-translate-key="srno">SrNo</th>
+                    <th rowspan="2" class="sp-translate" data-translate-key="auctionDate">Auction Date</th>
+                    <th rowspan="2" class="sp-translate" data-translate-key="soldDate">Sold Date</th>
+                    <th rowspan="2" class="sp-translate" data-translate-key="DocName27C">27C Doc Name</th>
+                    <th colspan="2" class="sp-translate" data-translate-key="upload">Upload</th>
+                    <th rowspan="2" class="sp-translate" data-translate-key="status">Status</th>
+                    <th rowspan="2" class="sp-translate" data-translate-key="uploadedDocViewCorrections">Uploaded Doc View & Corrections</th>
                   </tr>
                   <tr>
-                    <td>Date</td>
-                    <td>Time</td>
+                    <th class="sp-translate" data-translate-key="date">Date</th>
+                    <th class="sp-translate" data-translate-key="time">Time</th>
                   </tr>
               </thead>
                 <tbody>
@@ -719,8 +718,9 @@
     </div>
   
     <p class="note mt-2">
-      <strong>Note:</strong>
-      <span class="text">
+      <strong><span class="sp-translate" data-translate-key="note">Note</span>:</strong>
+      <span class="text sp-translate" data-translate-key="noteText">
+
         As per registration record &amp; uploaded Form No. 27c related document we
         temporary as you are Manufacturer/Saw mill firm. So Your TCS Amount is Rs.
         0 for reporting purpose &amp; TCS amount will be temporary block till official
@@ -732,40 +732,40 @@
   <section class="all-charges-wrapper mt-2 mb-2">
     <div class="row text-center" style="width: 100%;">
       <div class="col-lg-2">
-        <label for="">Auction Price:</label>
+        <label for=""><span class="sp-translate" data-translate-key="auctionPrice">Auction Price</span>:</label>
         <span class="amount">10000.00</span>
       </div>
       <div class="col-lg-2">
-        <label for="">GST:</label> <span class="amount">10000.00</span>
+        <label for=""><span class="sp-translate" data-translate-key="gst">GST</span>:</label> <span class="amount">10000.00</span>
       </div>
       <div class="col-lg-2">
         <span class="tcs-wrapper">
-          <label for="">TCS :</label> <span class="amount">10000.00</span>
+          <label for=""><span class="sp-translate" data-translate-key="tcs">TCS </span>:</label> <span class="amount">10000.00</span>
         </span>
       </div>
       <div class="col-lg-2">
-        <label for="">Fine:</label> <span class="amount">10000.00</span>
+        <label for=""><span class="sp-translate" data-translate-key="fine">Fine</span>:</label> <span class="amount">10000.00</span>
       </div>
       <div class="col-lg-2">
-        <label for="">Penalty:</label> <span class="amount">10000.00</span>
+        <label for=""><span class="sp-translate" data-translate-key="penalty">Penalty</span>:</label> <span class="amount">10000.00</span>
       </div>
       <div class="col-lg-2">
-        <label for="">Ex. GST:</label> <span class="amount">10000.00</span>
+        <label for=""><span class="sp-translate" data-translate-key="exgst">Ex. GST</span>:</label> <span class="amount">10000.00</span>
       </div>
       <div class="col-lg-2">
-        <label for="">Total Amount:</label>
+        <label for=""><span class="sp-translate" data-translate-key="totalAmount">Total Amount</span>:</label>
         <span class="amount">10000.00</span>
       </div>
       <div class="col-lg-2">
-        <label for="">P. Charge:</label>
-        <span class="amount">10000.00</span>
-      </div>
-      <div class="col-lg-3">
-        <label for="">Charged Fine Day:</label>
+        <label for=""><span class="sp-translate" data-translate-key="particpateryCharges">P. Charge</span>:</label>
         <span class="amount">10000.00</span>
       </div>
       <div class="col-lg-3">
-        <label for="">Balance Amount:</label>
+        <label for=""><span class="sp-translate" data-translate-key="chargedFineDay">Charged Fine Day</span>:</label>
+        <span class="amount">20-01-2001</span>
+      </div>
+      <div class="col-lg-3">
+        <label for=""><span class="sp-translate" data-translate-key="balance">Balance Amount</span>:</label>
         <span class="amount">10000.00</span>
       </div>
     </div>
@@ -777,7 +777,7 @@
         <div class="icon">
           <i class="fa-solid fa-money-bill"></i>
         </div>
-        <div class="text">25% / Tax Pay</div>
+        <div class="text"><span class="sp-translate" data-translate-key="25TaxPay">25% / Tax Pay</span></div>
       </div>
     </div>
     <div class="btn-wrapper" id="full-pay-btn">
@@ -785,13 +785,13 @@
         <div class="icon">
           <i class="fa-sharp fa-solid fa-check-double"></i>
         </div>
-        <div class="text">Full Pay</div>
+        <div class="text"><span class="sp-translate" data-translate-key="fullPay">Full Pay</span></div>
       </div>
     </div>
     <div class="btn-wrapper" id="payment-history-btn">
       <div class="main-wrapper">
         <div class="icon"><i class="fa-sharp fa-solid fa-clock-rotate-left"></i></div>
-        <div class="text">Payment History</div>
+        <div class="text"><span class="sp-translate" data-translate-key="paymentHistory">Payment History</span></div>
       </div>
     </div>
     <div class="btn-wrapper" id="purchase-lots-btn">
@@ -799,7 +799,7 @@
         <div class="icon">
           <i class="fa-sharp fa-solid fa-bag-shopping"></i> 
         </div>
-        <div class="text">Purchased Lots</div>
+        <div class="text"><span class="sp-translate" data-translate-key="pucrchaseLots">Purchased Lots</span></div>
       </div>
     </div>
     <div class="btn-wrapper" id="ground-rent-btn">
@@ -807,7 +807,7 @@
         <div class="icon">
           <i class="fa-sharp fa-solid fa-truck-ramp-box"></i>
         </div>
-        <div class="text">Ground Rent Pay</div>
+        <div class="text"><span class="sp-translate" data-translate-key="groundRentPay">Ground Rent Pay</span></div>
       </div>
     </div>
   </section>
@@ -818,32 +818,32 @@
     <div id="pay25">
       <div>
         <div class="header">
-          25% Payment
+          <span class="sp-translate" data-translate-key="25TaxPay">25% / Tax Pay</span>
           <hr class="hr">
         </div>
         <div class="content-wrapper">
   
           <div class="table-wrapper">
             <table class="table table-bordered" cellspacing="0" cellpadding="0">
-              <thead class="bg-primary text-center text-white">
+              <thead class="text-center">
                 <tr>
                   <th>select</th>
-                  <th>SrNo</th>
-                  <th>Depot/Sub Office</th>
-                  <th>Auction Date</th>
-                  <th>Lot No.</th>
-                  <th>Species / Material</th>
-                  <th>Length / Girth(Category)</th>
-                  <th>Qty / Vol</th>
-                  <th>Auction Price</th>
-                  <th>GST</th>
-                  <th>TCS</th>
-                  <th>Fine Penalty</th>
-                  <th>Ex. GST</th>
-                  <th>Total Amount</th>
-                  <th>Paid Amount</th>
-                  <th>% Calc Amount</th>
-                  <th>Ball Amount</th>
+                  <th><span class="sp-translate" data-translate-key="srno">SrNo</span></th>
+                  <th><span class="sp-translate" data-translate-key="departmentHeadOffice">Depot/Sub Office</span></th>
+                  <th><span class="sp-translate" data-translate-key="auctionDate">Auction Date</span></th>
+                  <th><span class="sp-translate" data-translate-key="lotnumber">Lot No.</span></th>
+                  <th><span class="sp-translate" data-translate-key="species">Species</span> /<span class="sp-translate" data-translate-key="materialType">Material</span></th>
+                  <th><span class="sp-translate" data-translate-key="girthCategory">Length / Girth(Category)</span></th>
+                  <th><span class="sp-translate" data-translate-key="qty">Qty</span> / <span class="sp-translate" data-translate-key="vol">Vol</span></th>
+                  <th><span class="sp-translate" data-translate-key="auctionPrice">Auction Price</span></th>
+                  <th class="sp-translate" data-translate-key="gst">GST</th>
+                  <th class="sp-translate" data-translate-key="tcs">TCS</th>
+                  <th class="sp-translate" data-translate-key="calcAmount">Fine Penalty</th>
+                  <th class="sp-translate" data-translate-key="exgst">Ex. GST</th>
+                  <th class="sp-translate" data-translate-key="totalAmount">Total Amount</th>
+                  <th class="sp-translate" data-translate-key="paidAmount">Paid Amount</th>
+                  <th>% <span  class="sp-translate" data-translate-key="calcAmount">Calc Amount</span></th>
+                  <th class="sp-translate" data-translate-key="balance">Balance Amount</th>
                 </tr>
               </thead>
             </table>
@@ -853,29 +853,29 @@
             <form>
               <div class="row" style="width: 100%;">
                 <div class="col-3 calculated-amount-wrapper">
-                  <span class="heading">Calculated Amount To Pay:</span>
+                  <span class="heading"><span class="sp-translate" data-translate-key="calcAmountToPay">Calculated Amount To Pay</span> :</span>
                   <span class="amount">10000</span>
                 </div>
                 <div class="col-5">
   
                   <input type="checkbox" value="" id="pay25FromEwallet" class="pay-from-ewallet">
-                  <label for="pay25FromEwallet">Payment From E-Wallet</label>
+                  <label for="pay25FromEwallet"> <span class="sp-translate" data-translate-key="payfromEwallet">Payment From E-Wallet</span></label>
            
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   
                   <span class="e-wallet-amount">
-                    <span class="heading">E-wallete Amount</span>
+                    <span class="heading"> <span class="sp-translate" data-translate-key="balance">E-wallete Amount</span></span>
                     <span class="amount">10000</span>
                   </span>
   
                 </div>
                 <div class="col-4">
                   <div class="payment-input"> 
-                    <label for="">Amount:</label>
+                    <label for=""><span class="sp-translate" data-translate-key="balance">Amount</span>:</label>
                     <input type="number" class="amount" value="10000">
                     <button class="custome-btn-primary">
                       <span class="icon"><i class="fa-solid fa-money-bill"></i></span>
-                      <span class="text">Make Payment</span>
+                      <span class="text sp-translate" data-translate-key="makePayment">Make Payment</span>
                     </button>
                   </div>
                 </div>
@@ -891,32 +891,32 @@
     <div id="full-payment">
       <div>
         <div class="header">
-          Full Payment
+          <span class="sp-translate" data-translate-key="fullPay">Full Payment</span>
           <hr class="hr">
         </div>
         <div class="content-wrapper">
   
           <div class="table-wrapper">
             <table class="table table-bordered" cellspacing="0" cellpadding="0">
-              <thead class="bg-primary text-center text-white">
+              <thead class="text-center">
                 <tr>
-                  <td>select</td>
-                  <td>SrNo.</td>
-                  <td>Depot/Sub office</td>
-                  <td>Auction Date</td>
-                  <td>Lot No.</td>
-                  <td>Species / Material</td>
-                  <td>Length / Girth(Category)</td>
-                  <td>Qty/Vol</td>
-                  <td>Auction Price</td>
-                  <td>GST</td>
-                  <td>TCS</td>
-                  <td>Fine/Penalty</td>
-                  <td>Ex. GST</td>
-                  <td>Total AMount</td>
-                  <td>Paid Amount</td>
-                  <td>% Cal Amount</td>
-                  <td>Bal Amount</td>
+                  <th>select</th>
+                  <th><span class="sp-translate" data-translate-key="srno">SrNo</span></th>
+                  <th><span class="sp-translate" data-translate-key="departmentHeadOffice">Depot/Sub Office</span></th>
+                  <th><span class="sp-translate" data-translate-key="auctionDate">Auction Date</span></th>
+                  <th><span class="sp-translate" data-translate-key="lotnumber">Lot No.</span></th>
+                  <th><span class="sp-translate" data-translate-key="species">Species</span> /<span class="sp-translate" data-translate-key="materialType">Material</span></th>
+                  <th><span class="sp-translate" data-translate-key="girthCategory">Length / Girth(Category)</span></th>
+                  <th><span class="sp-translate" data-translate-key="qty">Qty</span> / <span class="sp-translate" data-translate-key="vol">Vol</span></th>
+                  <th><span class="sp-translate" data-translate-key="auctionPrice">Auction Price</span></th>
+                  <th class="sp-translate" data-translate-key="gst">GST</th>
+                  <th class="sp-translate" data-translate-key="tcs">TCS</th>
+                  <th class="sp-translate" data-translate-key="calcAmount">Fine Penalty</th>
+                  <th class="sp-translate" data-translate-key="exgst">Ex. GST</th>
+                  <th class="sp-translate" data-translate-key="totalAmount">Total Amount</th>
+                  <th class="sp-translate" data-translate-key="paidAmount">Paid Amount</th>
+                  <th>% <span  class="sp-translate" data-translate-key="calcAmount">Calc Amount</span></th>
+                  <th class="sp-translate" data-translate-key="balance">Balance Amount</th>
                 </tr>
               </thead>
             </table>
@@ -926,29 +926,29 @@
             <form>
               <div class="row" style="width: 100%;">
                 <div class="col-3 calculated-amount-wrapper">
-                  <span class="heading">Calculated Amount To Pay:</span>
+                  <span class="heading"><span class="sp-translate" data-translate-key="calcAmountToPay">Calculated Amount To Pay</span> :</span>
                   <span class="amount">10000</span>
                 </div>
                 <div class="col-5">
   
-                  <input type="checkbox" value="" id="pay25FromEwallet3" class="pay-from-ewallet">
-                  <label for="pay25FromEwallet3">Payment From E-Wallet</label>
+                  <input type="checkbox" value="" id="pay25FromEwallet" class="pay-from-ewallet">
+                  <label for="pay25FromEwallet"> <span class="sp-translate" data-translate-key="payfromEwallet">Payment From E-Wallet</span></label>
            
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   
                   <span class="e-wallet-amount">
-                    <span class="heading">E-wallete Amount</span>
+                    <span class="heading"> <span class="sp-translate" data-translate-key="balance">E-wallete Amount</span></span>
                     <span class="amount">10000</span>
                   </span>
   
                 </div>
                 <div class="col-4">
                   <div class="payment-input"> 
-                    <label for="">Amount:</label>
+                    <label for=""><span class="sp-translate" data-translate-key="balance">Amount</span>:</label>
                     <input type="number" class="amount" value="10000">
                     <button class="custome-btn-primary">
                       <span class="icon"><i class="fa-solid fa-money-bill"></i></span>
-                      <span class="text">Make Payment</span>
+                      <span class="text sp-translate" data-translate-key="makePayment">Make Payment</span>
                     </button>
                   </div>
                 </div>
@@ -964,7 +964,7 @@
     <div id="payment-history">
       <div>
         <div class="header">
-          Payment History
+          <span class="sp-translate" data-translate-key="paymentHistory">Payment History</span>
           <hr class="hr">
         </div>
         <div class="content-wrapper">
@@ -972,22 +972,22 @@
             <table class="table table-bordered" cellspacing="0" cellpadding="0">
               <thead  class="text-center">
                 <tr>
-                  <th rowspan="2">SrNo.</th>
-                  <th rowspan="2">Trans. No.</th>
-                  <th rowspan="2">Date &amp; Time</th>
-                  <th rowspan="2">Amount</th>
-                  <th colspan="8">Remark Details</th>
-                  <th rowspan="2">Total Amount</th>
+                  <th rowspan="2" class="sp-translate" data-translate-key="srno">SrNo.</th>
+                  <th rowspan="2" class="sp-translate" data-translate-key="transNo">Trans. No.</th>
+                  <th rowspan="2"> <span  class="sp-translate" data-translate-key="date">Date</span> &amp; <span  class="sp-translate" data-translate-key="time">Time</span></th>
+                  <th rowspan="2" class="sp-translate" data-translate-key="amount">Amount</th>
+                  <th colspan="8" class="sp-translate" data-translate-key="remarkDetails">Remark Details</th>
+                  <th rowspan="2" class="sp-translate" data-translate-key="totalAmount">Total Amount</th>
                 </tr>
                 <tr>
-                  <th>Depot / Sub Office</th>
-                  <th>Lot No.</th>
-                  <th>EMD</th>
-                  <th>GST</th>
-                  <th>TCS</th>
-                  <th>Fine / Penalty</th>
-                  <th>eX. gst</th>
-                  <th>Ground Rent &amp; GST</th>
+                  <th class="sp-translate" data-translate-key="officeDivivsionName">Depot / Sub Office</th>
+                  <th class="sp-translate" data-translate-key="lotnumber">Lot No.</th>
+                  <th class="sp-translate" data-translate-key="emd">EMD</th>
+                  <th class="sp-translate" data-translate-key="gst">GST</th>
+                  <th class="sp-translate" data-translate-key="tcs">TCS</th>
+                  <th class="sp-translate" data-translate-key="fine">Fine / Penalty</th>
+                  <th class="sp-translate" data-translate-key="exgst">eX. gst</th>
+                  <th class="sp-translate" data-translate-key="amount"> <span class="sp-translate" data-translate-key="groundRent">Ground Rent</span> &amp; <span class="sp-translate" data-translate-key="gst">GST</span></th>
                 </tr>
               </thead>
             </table>
@@ -995,7 +995,7 @@
           <div class="pt-3 pb-0 text-center">
             <button class="export-btn">
               <span class="icon"><i class="fa-sharp fa-solid fa-download"></i></span>
-              <span class="text">Export</span>
+              <span class="text sp-translate" data-translate-key="export">Export</span>
             </button>
           </div>
         </div>
@@ -1007,31 +1007,31 @@
     <div id="purchase-lots">
       <div>
         <div class="header">
-          Puchase Lots
+          <span class="sp-translate" data-translate-key="pucrchaseLots">Puchase Lots</span>
           <hr class="hr">
         </div>
         <div class="content-wrapper">
           <div class="table-wrapper">
             <table class="table table-bordered" cellspacing="0" cellpadding="0">
-              <thead class="bg-primary text-center text-white">
+              <thead class="text-center">
                 <tr>
-                  <td>SrNo</td>
-                  <td>Depot / Sub Office</td>
-                  <td>Lot No.</td>
-                  <td>Species / Material Type</td>
-                  <td>Lengtd / Girtd(Category)</td>
-                  <td>Qty / Vol</td>
-                  <td>Auction Price</td>
-                  <td>GST</td>
-                  <td>TCS</td>
-                  <td>Late Days</td>
-                  <td>Fine / Penalty</td>
-                  <td>Ex. GST</td>
-                  <td>Auction Date</td>
-                  <td>Sention Date</td>
-                  <td>Payment Status</td>
-                  <td>Grount Rent</td>
-                  <td>G.GST</td>
+                  <th class="sp-translate" data-translate-key="srno">SrNo</th>
+                  <th class="sp-translate" data-translate-key="officeDivivsionName">Depot / Sub Office</th>
+                  <th class="sp-translate" data-translate-key="lotnumber">Lot No.</th>
+                  <th><span class="sp-translate" data-translate-key="species">Species</span> /<span class="sp-translate" data-translate-key="materialType">Material</span></th>
+                  <th><span class="sp-translate" data-translate-key="girthCategory">Length / Girth(Category)</span></th>
+                  <th><span class="sp-translate" data-translate-key="qty">Qty</span> / <span class="sp-translate" data-translate-key="vol">Vol</span></th>
+                  <th><span class="sp-translate" data-translate-key="auctionPrice">Auction Price</span></th>
+                  <th class="sp-translate" data-translate-key="gst">GST</th>
+                  <th class="sp-translate" data-translate-key="tcs">TCS</th>
+                  <th class="sp-translate" data-translate-key="lateDays">Late Days</th>
+                  <th class="sp-translate" data-translate-key="fine">Fine / Penalty</th>
+                  <th class="sp-translate" data-translate-key="exgst">Ex. GST</th>
+                  <th class="sp-translate" data-translate-key="auctionDate">Auction Date</th>
+                  <th class="sp-translate" data-translate-key="sentionDate">Sention Date</th>
+                  <th class="sp-translate" data-translate-key="paymentStatus">Payment Status</th>
+                  <th class="sp-translate" data-translate-key="groundRent">Grount Rent</th>
+                  <th class="sp-translate" data-translate-key="ggst">G.GST</th>
                 </tr>
               </thead>
             </table>
@@ -1039,7 +1039,7 @@
           <div class="pt-3 pb-0 text-center">
             <button class="export-btn">
               <span class="icon"><i class="fa-sharp fa-solid fa-download"></i></span>
-              <span class="text">Export</span>
+              <span class="text sp-translate" data-translate-key="export">Export</span>
             </button>
           </div>
         </div>
@@ -1058,23 +1058,22 @@
   
           <div class="table-wrapper">
             <table class="table table-bordered" cellspacing="0" cellpadding="0">
-              <thead class="">
+              <thead class="text-center">
                 <tr>
-                  <td>Select</td>
-                  <td>SrNo</td>
-                  <td>Depot / Sub Office</td>
-                  <td>Lot No.</td>
-                  <td>Species / Material Type</td>
-                  <td>Lengtd / Girtd(Category)</td>
-                  <td>Qty / Vol</td>
-                  <td>Auction Price</td>
-                  <td>Senction Date</td>
-                  <td>Dispatch Date</td>
-                  <td>Ground Rent</td>
-                  <td>G GST</td>
-                  <td>Lot Status</td>
-                  <td>Total</td>
-                  <td>Paid</td>
+                  <th>Select</th>
+                  <th class="sp-translate" data-translate-key="officeDivivsionName">Depot / Sub Office</th>
+                  <th class="sp-translate" data-translate-key="lotnumber">Lot No.</th>
+                  <th><span class="sp-translate" data-translate-key="species">Species</span> /<span class="sp-translate" data-translate-key="materialType">Material</span></th>
+                  <th><span class="sp-translate" data-translate-key="girthCategory">Length / Girth(Category)</span></th>
+                  <th><span class="sp-translate" data-translate-key="qty">Qty</span> / <span class="sp-translate" data-translate-key="vol">Vol</span></th>
+                  <th><span class="sp-translate" data-translate-key="auctionPrice">Auction Price</span></th>
+                  <th class="sp-translate" data-translate-key="sentionDate">Senntion Date</th>
+                  <th class="sp-translate" data-translate-key="dispatchDate">Dispatch Date</th>
+                  <th class="sp-translate" data-translate-key="groundRent">Ground Rent</th>
+                  <th class="sp-translate" data-translate-key="ggst">G GST</th>
+                  <th class="sp-translate" data-translate-key="lotStatus">Lot Status</th>
+                  <th class="sp-translate" data-translate-key="totalAmount">Total Amount</th>
+                  <th class="sp-translate" data-translate-key="paid">Paid</th>
                 </tr>
               </thead>
             </table>
@@ -1084,29 +1083,29 @@
             <form>
               <div class="row" style="width: 100%;">
                 <div class="col-3 calculated-amount-wrapper">
-                  <span class="heading">Calculated Amount To Pay:</span>
+                  <span class="heading"><span class="sp-translate" data-translate-key="calcAmountToPay">Calculated Amount To Pay</span> :</span>
                   <span class="amount">10000</span>
                 </div>
                 <div class="col-5">
   
-                  <input type="checkbox" value="" id="pay25FromEwallet3" class="pay-from-ewallet">
-                  <label for="pay25FromEwallet3">Payment From E-Wallet</label>
+                  <input type="checkbox" value="" id="pay25FromEwallet" class="pay-from-ewallet">
+                  <label for="pay25FromEwallet"> <span class="sp-translate" data-translate-key="payfromEwallet">Payment From E-Wallet</span></label>
            
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   
                   <span class="e-wallet-amount">
-                    <span class="heading">E-wallete Amount</span>
+                    <span class="heading"> <span class="sp-translate" data-translate-key="balance">E-wallete Amount</span></span>
                     <span class="amount">10000</span>
                   </span>
   
                 </div>
                 <div class="col-4">
                   <div class="payment-input"> 
-                    <label for="">Amount:</label>
+                    <label for=""><span class="sp-translate" data-translate-key="balance">Amount</span>:</label>
                     <input type="number" class="amount" value="10000">
                     <button class="custome-btn-primary">
                       <span class="icon"><i class="fa-solid fa-money-bill"></i></span>
-                      <span class="text">Make Payment</span>
+                      <span class="text sp-translate" data-translate-key="makePayment">Make Payment</span>
                     </button>
                   </div>
                 </div>
