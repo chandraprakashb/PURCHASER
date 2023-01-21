@@ -6,7 +6,7 @@ function ManageIndexHtml () {
         this.manageHelp();
         this.loadUserLinks();
         this.manageDefaulterStatus();
-        pageLoad('payment');
+        pageLoad('postauctionstatus');
     } 
 
     // Manage Render UserInfo 

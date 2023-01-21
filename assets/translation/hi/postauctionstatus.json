@@ -1,0 +1,15 @@
+{
+    "postAuctionPage":"नियुक्त की गई नीलामी",
+    "PostAuctionSystemAllotedPendingLotDetails":"पोस्ट ऑक्शन सिस्टम आबंटित लॉट विवरण",
+    "saleUnit":"बिक्री इकाई",
+    "bidAmount":"बोली की रक़म",
+    "lotPrice":"चट्टे कि किमत",
+    "usedBlockedAmount":"प्रयुक्त/अवरुद्ध राशि",
+    "systemStatus":"व्यवस्था की स्थिति",
+    "officialDecision":"आधिकारिक निर्णय",
+    "postAution":"प्रकाशित नीलामी",
+    "dicisionDate":"निर्णय तिथि",
+    "paidAmount":"भुगतान की गई राशि",
+    "resultdate":"परिणाम दिनांक",
+    "postAuctionSystemAllotedAuctioningLotDetails":"पोस्ट ऑक्शन सिस्टम आबंटित ऑक्शनिंग लॉट विवरण"
+}

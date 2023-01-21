@@ -1,0 +1,14 @@
+{
+    "postAuctionPage":"Post Auction Page",
+    "PostAuctionSystemAllotedPendingLotDetails":"Post Auction System Alloted Pending Lot Details",
+    "saleUnit":"Sale Unit",
+    "bidAmount":"Bid Amount",
+    "lotPrice":"Lot Price",
+    "usedBlockedAmount":"Used/Blocked Amount",
+    "systemStatus":"System status",
+    "officialDecision":"Official Decision",
+    "dicisionDate":"Decision Date",
+    "paidAmount":"Paid Amount",
+    "resultdate":"Result Date",
+    "postAuctionSystemAllotedAuctioningLotDetails":"Post Auction System Alloted Auctioning Lot Details"
+}
