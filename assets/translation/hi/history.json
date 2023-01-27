@@ -1,6 +1,6 @@
 {
     "history":"इतिहास",
-    "historyType":"इतिहास का प्र्कार्",
+    "historyType":"खरिदि का प्रकार",
     "paymentStatus":"भुगतान की स्थिति",
     "auctionWise":"निलामि के हिसाब से",
     "auctionDate":"निलामि कि तरिख्",
@@ -9,5 +9,5 @@
     "exGst":"अतिरिक्त जी.एस.टी",
     "finePenalty":"जुर्माना और अर्धदंड",
     "paid":"भरी गई राशि",
-    "auctionPrice":"नीलामी मूल्य"
+    "auctionPrice":"निलमि कि किमत"
 }

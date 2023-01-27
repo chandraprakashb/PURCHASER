@@ -170,11 +170,18 @@
             for(let key in response.Record) localStorage.setItem(key,response.Record[key]);
             localStorage.setItem('token',response.token);
 
-            console(await sendHttpRequest('usermanage/api/usrprfl',reqdata))
+            var response = await sendHttpRequest('usermanage/api/usrprfl',reqdata);
+
+            this.saveUserInfo(response.Record)
         }
 
         this.saveUserInfo = (response) =>{
-            for(let key in response.Record) localStorage.setItem(key,response.Record[key]);
+        
+            for(let key in response) {
+                console.log(key,response[key]);
+                localStorage.setItem(key,response[key]);
+            };
+            console.log("Calling....");
         }
 
         

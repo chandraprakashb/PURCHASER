@@ -44,5 +44,12 @@
     "time":"Time",
     "upload":"Upload",
     "qty":"QTY",
-    "vol":"vol"
+    "vol":"vol",
+    "search":"Search",
+    "close":"Close",
+    "view":"View",
+    "auctionStartsOn":"Auction Starts On",
+    "sourceSocity":"Source/Socity",
+    "auctionCount":"Auction Count",
+    "volQTSBundleKG":"Vol/QTS/Bundle/KG"
 }

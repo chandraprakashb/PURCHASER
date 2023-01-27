@@ -3,7 +3,12 @@
     "state":"राज्य",
     "depname":"विभाग का नाम",
     "selectedAuctioningLots":"चयनित नीलामी चट्टे",
-    "considerSelectedLotsForAuctioning":"नीलामी के लिए चयनित चटौं पर विचार करें",
+    "considerSelectedLotsForAuctioning":"नीलामी के लिए चयनित चट्टे ",
     "goToPage":"पृष्ठ पर जाये",
-    "rowCount":"कुल पंक्तिया"
+    "rowCount":"कुल पंक्तिया",
+    "viewImage":"छवि देखें",
+    "remvoe":"निकालें",
+    "auctionStatus":"नीलामी की स्थिति",
+    "startTime":"प्रारंभ का समय",
+    "sourceSociety":"स्रोत/संस्था"
 }

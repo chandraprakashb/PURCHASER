@@ -6,16 +6,19 @@ function ManageIndexHtml () {
         this.manageHelp();
         this.loadUserLinks();
         this.manageDefaulterStatus();
-        pageLoad('postauctionstatus');
+        pageLoad('dashboard');
     } 
 
     // Manage Render UserInfo 
     this.manageUserInfo = () =>{
       this.userName = document.querySelector('.userName');
+      this.prno     = document.querySelector('.prno');    
       this.commodityName = document.querySelector('.commodity-name');
       this.userName.textContent = localStorage.getItem('usr.nm');
+      this.prno.textContent = localStorage.getItem('pr.no.shw')
       this.commodityName.textContent = localStorage.getItem('comodityName');
     }
+
     // End Render User Info
 
 

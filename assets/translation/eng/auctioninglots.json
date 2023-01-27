@@ -5,5 +5,10 @@
     "selectedAuctioningLots":"Selected Auctioning Lots",
     "considerSelectedLotsForAuctioning":"Consider Selected Lots For Auctioning",
     "goToPage":"Go To Page",
-    "rowCount":"Row Count"
+    "rowCount":"Row Count",
+    "viewImage":"View Image",
+    "remvoe":"Remove",
+    "auctionStatus":"Auction Status",
+    "startTime":"Start Time",
+    "sourceSociety":"Source/Society Name"
 }

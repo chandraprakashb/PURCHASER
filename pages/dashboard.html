@@ -1,4 +1,39 @@
-<div class="service-charge-page">
+<script>
+  function Dashboard() { 
+
+    this.mainSetup = () =>{
+
+      $('.name').text(localStorage.getItem('purchaser.nm'))
+      $(".load-account-btn").click(()=>{
+        pageLoad('account');
+      })
+    }
+
+
+
+    this.mainSetup();
+  }
+
+  new Dashboard();
+</script>
+
+<style>
+  .info-wrapper{
+   margin-top: 10%;
+  }
+
+  .hello-text{
+    font-size: 27px;
+  }
+
+  .name{
+    color: var(--blue);
+    /* font-family: italic; */
+    text-decoration: underline;
+  }
+</style>
+
+<div class="dashboard-page">
 
     <div class="row header" style="width:100%">
       <div class="col-5 m-auto">
@@ -10,6 +45,17 @@
         </h4>
         <hr>
       </div>
+    </div>
+
+    <div class="col-12 text-center info-wrapper">
+      <p>
+        <span class="hello-text">Hello, </span> <span class="name">Chandraprakash Ramesh Bagde</span>
+        
+        <button class="custome-icon-btn-outline-primary load-account-btn">
+          <span class="text">Click Here To go To Account Page</span>
+          <span class="icon"><i class="fa-solid fa-computer-mouse"></i> </span>
+        </button>
+      </p>
     </div>
 
 
