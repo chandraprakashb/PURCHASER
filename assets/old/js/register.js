@@ -282,7 +282,7 @@ async function registeration(event){
     
     formdata.append('act','reg');
     if(regType.value === 'I'){
-      formdata.append('purchaser.nm',formdata.get("purchaser.fnm")+" "+ formdata.get("purchaser.lnm").trim());
+      formdata.append('pr.nm',formdata.get("pr.fnm")+" "+ formdata.get("pr.lnm").trim());
       formdata.append('f27c','-');
 
     }

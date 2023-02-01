@@ -6,7 +6,7 @@ function ManageIndexHtml () {
         this.manageHelp();
         this.loadUserLinks();
         this.manageDefaulterStatus();
-        pageLoad('dashboard');
+        pageLoad('profileb');
     } 
 
     // Manage Render UserInfo 
@@ -15,7 +15,7 @@ function ManageIndexHtml () {
       this.prno     = document.querySelector('.prno');    
       this.commodityName = document.querySelector('.commodity-name');
       this.userName.textContent = localStorage.getItem('usr.nm');
-      this.prno.textContent = localStorage.getItem('pr.no.shw')
+      this.prno.textContent = localStorage.getItem('pr.no')
       this.commodityName.textContent = localStorage.getItem('comodityName');
     }
 

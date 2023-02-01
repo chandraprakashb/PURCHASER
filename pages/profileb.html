@@ -44,7 +44,7 @@
           // renderQuestions(profiledata)
           // printLinks(JSON.parse(profiledata['file.nms']));
           // printConvertData(profiledata);
-          document.getElementById('pr_input').value = profiledata['pr.no'];
+          document.getElementById('pr_input').value = profiledata['pr.id'];
       }
 
         //   Manage Things By Purchaser Registration Status
@@ -160,7 +160,7 @@
         var accountInfoFormData = new FormData(this.completeRegistrationPopup.modal.querySelector('#accnt_info-form'));
 
         updateRequestData.append('ACT','cmpreg');
-        updateRequestData.append('pr.no', this.profileData['pr.no']);
+        updateRequestData.append('pr.id', this.profileData['pr.id']);
 
         var info1Data = formdataToObject(basicInfoFormData,true);
         var info2Data = formdataToObject(accountInfoFormData,true);
@@ -276,7 +276,7 @@
           
   
           reqdata.append('comdty',area.slice(0,-1));
-          reqdata.append('pr.no',this.profileData['pr.no']);
+          reqdata.append('pr.id',this.profileData['pr.id']);
           reqdata.append('ACT','cmdtyupdt');
   
           await sendHttpRequest('usermanage/api/usrprfl', reqdata);
@@ -374,7 +374,7 @@
         reqdata.append('act','pwdupdt');
         reqdata.append('usr.login',this.profileData['usr.login']);
         reqdata.append('pid',this.profileData['pr.id']);
-        reqdata.append('pname',this.profileData['purchaser.nm']);
+        reqdata.append('pname',this.profileData['pr.nm']);
         await sendHttpRequest('usermanage/api/usrprfl',reqdata);
       }
 
@@ -1088,7 +1088,7 @@
                                           <div class="col-lg-6">
                                               <p class="text-heading">Firm Registration Name:</p>
                                           </div>
-                                          <div class="col-lg-6"><span class="text-keys" data-key="purchaser.nm"></span></div>
+                                          <div class="col-lg-6"><span class="text-keys" data-key="pr.nm"></span></div>
                                       </div>
                                   </div>
                               </div>
@@ -1098,7 +1098,7 @@
                                           <div class="col-lg-6">
                                               <p class="text-heading">Authority First Name:</p>
                                           </div>
-                                          <div class="col-lg-6"><span class="text-keys" data-key="purchaser.fnm"></span></div>
+                                          <div class="col-lg-6"><span class="text-keys" data-key="pr.fnm"></span></div>
                                       </div>
                                   </div>
                                   <div class="col-6">
@@ -1106,7 +1106,7 @@
                                           <div class="col-lg-6">
                                               <p class="text-heading">Last Name:</p>
                                           </div>
-                                          <div class="col-lg-6"><span class="text-keys" data-key="purchaser.lnm"></span></div>
+                                          <div class="col-lg-6"><span class="text-keys" data-key="pr.lnm"></span></div>
                                       </div>
                                   </div>
                               </div>
@@ -1678,7 +1678,7 @@
       
         <form action="http://78.47.157.146:8080/usermanage/api/docdwnld" id="download-form">
             <input type="hidden" name="FILE.NM" id="file_nm" value="">
-            <input type="hidden" name="PR.NO" id="pr_input" value="">
+            <input type="hidden" name="pr.id" id="pr_input" value="">
             <input type="hidden" name="ACT"  value="P">
         </form>
 
@@ -1708,7 +1708,7 @@
                                             <label for="purchaser_nm">Firm/Organization Name:</label>
                                         </div>
                                         <div class="col-7">
-                                            <input type="text" class="required" name="purchaser.nm" maxlength="50" >
+                                            <input type="text" class="required" name="pr.nm" maxlength="50" >
                                         </div>
                                     </div>
                                     <div class="input-row row">
@@ -1724,7 +1724,7 @@
                                             <label for="purchaser_name" class="form-label">Authority First Name:</label>
                                         </div>
                                         <div class="col-7">
-                                            <input type="text" class=" required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50">
+                                            <input type="text" class=" required no-space" id="purchaser_name" name="pr.fnm" maxlength="50">
                                         </div>
                                     </div>
                                     <div class="input-row row">
@@ -1732,7 +1732,7 @@
                                             <label for="lst_nm" class="form-label">Last Name:</label>
                                         </div>
                                         <div class="col-7">
-                                            <input type="text" class=" required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50">
+                                            <input type="text" class=" required no-space" id="lst_nm" name="pr.lnm" maxlength="50">
                                         </div>
                                     </div>
                                     <div class="input-row row">
@@ -1994,7 +1994,7 @@
                                         <div class="col-6">
                                             <div class="input-row row">
                                                 <div class="col-5 form-label">Firm/Organization Name:</div>
-                                                <div class="col-7"><input required type="text" name="purchaser.nm" maxlength="50" ></div>
+                                                <div class="col-7"><input required type="text" name="pr.nm" maxlength="50" ></div>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -2006,13 +2006,13 @@
                                         <div class="col-6">
                                             <div class="input-row row">
                                                 <div class="col-5 form-label">Authority First Name:</div>
-                                                <div class="col-7"><input required type="text" class="form-control required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50"></div>
+                                                <div class="col-7"><input required type="text" class="form-control required no-space" id="purchaser_name" name="pr.fnm" maxlength="50"></div>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="input-row row">
                                                 <div class="col-5 form-label">Last Name:</div>
-                                                <div class="col-7"><input required type="text" class="form-control required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50"></div>
+                                                <div class="col-7"><input required type="text" class="form-control required no-space" id="lst_nm" name="pr.lnm" maxlength="50"></div>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -2294,7 +2294,7 @@
                                   <label for="purchaser_name" class="form-label">Purchaser First Name:</label>
                               </div>
                               <div class="col-7">
-                                  <input type="text" class=" required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50">
+                                  <input type="text" class=" required no-space" id="purchaser_name" name="pr.fnm" maxlength="50">
                               </div>
                           </div>
                           <div class="input-row row">
@@ -2302,7 +2302,7 @@
                                   <label for="lst_nm" class="form-label">Last Name:</label>
                               </div>
                               <div class="col-7">
-                                  <input type="text" class=" required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50">
+                                  <input type="text" class=" required no-space" id="lst_nm" name="pr.lnm" maxlength="50">
                               </div>
                           </div>
                           <div class="input-row row">
@@ -2482,7 +2482,7 @@
                               <label for="purchaser_nm">Firm/Organization Name:</label>
                           </div>
                           <div class="col-7">
-                              <input type="text" class="required" name="purchaser.nm" maxlength="50" >
+                              <input type="text" class="required" name="pr.nm" maxlength="50" >
                           </div>
                       </div>
                       <div class="input-row row">
@@ -2498,7 +2498,7 @@
                               <label for="purchaser_name" class="form-label">Authority First Name:</label>
                           </div>
                           <div class="col-7">
-                              <input type="text" class=" required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50">
+                              <input type="text" class=" required no-space" id="purchaser_name" name="pr.fnm" maxlength="50">
                           </div>
                       </div>
                       <div class="input-row row">
@@ -2506,7 +2506,7 @@
                               <label for="lst_nm" class="form-label">Last Name:</label>
                           </div>
                           <div class="col-7">
-                              <input type="text" class=" required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50">
+                              <input type="text" class=" required no-space" id="lst_nm" name="pr.lnm" maxlength="50">
                           </div>
                       </div>
                       <div class="input-row row">
