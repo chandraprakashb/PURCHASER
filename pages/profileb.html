@@ -160,16 +160,20 @@
         var accountInfoFormData = new FormData(this.completeRegistrationPopup.modal.querySelector('#accnt_info-form'));
 
         updateRequestData.append('ACT','cmpreg');
-        updateRequestData.append('pr.id', this.profileData['pr.id']);
+        updateRequestData.append('PR_ID', this.profileData['pr.id']);
+        updateRequestData.append('pr.typ',this.profileData['pr.typ']);
+
+        // info1Data['pr.typ']
+
 
         var info1Data = formdataToObject(basicInfoFormData,true);
         var info2Data = formdataToObject(accountInfoFormData,true);
-            info1Data['pr.typ'] = this.profileData['pr.typ'];
 
         // Manage Info 1
         for(var info1keys in info1Data){
             basicInfoFormData.delete(info1keys)
         }
+
         for(var keys of basicInfoFormData.keys()){
             updateRequestData.append(keys,basicInfoFormData.get(keys));
         }
@@ -184,20 +188,38 @@
         }
 
 
-        if( remarks.length === 2 ||  remarks.length === 1 && 'accnt_info' in remarks[0]){
+        // if( remarks.length === 2 ||  remarks.length === 1 && 'accnt_info' in remarks[0]){
 
-            for(var mergekeys in info2Data){
-                if(mergekeys === 'gstn.no' || mergekeys === 'pan.crd' || mergekeys === 'f27c'){
-                    info1Data[mergekeys] = info2Data[mergekeys] ;
-                    delete info2Data[mergekeys]
-                }
+        //     for(var mergekeys in info2Data){
+        //         if(mergekeys === 'gstn.no' || mergekeys === 'pan.crd' || mergekeys === 'f27c'){
+        //             info1Data[mergekeys] = info2Data[mergekeys] ;
+        //             delete info2Data[mergekeys]
+        //         }
+        //     }
+
+        //     updateRequestData.append('INFO1', JSON.stringify(info1Data));
+        //     updateRequestData.append('INFO2', JSON.stringify(info2Data));
+        // }else{
+        //     updateRequestData.append('INFO1', JSON.stringify(info1Data));
+        // }
+
+        console.log("info1data",info1Data);
+
+        for(var key in info2Data ){
+            if(key === 'gstn.no' || key === 'pan.crd' || key === 'f27c'){
+                info1Data[key] = info2Data[key] ;
+                delete info2Data[key];
             }
-
-            updateRequestData.append('INFO1', JSON.stringify(info1Data));
-            updateRequestData.append('INFO2', JSON.stringify(info2Data));
-        }else{
-            updateRequestData.append('INFO1', JSON.stringify(info1Data));
         }
+
+        console.log("info1data",info1Data);
+
+
+        if(Object.keys(info1Data).length)  updateRequestData.append('INFO1', JSON.stringify(info1Data));
+
+
+        if(Object.keys(info2Data).length)  updateRequestData.append('INFO2', JSON.stringify(info2Data));
+
 
         sendHttpRequest('usermanage/api/register',updateRequestData)
 
@@ -419,10 +441,13 @@
         // End Setting
       
         // Uploaded Documents
+
         this.printDownloadLinks = (prtyp,fileInfoObject) =>{
         var docWrappers = Array.from(document.querySelectorAll('#upld-docs .doc-wrapper'));
             FadeOut(docWrappers);
 
+        console.log("File Information Object !",fileInfoObject);
+        
         docWrappers.forEach((docWrapper)=>{
             var wrapperObj = fileInfoObject.find( object => docWrapper.dataset.doc in object  );
 
@@ -440,6 +465,7 @@
         })
       }
 
+        
 
         this.fileDownlaod = (button) =>{
         document.getElementById('file_nm').value = button.dataset.download;
