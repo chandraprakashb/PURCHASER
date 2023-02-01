@@ -39,3 +39,9 @@ hr{
     color: var(--number_color);
     font-family: var(--number_font);
 }
+
+
+.ms-options ul{
+    list-style-type: none;
+    padding-left: 0px !important;
+}

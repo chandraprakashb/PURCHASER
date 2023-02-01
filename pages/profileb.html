@@ -1,5 +1,6 @@
 <script>
     function BidderProfile(){
+        
         this.profileData;
   
         this.mainSetup = () =>{
@@ -46,8 +47,6 @@
           document.getElementById('pr_input').value = profiledata['pr.no'];
       }
 
-
-  
         //   Manage Things By Purchaser Registration Status
         this.manageRegStatusThings = () =>{
         this.pendingNote              = document.querySelector('.pending-note'); 
@@ -136,9 +135,9 @@
         }
 
         this.showCompleteRegistrationPopup = () =>{
-        var mainInfoWrapper     =  this.completeRegistrationPopup.modal.querySelector("#main-info");
-        var individualTemplate  =  (document.querySelector('.individual-information')).content.cloneNode(true);
-        var firmTemplate        =  (document.querySelector('.firm-information')).content.cloneNode(true);
+            var mainInfoWrapper     =  this.completeRegistrationPopup.modal.querySelector("#main-info");
+            var individualTemplate  =  (document.querySelector('.individual-information')).content.cloneNode(true);
+            var firmTemplate        =  (document.querySelector('.firm-information')).content.cloneNode(true);
 
         mainInfoWrapper.innerHTML = '';
         switch(this.profileData['pr.typ']){
@@ -310,10 +309,10 @@
         this.updateEmail = (action) =>{
             
         }
-      // End Manage Basic Details
+        // End Manage Basic Details
   
       // Login And Security
-      this.manageLoginSecurity = () =>{
+        this.manageLoginSecurity = () =>{
         this.sendPassOtpBtn          = document.querySelector('#otp-send-btn');
         this.passOtpWrapper          = document.querySelector('.password-otp-wrapper');
         this.otpInput                = document.querySelector('#otpinpt');
@@ -326,7 +325,7 @@
         this.sendPassOtpBtn.addEventListener('click',this.sedPasswordOtp)
       }
 
-      this.sedPasswordOtp =  async () =>{
+        this.sedPasswordOtp =  async () =>{
         if(this.checkFieldsValidity()){
             
             var valresp;
@@ -347,7 +346,7 @@
         }
       }
 
-      this.checkFieldsValidity = () =>{
+        this.checkFieldsValidity = () =>{
         var password        =  document.querySelector('#change-password-ans #pwd').value;
         var cnfmPassword    =  document.querySelector('#change-password-ans #confrmpwd').value;
         var ans1            =  document.querySelector('#change-password-ans #ans1').value;
@@ -364,7 +363,7 @@
 
       }
 
-      this.updatePassword = async() =>{
+        this.updatePassword = async() =>{
 
         if($('#otpinpt').val() === ''){
             Alert('error','OTP IS MISSING !',"Please Enter OPT");
@@ -381,10 +380,10 @@
 
 
 
-      // End Login And Security
+        // End Login And Security
   
       // Manage Account Details
-      this.manageAccountDetails = () =>{
+        this.manageAccountDetails = () =>{
         var showGSTUpdateFormBtn      = document.querySelector('#show-gst-update'); 
         var showAccountUpdateFormBtn  = document.querySelector('#show-bank-update');
         this.accountUpdatePopup       = new Modal({selector:"#account-update-popup",wrapperCss:"width:40%;"});
@@ -392,16 +391,16 @@
         showGSTUpdateFormBtn.addEventListener('click',()=>$("#update-gstin-wrapper").toggle());
         $("#update-gstin-wrapper").toggle();
       }
-      // End Account Details
-  
-      // Manage Settings
-      this.manageSettings = () =>{
+        // End Account Details
+      
+        // Manage Settings
+        this.manageSettings = () =>{
         var paymentStatus   = document.getElementById('check-status');
         var checkAction     = document.getElementById('checkactions');
         var convertPopupBtn = document.getElementById('convert-view-btn');
         var deactivateBtn   = document.getElementById('deactivate-btn');
-        this.paymentPopup = new Modal({selector:"#payment-popup",wrapperCss:"width:40%;"});
-
+        this.paymentPopup   = new Modal({selector:"#payment-popup",wrapperCss:"width:40%;"});
+        this.convertPopup   = new Modal({selector:"#convert-registration-popup",wrapperCss:"width:75%;margin-top:27px;"})
 
         paymentStatus.addEventListener('click',this.paymentPopup.showModal);
 
@@ -414,11 +413,13 @@
                 deactivateBtn.disabled = true;
             }
         })
+
+        this.convertPopup.showModal();
       }
-      // End Setting
-  
-      // Uploaded Documents
-      this.printDownloadLinks = (prtyp,fileInfoObject) =>{
+        // End Setting
+      
+        // Uploaded Documents
+        this.printDownloadLinks = (prtyp,fileInfoObject) =>{
         var docWrappers = Array.from(document.querySelectorAll('#upld-docs .doc-wrapper'));
             FadeOut(docWrappers);
 
@@ -440,24 +441,110 @@
       }
 
 
-      this.fileDownlaod = (button) =>{
+        this.fileDownlaod = (button) =>{
         document.getElementById('file_nm').value = button.dataset.download;
         console.log( document.getElementById('file_nm'));
         document.getElementById('download-form').submit();
         }
-      // End Uploaded Documents
+        // End Uploaded Documents
 
-    //   Utilty Functions 
-    this.validateEmail = (email)=> {
+        //   Utilty Functions 
+        this.validateEmail = (email)=> {
         var re = /\S+@\S+\.\S+/;
         return re.test(email);
     }
 
-      this.mainSetup();
+        this.mainSetup();
     }
   
+    
+/*Step Wizard*/
+  var current_fs, next_fs, previous_fs; //fieldsets
+  var opacity;
+  var current = 1;
+  var steps = $("fieldset").length;
+  console.log(steps)
+
+  setProgressBar(current);
+
+
+  $(".next").click(function(){
+
+  current_fs = $(this).parent().parent();
+  console.log(current_fs);
+  next_fs = $(this).parent().parent().next();
+
+
+  //Add Class Active
+  console.log(next_fs);
+  console.log($("#progressbar li").eq($("fieldset").index()));
+  $("#progressbar li").eq($("fieldset").index(next_fs)-1).addClass("active");
+
+      //show the next fieldset
+      next_fs.show();
+      //hide the current fieldset with style
+      current_fs.animate({opacity: 0}, {
+      step: function(now) {
+      // for making fielset appear animation
+      opacity = 1 - now;
+
+      current_fs.css({
+      'display': 'none',
+      'position': 'relative'
+      });
+      
+      next_fs.css({'opacity': opacity});
+
+      },
+      duration: 500
+      });
+
+      setProgressBar(++current);
+  });
+
+  $(".previous").click(function(){
+
+      current_fs = $(this).parent().parent();
+
+      previous_fs = $(this).parent().parent().prev();
+
+      //Remove class active
+      $("#progressbar li").eq($("fieldset").index(current_fs)-1).removeClass("active");
+
+      //show the previous fieldset
+      previous_fs.show();
+
+      //hide the current fieldset with style
+      current_fs.animate( 
+          {opacity: 0}, 
+          {
+              step: function(now) { 
+                  // opacity = 1 - now; 
+                  current_fs.css( {'display': 'none','position': 'relative'});
+                  previous_fs.css({'opacity': opacity});
+              },duration: 500
+          }
+      );
+
+      setProgressBar(--current);
+
+  });
+
+  function setProgressBar(curStep){
+
+      var percent = parseFloat(100 / steps) * curStep;
+      percent = percent.toFixed();
+      $(".progress-bar")
+      .css("width",percent+"%")
+
+  }
+
+
+/*End Step Wizard*/
+
     new BidderProfile()
-  </script>
+</script>
+
   <style>
 
     .notice{
@@ -483,184 +570,454 @@
         color: var(--blue);
     }
 
-      .purchaser-profile-page .btn-wrapper{
-          /* background-color: red; */
-          padding-left: 2px;
-          padding-top: 10px;
-          padding-bottom: 5px;
-          box-shadow: 0px 4px 9px -5px #003acd;
-          background-color: #fff;
-      }
+    .purchaser-profile-page .btn-wrapper{
+        /* background-color: red; */
+        padding-left: 2px;
+        padding-top: 10px;
+        padding-bottom: 5px;
+        box-shadow: 0px 4px 9px -5px #003acd;
+        background-color: #fff;
+    }
   
-      .purchaser-profile-page  .btn-wrapper button{
-          /* height: 35px !important; */
-      }
+    .purchaser-profile-page  .btn-wrapper button{
+        /* height: 35px !important; */
+    }
+      
+    .purchaser-profile-page  .btn-wrapper button .icon{
+        height: 35px !important;
+    }
+      
+    .purchaser-profile-page  h5{
+        margin-top: 7px;
+        /* margin-bottom: 10px !important; */
+    }
+      
+      
+    .purchaser-profile-page  .sub-heading{
+        font-weight: 600;
+        color: rgb(6, 9, 165);
+        margin-top: 10px;
+        margin-bottom: 7px;
+    }
   
-      .purchaser-profile-page  .btn-wrapper button .icon{
-          height: 35px !important;
-      }
+    .purchaser-profile-page .shadow-div{
+        /* background-color: red ; */
+        box-shadow: 0px 0px 7px 4px rgba(0,0,0,0.1);
+        border-radius: 5px;
+        border-radius: 10px;
+        padding-left: 5px;
+    }
+      
+    .purchaser-profile-page .shadow-div .sub-heading{
+        margin-top: 0px !important;
+        font-size: 14px;
+    }
+      
+      
+    .purchaser-profile-page  #area-of-intrest label{
+        font-size: 12px !important;
+        font-weight: 600;
+    }
   
-      .purchaser-profile-page  h5{
-          margin-top: 7px;
-          /* margin-bottom: 10px !important; */
-      }
+    .purchaser-profile-page  #aio-updt{
+        margin-top: 16px;
+        margin-bottom: 10px;
+    }
   
+    .purchaser-profile-page  .text-heading{
+        text-align: right;
+        font-size: 12px;
+        line-height: 20px;
+        font-weight: 600;
+    }
   
-      .purchaser-profile-page  .sub-heading{
-          font-weight: 600;
-          color: rgb(6, 9, 165);
-          margin-top: 10px;
-          margin-bottom: 7px;
-      }
-  
-      .purchaser-profile-page .shadow-div{
-          /* background-color: red ; */
-          box-shadow: 0px 0px 7px 4px rgba(0,0,0,0.1);
-          border-radius: 5px;
-          border-radius: 10px;
-          padding-left: 5px;
-      }
-  
-      .purchaser-profile-page .shadow-div .sub-heading{
-          margin-top: 0px !important;
-          font-size: 14px;
-      }
-  
-  
-      .purchaser-profile-page  #area-of-intrest label{
-          font-size: 12px !important;
-          font-weight: 600;
-      }
-  
-      .purchaser-profile-page  #aio-updt{
-          margin-top: 16px;
-          margin-bottom: 10px;
-      }
-  
-      .purchaser-profile-page  .text-heading{
-          text-align: right;
-          font-size: 12px;
-          line-height: 20px;
-          font-weight: 600;
-      }
-  
-      .purchaser-profile-page .text-keys{
-          font-weight: 600;
-          color: var(--blue);
-          font-size: 12px;
-      }
+    .purchaser-profile-page .text-keys{
+        font-weight: 600;
+        color: var(--blue);
+        font-size: 12px;
+    }
   
   
-      .purchaser-profile-page  .edit{
-          font-size: 20px;
-          cursor: pointer;
-          font-weight: bold !important;
-          opacity: 0.7;
-      }
+    .purchaser-profile-page  .edit{
+        font-size: 20px;
+        cursor: pointer;
+        font-weight: bold !important;
+        opacity: 0.7;
+    }
   
-      .purchaser-profile-page .edit:hover{
-          opacity: 1;
-          color: var(--blue);
-          font-weight: 1000 !important;
-      }
-  
-      .gst-pan-wrapper{
-          border-radius: 5px;
-          padding: 10px 5px;
-          box-shadow: 0px 0px 7px 5px rgba(0,0,0,0.1);
-          margin-left: 2px;
-      }
-  
-      .ac-heading{
-          font-weight: 600;
-          font-size: 15px;
-      }
+    .purchaser-profile-page .edit:hover{
+        opacity: 1;
+        color: var(--blue);
+        font-weight: 1000 !important;
+    }
+    
+    .gst-pan-wrapper{
+        border-radius: 5px;
+        padding: 10px 5px;
+        box-shadow: 0px 0px 7px 5px rgba(0,0,0,0.1);
+        margin-left: 2px;
+    }
+    
+    .ac-heading{
+        font-weight: 600;
+        font-size: 15px;
+    }
 
-      .date-info{
-    display: flex;
-    margin-top: 10px;
-    box-shadow: 0px 0px 7px 0px #003acd;
-    border-radius: 5px;
-}
+    .date-info{
+        display: flex;
+        margin-top: 10px;
+        box-shadow: 0px 0px 7px 0px #003acd;
+        border-radius: 5px;
+    }
 
-.date-info p{
-    margin: 0px 10px;
-}
-
-
-.date-info .heading{
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.date-info .text{
-    font-size: 12px;
-    font-weight: 600;
-    text-decoration: underline;
-    color: #003acd;
-}
+    .date-info p{
+        margin: 0px 10px;
+    }
 
 
+    .date-info .heading{
+        font-size: 13px;
+        font-weight: 700;
+    }
 
-#main-info{
-    margin-top: 20px;
-    height: 480px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
-.button-section{
-    margin-top: 10px;
-}
-
-.form{
-    border-radius: 10px;
-    box-shadow: 0px 4px 7px 6px rgba(0,0,0,0.1);
-}
-
-.remark-section {
-    font-size: 12px;
-    background-color: rgb(200, 207, 252);
-}
-
-
-#acc-details .shadow-div{
-
-}
-
-#upld-docs .shadow-div .col-5{
-    margin-bottom: 10px;
-    font-size: 12px;
-    font-weight: 600;
-    text-align: right;
-}
+    .date-info .text{
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: underline;
+        color: #003acd;
+    }
 
 
 
-#upld-docs {
+    #main-info{
+        margin-top: 20px;
+        height: 480px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 
-}
+    .button-section{
+        margin-top: 10px;
+    }
+
+    .form{
+        border-radius: 10px;
+        box-shadow: 0px 4px 7px 6px rgba(0,0,0,0.1);
+    }
+
+    .remark-section {
+        font-size: 12px;
+        background-color: rgb(200, 207, 252);
+    }
 
 
-#setting #check-status{
-    color:#003acd;
-    font-size: 13px;
-    font-weight: bold;
-}
+    #acc-details .shadow-div{
 
-#setting label{
-    font-size: 12px;
-    font-weight: 600;
-}
+    }
 
-#change-password-ans .ans{
-    font-size: 12px;
-    font-weight: 700;
-    color:var(--blue)
-}
+    #upld-docs .shadow-div .col-5{
+        margin-bottom: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        text-align: right;
+    }
+
+
+
+    #upld-docs {
+
+    }
+
+
+    #setting #check-status{
+        color:#003acd;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    #setting label{
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    #change-password-ans .ans{
+        font-size: 12px;
+        font-weight: 700;
+        color:var(--blue)
+    }
 
   </style>
   
+  <!-- Step wizard -->
+  <style>
+    /* Step Wizard */
+
+  #heading {
+      text-transform: uppercase;
+      color: #3f6ad8;
+      font-weight: normal
+  }
+
+  .action-view-tab-wrapper{
+    /* background-color: red; */
+    padding-bottom: 0 !important;
+    width: 98%;
+    margin: auto;
+    border-radius: 10px !important;
+    box-shadow: 0px 11px 9px 0px rgba(0,0,0,0.1);
+    margin-top: 5px;
+    overflow-x:hidden;
+  }
+
+  .tab-text{
+    color: var(--blue);
+    font-size: 10px !important;
+    font-weight: 700;
+  }
+
+  #setup-wizard ul{
+      text-align: center;
+  }
+
+  #setup-wizard fieldset:not(:first-of-type) {
+      display: none;
+  }
+
+  #setup-wizard .action-button {
+      background: #3f6ad8;
+      font-weight: bold;
+      color: white;
+      border: 0 none;
+      border-radius: 0px;
+      cursor: pointer;
+      padding: 10px 5px;
+      margin: 10px 0px 10px 5px;
+      /* float: right; */
+      position: relative !important;
+  }
+
+  #setup-wizard .action-button::before{
+    content: ' ';
+    background-color: red;
+    font-size: 20px;
+  }
+
+  #setup-wizard .action-button:hover,
+  #setup-wizard .action-button:focus {
+      background-color: #3f6ad8de;
+      font-weight: 900 !important;
+  }
+
+  #setup-wizard .action-button-previous {
+      width: 100px;
+      background: #616161;
+      font-weight: bold;
+      color: white;
+      border: 0 none;
+      border-radius: 0px;
+      cursor: pointer;
+      padding: 10px 5px;
+      margin: 10px 5px 10px 0px;
+      float: right
+  }
+
+  #setup-wizard .action-button-previous:hover,
+  #setup-wizard .action-button-previous:focus {
+      background-color: #000000
+  }
+
+  /* #setup-wizard label{
+      font-weight: 700;
+  } */
+
+  .card {
+      z-index: 0;
+      border: none;
+      position: relative
+  }
+
+  .fs-title {
+      font-size: 25px;
+      color: #3f6ad8;
+      margin-bottom: 15px;
+      font-weight: normal;
+      text-align: left
+  }
+
+  .purple-text {
+      color: #3f6ad8;
+      font-weight: normal
+  }
+
+  .steps {
+      font-size: 25px;
+      color: gray;
+      margin-bottom: 10px;
+      font-weight: normal;
+      text-align: right
+  }
+
+  .fieldlabels {
+      color: gray;
+      text-align: left
+  }
+
+  #progressbar {
+      margin-top: 10px;
+      /* margin-bottom: 30px; */
+      overflow: hidden;
+      color: lightgrey;
+      margin-left: 20%;
+  }
+
+  #progressbar .active {
+      color: #3f6ad8
+  }
+
+  #progressbar li {
+      list-style-type: none;
+      font-size: 13px;
+      width: 25%;
+      float: left;
+      position: relative;
+      font-weight: 400;
+      padding-top:30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 40px;
+  }
+
+  #progressbar #GSTIN_tb:after {
+      font-family: FontAwesome;
+      content: "\25";
+      padding-top: 5px !important;
+  }
+
+  #progressbar #ACCOUNT_tb:after {
+      font-family: FontAwesome;
+      content: "\f543";
+      padding-top: 5px !important;
+  }
+
+  #progressbar #TAXINVOICE_tb:after {
+      font-family: FontAwesome;
+      content: "\f570";
+      padding-top: 5px !important;
+  }
+
+  #progressbar #DELIVERY_tb:after {
+      font-family: FontAwesome;
+      content: "\f0d1";
+      padding-top: 5px !important;
+  }
+
+  #progressbar #PURCHASE_tb:after {
+      font-family: FontAwesome;
+      content: "\f161";
+      padding-top: 5px !important;
+  }
+
+  #progressbar #PAYMENT_tb:after {
+      font-family: FontAwesome;
+      content: "\f0d6";
+      padding-top: 5px !important;
+  }
+
+
+  #progressbar li:before {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: rgb(199, 182, 182) !important;
+    position: absolute;
+    left: 0;
+    top: 17px;
+    /* z-index: -1 !important; */
+
+  }
+
+  #progressbar li:after {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center !important;
+    font-size: 17px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin:auto !important; 
+    top: 0px !important;
+    /* left: 30px; */
+    float: right;
+  }
+
+  #progressbar li.active .tab-text{
+    font-weight: 700 !important;
+  }
+  #progressbar li.active:before,
+  #progressbar li.active:after {
+      background: #3f6ad8 !important;
+  }
+
+  .progress {
+      height: 20px
+  }
+
+  .progress-bar {
+      background-color: #3f6ad8
+  }
+
+  .fit-image {
+      width: 100%;
+      object-fit: cover
+  }
+  </style>
+  <style>
+    .info-main-wrapper{
+        width: 100%;
+        max-height: 450px;
+        overflow-y: scroll;
+        padding-bottom: 10px;
+    }
+    .template-form{
+        background-color: transparent !important;
+    }
+    .info-heading{
+        margin-left: 20px;
+        text-decoration: underline;
+        font-size: 16px;
+        font-weight: 700;
+        color: #000f61;
+    }
+    .info-wrapper{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        box-shadow: 0px 0px 9px 4px rgba(0,0,0,0.1);
+        border-radius:5px;
+    }
+
+    .action-btn-wrapper{
+        /* background-color: red; */
+        box-shadow: 0px 0px 9px 4px rgba(0,0,0,0.1);
+        width: 50%;
+        margin: auto !important;
+        text-align: right;
+        padding-top: 10px;
+        /* position: absolute; */
+        /* border-top-left-radius: 10px; */
+        border-radius: 10px;
+    }
+
+    
+  </style>
+  <!-- End Step Wizard -->
   <div class="purchaser-profile-page">
       
       <div class="row header" style="width:100%;">
@@ -675,7 +1032,9 @@
           </div>
       </div>
       
-
+        <script>
+            $('select[multiple]').multiselect();
+        </script>
       <div class="pending-note notice" style="display: none;"><span class="head">Note:</span> <span class="note-text">Your Registration is still <span style="font-weight:800;color: rgb(0, 0, 0);">PENDING</span>, therefor you can not update you profile!</span></div>
       <div class="rejection-note notice" style="display: none;"><span class="head">Note:</span> <span class="note-text">Your Registration has been <span class="" style="color: #ff0000;">REJECTED </span> by official, <span class="open-complete-registration">CLICK HERE</span> for Complete Registration</span></div>
       
@@ -1317,11 +1676,11 @@
       </section>
       
       
-    <form action="http://78.47.157.146:8080/usermanage/api/docdwnld" id="download-form">
-        <input type="hidden" name="FILE.NM" id="file_nm" value="">
-        <input type="hidden" name="PR.NO" id="pr_input" value="">
-        <input type="hidden" name="ACT"  value="P">
-    </form>
+        <form action="http://78.47.157.146:8080/usermanage/api/docdwnld" id="download-form">
+            <input type="hidden" name="FILE.NM" id="file_nm" value="">
+            <input type="hidden" name="PR.NO" id="pr_input" value="">
+            <input type="hidden" name="ACT"  value="P">
+        </form>
 
 
       <div class="complete-registration-popup">
@@ -1577,6 +1936,347 @@
                         <span class="text">Cancel</span>
                     </button>
                 </div>
+
+            </div>
+        </div>
+      </div>
+
+      <div id="convert-registration-popup">
+        <div>
+            <div class="header">
+                Convert Your Registration
+                <div class="hr"></div>
+            </div>
+            <div class="content-wrappper">
+
+                <div id="setup-wizard">
+
+                    <div class="">
+                        <div class="row">
+                            <div class="col-lg-10 m-auto action-view-tab-wrapper">
+                                <ul id="progressbar" class=''>
+                                    <li id="GSTIN_tb">        <span class="tab-text">Personal Information</span> </li>
+                                    <li id="ACCOUNT_tb">      <span class="tab-text">Account & GSTIN Details</span> </li>
+                                    <li id="TAXINVOICE_tb">   <span class="tab-text">Upload Documents</span> </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <fieldset id="personal-info">
+                        
+                        <div class="info-main-wrapper">
+                            <div class="info-heading mt-3">Area Of Intrest:</div>
+                            <div class="col-6">
+                                <div class="info-wrapper">
+                                    <select name="langOpt[]" multiple id="langOpt">
+                                        <option value="C++">C++</option>
+                                        <option value="C#">C#</option>
+                                        <option value="Java">Java</option>
+                                        <option value="Objective-C">Objective-C</option>
+                                        <option value="JavaScript">JavaScript</option>
+                                        <option value="Perl">Perl</option>
+                                        <option value="PHP">PHP</option>
+                                        <option value="Ruby on Rails">Ruby on Rails</option>
+                                        <option value="Android">Android</option>
+                                        <option value="iOS">iOS</option>
+                                        <option value="HTML">HTML</option>
+                                        <option value="XML">XML</option>
+                                    </select>
+                                </div>
+                            </div>
+    
+                            <div class="info-heading mt-4">Basic Information:</div>
+                            <div class="col-12">
+                                <div class="info-wrapper template-form" >
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="input-row row">
+                                                <div class="col-5 form-label">Firm/Organization Name:</div>
+                                                <div class="col-7"><input required type="text" name="purchaser.nm" maxlength="50" ></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-row row">
+                                                <div class="col-5 form-label">Upload Firm Registration Doc:</div>
+                                                <div class="col-7"><input required  type="file" id="firm_doc" accept=".pdf,.png,.jpg,.jpeg"  name="firm.doc" class="form-control required"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-row row">
+                                                <div class="col-5 form-label">Authority First Name:</div>
+                                                <div class="col-7"><input required type="text" class="form-control required no-space" id="purchaser_name" name="purchaser.fnm" maxlength="50"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-row row">
+                                                <div class="col-5 form-label">Last Name:</div>
+                                                <div class="col-7"><input required type="text" class="form-control required no-space" id="lst_nm" name="purchaser.lnm" maxlength="50"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-row row">
+                                                <div class="col-5 form-label">Identity No.:</div>
+                                                <div class="col-7"><input required type="number" class="form-control required" id="indentity_no" name="id.no" maxlength="50">   </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-row row">
+                                                <div class="col-5 form-label">Upload Govt. approved indentity Documents:</div>
+                                                <div class="col-7"><input required type="file" id="id_doc" accept=".pdf,.png,.jpg,.jpeg"  name="id.doc" class="form-control required"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-row row">
+                                                <div class="col-5 form-label">Gender:</div>
+                                                <div class="col-7">
+                                                    <select required name="gndr" id="gndr" class="form-control required">
+                                                        <option value="">Select</option>
+                                                        <option value="M" >Male</option>
+                                                        <option value="F">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-row row">
+                                                <div class="col-5 form-label">Upload Bidder Authority Letter:</div>
+                                                <div class="col-7"><input required  type="file" id="auth_ltr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="auth.ltr.doc" class="form-control required" ></div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="info-heading mt-4">Communication Information:</div>
+                            <div class="col-12">
+                                <div class="info-wrapper template-form row">
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">Contact Number:</div>
+                                            <div class="col-7">
+                                                <input rrequired type="number" class="form-control required" id="mob_no" name="mob.no" maxlength="20" aria-describedby="verify-phone">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">Email ID:</div>
+                                            <div class="col-7"><input required type="email" class="form-control required" id="email" name="email.id" maxlength="100" aria-describedby="verify-usremail"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">Address Line 1:</div>
+                                            <div class="col-7">
+                                                <input required type="text" class="form-control required" id="addr1" name="addr.1" maxlength="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">Address Line 2:</div>
+                                            <div class="col-7"><input required type="text" class="form-control" id="addr2" name="addr.2" maxlength="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">State:</div>
+                                            <div class="col-7"> 
+                                                <select required id="state" class="form-control required" name="">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">City:</div>
+                                            <div class="col-7"><input required type="text" class="form-control required" id="city" name="city" maxlength="50"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">Pin:</div>
+                                            <div class="col-7"><input required type="number" class="form-control required" id="pin" name="pin" maxlength="6"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">Country:</div>
+                                            <div class="col-7">
+                                                <select required name="country" id="country" class="form-control required">
+                                                    <option value="india">India</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-row row">
+                                            <div class="col-5 form-label">Upload Address Proofs:</div>
+                                            <div class="col-7">
+                                                <input required type="file" id="addr_doc" accept=".pdf,.png,.jpg,.jpeg"  name="addr.doc" class="form-control required">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                       <div class="col-6 m-auto text-center action-btn-wrapper">
+                        <button class="custome-icon-btn-primary next">
+                            <span class="text">Next</span>
+                            <span class="icon">&nbsp;&nbsp;<i class="fa-solid fa-forward"></i></span>
+                        </button>
+                       </div>
+                    </fieldset>
+          
+                    <fieldset id="gst-account-details">
+
+                        <div class="info-main-wrapper">
+
+                            <div class="info-heading mt-3">GSTIN & PAN:</div>
+                            <div class="info-wrapper template-form row">
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">GSTIN No.:</div>
+                                        <div class="col-7">
+                                            <input required type="text" class="form-control" id="gstinno" name="gstn.no" maxlength="15">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Upload GST Np. Proof:</div>
+                                        <div class="col-7">
+                                            <input required   type="file" id="gst_proof" accept=".pdf,.png,.jpg,.jpeg"  name="gst.doc" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">PAN CARD No.:</div>
+                                        <div class="col-7">
+                                            <input required type="text" class="form-control required" id="pancard" name="pan.crd" maxlength="10">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Upload Pancard:</div>
+                                        <div class="col-7">
+                                            <input required type="file" id="pancard_doc" accept=".pdf,.png,.jpg,.jpeg"  name="pancard.doc" class="form-control required">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Select Yes If Applicable:</div>
+                                        <div class="col-7">
+                                            <select required name="f27c" id="f27Celigible" class="form-control required">
+                                                <option value="">Select</option>
+                                                <option value="Y">Yes</option>
+                                                <option value="N" selected>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Upload Form 27 C (If Applicable):</div>
+                                        <div class="col-7">
+                                            <input required  type="file" id="f27c_doc" accept=".pdf,.png,.jpg,.jpeg"  name="f27c.doc" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-heading mt-3">Bank Account Information:</div>
+                            <div class="info-wrapper template-form row">
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Account Holder Name:</div>
+                                        <div class="col-7">
+                                            <input required type="text" class="form-control required" id="holdernm" name="accnt.nm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Bank Account No:</div>
+                                        <div class="col-7">
+                                            <input required type="text" class="form-control required" id="backaccntno" name="accnt.no" maxlength="50">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Re-Enter  Account No:</div>
+                                        <div class="col-7">
+                                            <input required type="text" class="form-control required" id="re-backaccntno">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">IFSC Code:</div>
+                                        <div class="col-7">
+                                            <input required type="text" class="form-control required" id="ifsc" name="ifsc" maxlength="11">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Bank Name:</div>
+                                        <div class="col-7">
+                                            <input required type="text" class="form-control required" id="banknm" name="bnk.nm" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-row row">
+                                        <div class="col-5 form-label">Upload Scanned Cancel Cheque: </div>
+                                        <div class="col-7">
+                                            <input required  type="file" id="cancel_cheque" accept=".pdf,.png,.jpg,.jpeg"  name="cancel.cheque.doc" class="form-control required" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-6 m-auto text-center action-btn-wrapper">
+                            <button class="custome-icon-btn-primary previous">
+                                <span class="icon"><i class="fa-solid fa-backward"></i>&nbsp;&nbsp;</span>
+                                <span class="text">Previous</span>
+                            </button> &nbsp;&nbsp;&nbsp;
+                            <button class="custome-icon-btn-primary next ">
+                                <span class="text">Next</span>
+                                <span class="icon">&nbsp;&nbsp;<i class="fa-solid fa-forward"></i></span>
+                            </button>
+                        </div>
+                    </fieldset>
+          
+                    <fieldset id="uploaded-documents">
+          
+                        <div class="col-6 m-auto text-center action-btn-wrapper">
+                            <button class="custome-icon-btn-primary previous">
+                                <span class="icon"><i class="fa-solid fa-backward"></i>&nbsp;&nbsp;</span>
+                                <span class="text">Previous</span>
+                            </button> 
+                            <button class="custome-icon-btn-primary">
+                                <span class="icon"><i class="fa-sharp fa-solid fa-share-all"></i></span>
+                                <span class="text">Submit</span>
+                            </button>
+                        </div>
+                    </fieldset>
+          
+                
+          
+                </div>
+
 
             </div>
         </div>
